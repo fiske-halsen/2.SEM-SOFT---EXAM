@@ -27,11 +27,12 @@ stages:
         tags: |
           $(tag)
           latest
-           - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: '$(Pipeline.Workspace)/s/kubernetes'
-              artifact: 'manifests'
-              publishLocation: 'pipeline'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/s/kubernetes'
+        artifact: 'manifests'
+        publishLocation: 'pipeline'
+        
 - stage: Deploy
   displayName: Deploy to dev
   dependsOn: Build
