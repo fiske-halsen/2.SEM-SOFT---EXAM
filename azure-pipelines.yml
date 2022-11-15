@@ -23,7 +23,7 @@ stages:
         containerRegistry: 'AzureRegistry'
         repository: '$(imageRepo)'
         command: 'buildAndPush'
-        Dockerfile: '$(Build.SourcesDirectory)'
+        Dockerfile: '$(Build.SourcesDirectory)/Microservice1/Dockerfile'
         tags: |
           $(tag)
           latest
