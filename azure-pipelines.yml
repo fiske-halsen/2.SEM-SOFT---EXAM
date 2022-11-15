@@ -37,7 +37,7 @@ stages:
   displayName: Deploy to dev
   dependsOn: Build
   variables:
-    acrsecret: my_secret
+    acrsecret: JoYD95TNtuObaNcdPcCk/qlExJhueyzQ
   jobs:
     - job: Deploy
       displayName: Deploy to AKS
