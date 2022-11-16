@@ -86,6 +86,6 @@ stages:
                 manifests: |
                   $(Pipeline.Workspace)/manifests/deployment.yml
                   $(Pipeline.Workspace)/manifests/service.yml
-                containers: '$(acrDevUr)/$(imageRepo):$(tag)'
+                containers: '$(acrDevUrl)/$(imageRepo):$(tag)'
                 imagePullSecrets: '$(acrsecret)'
        
