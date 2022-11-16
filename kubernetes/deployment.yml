@@ -17,3 +17,14 @@ spec:
           image: examregistry2sem.azurecr.io/microservice1
           ports:
           - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: microservice1
+spec:
+    type: LoadBalancer
+    ports:
+    - port: 80 
+    selector:
+        app: microservice1
