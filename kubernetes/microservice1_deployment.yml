@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: microservice1 
 spec:
-  replicas: 1
+  replicas: #replicaNo#
   selector:
     matchLabels:
       app: microservice1
@@ -28,3 +28,4 @@ spec:
     - port: 80 
     selector:
         app: microservice1
+
