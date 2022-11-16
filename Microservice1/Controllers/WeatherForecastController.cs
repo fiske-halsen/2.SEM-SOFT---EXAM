@@ -8,7 +8,7 @@ namespace Microservice1.Controllers
     {
         private static readonly string[] Summaries = new[]
         {
-        "Freezing", "Bracing", "Chilly", "Cool", "VERY VERY VERY MILD", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        "Freezing4343", "Bracing223", "Chilly", "Cool", "VERY VERY VERY MILD", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
