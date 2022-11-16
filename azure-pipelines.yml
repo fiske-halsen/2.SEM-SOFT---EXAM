@@ -38,6 +38,7 @@ stages:
   variables:
     acrsecret: 213j212iojewasdskd2oi1
     acrDevUrl: examregistry2sem.azurecr.io
+    replicaNo: 1
   jobs:
     - deployment: Deploy
       displayName: Deploy to AKS
@@ -60,6 +61,23 @@ stages:
                 secretType: 'dockerRegistry'
                 secretName: '$(acrsecret)'
                 dockerRegistryEndpoint: 'AzureRegistry'
+            - task: replacetokens@5
+              displayName: Replace tokens
+              inputs:
+                rootDirectory: '$(Pipeline.Workspace)/manifests/'
+                targetFiles: 'deployment.yml'
+                encoding: 'auto'
+                tokenPattern: 'custom'
+                tokenPrefix: '#'
+                tokenSuffix: '#'
+                writeBOM: true
+                actionOnMissing: 'warn'
+                keepToken: false
+                actionOnNoFiles: 'continue'
+                enableTransforms: false
+                enableRecursion: false
+                useLegacyPattern: false
+                enableTelemetry: true
             - task: KubernetesManifest@0
               inputs:
                 action: 'deploy'
