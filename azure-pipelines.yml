@@ -43,7 +43,7 @@ stages:
   jobs:
     - deployment: Deploy
       displayName: Deploy to AKS
-      environment: 'k8sdev.default'
+      environment: 'k8sdevNewest.app'
       pool: 
         vmImage: ubuntu-latest
       strategy:
@@ -58,7 +58,7 @@ stages:
             - task: KubernetesManifest@0
               inputs:
                 action: 'createSecret'
-                namespace: 'default'
+                namespace: 'app'
                 secretType: 'dockerRegistry'
                 secretName: '$(acrsecret)'
                 dockerRegistryEndpoint: 'AzureRegistry'
@@ -82,7 +82,7 @@ stages:
             - task: KubernetesManifest@0
               inputs:
                 action: 'deploy'
-                namespace: 'default'
+                namespace: 'app'
                 manifests: |
                   $(Pipeline.Workspace)/manifests/microservice1_deployment.yml
                 containers: '$(acrDevUrl)/$(imageRepo):$(tag)'
