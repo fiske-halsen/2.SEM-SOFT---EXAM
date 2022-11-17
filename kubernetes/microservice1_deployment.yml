@@ -2,6 +2,7 @@ apiVersion : apps/v1
 kind: Deployment
 metadata:
   name: microservice1
+  namespace: app
 spec:
   replicas: #replicaNo#
   selector:
@@ -23,7 +24,7 @@ kind: Service
 metadata:
     name: microservice1
 spec:
-    type: LoadBalancer
+    type: ClusterIP
     ports:
     - port: 80 
     selector:
