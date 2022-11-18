@@ -13,10 +13,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - 20.54.90.123.nip.io # update IP address here
+      - app.20.67.157.31.nip.io # update IP address here
       secretName: my-ssl-cert-secret
   rules:
-  - host: 20.54.90.123.nip.io
+  - host: app.20.67.157.31.nip.io
     http:
       paths:
       - path: /microservice1(/|$)(.*)
