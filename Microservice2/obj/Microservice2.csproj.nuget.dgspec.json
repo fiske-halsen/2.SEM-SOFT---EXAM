@@ -1,37 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\phillip\\Desktop\\2.Sem-Exam\\2.SEM-SOFT---EXAM\\Microservice2\\Microservice2.csproj": {}
+    "C:\\Users\\sebas\\Desktop\\2.SEM-SOFT---EXAM\\Microservice2\\Microservice2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\phillip\\Desktop\\2.Sem-Exam\\2.SEM-SOFT---EXAM\\Microservice2\\Microservice2.csproj": {
+    "C:\\Users\\sebas\\Desktop\\2.SEM-SOFT---EXAM\\Microservice2\\Microservice2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\phillip\\Desktop\\2.Sem-Exam\\2.SEM-SOFT---EXAM\\Microservice2\\Microservice2.csproj",
+        "projectUniqueName": "C:\\Users\\sebas\\Desktop\\2.SEM-SOFT---EXAM\\Microservice2\\Microservice2.csproj",
         "projectName": "Microservice2",
-        "projectPath": "C:\\Users\\phillip\\Desktop\\2.Sem-Exam\\2.SEM-SOFT---EXAM\\Microservice2\\Microservice2.csproj",
-        "packagesPath": "C:\\Users\\phillip\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\phillip\\Desktop\\2.Sem-Exam\\2.SEM-SOFT---EXAM\\Microservice2\\obj\\",
+        "projectPath": "C:\\Users\\sebas\\Desktop\\2.SEM-SOFT---EXAM\\Microservice2\\Microservice2.csproj",
+        "packagesPath": "C:\\Users\\sebas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sebas\\Desktop\\2.SEM-SOFT---EXAM\\Microservice2\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\DevExpress 21.1\\Components\\Offline Packages",
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\phillip\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 21.1.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\sebas\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\DevExpress 21.1\\Components\\System\\Components\\Packages": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Users\\phillip\\Desktop\\NuGetPackages": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.devexpress.com/ZbK5njfbJco11T9pcL4F9qT4onxMvHTKRsoT9ZqT5E1PKrEhuL/api": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -64,7 +55,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -76,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }
