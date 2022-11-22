@@ -89,7 +89,7 @@ stages:
                 action: 'deploy'
                 namespace: 'app'
                 manifests: |
-                  $(Pipeline.Workspace)/manifests/azure-pipelines-customerservice.yml
+                  $(Pipeline.Workspace)/manifests/customerservice_deployment.yml
                 containers: '$(acrDevUrl)/$(imageRepo):$(tag)'
                 imagePullSecrets: '$(acrsecret)'
        
