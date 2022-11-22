@@ -28,7 +28,7 @@ stages:
         containerRegistry: 'AzureRegistry'
         repository: '$(imageRepo)'
         command: 'buildAndPush'
-        Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/CustomerService/Dockerfile'
         tags: |
           $(tag)
           latest
@@ -89,7 +89,7 @@ stages:
                 action: 'deploy'
                 namespace: 'app'
                 manifests: |
-                  $(Pipeline.Workspace)/manifests/microservice1_deployment.yml
+                  $(Pipeline.Workspace)/manifests/customerservice_deployment.yml
                 containers: '$(acrDevUrl)/$(imageRepo):$(tag)'
                 imagePullSecrets: '$(acrsecret)'
        
