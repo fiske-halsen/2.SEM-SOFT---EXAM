@@ -38,6 +38,18 @@ stages:
         artifact: 'manifests'
         publishLocation: 'pipeline'
         
+    - task: VSTest@2
+      displayName: CustomerService Tests
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\CustomerService.*test*.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+        runTestsInIsolation: true
+        codeCoverageEnabled: true
+        
 - stage: Deploy
   displayName: Deploy to dev
   dependsOn: Build
