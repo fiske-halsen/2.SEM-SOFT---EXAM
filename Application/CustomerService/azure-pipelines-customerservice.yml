@@ -71,7 +71,7 @@ stages:
               displayName: Replace tokens
               inputs:
                 rootDirectory: '$(Pipeline.Workspace)/manifests/'
-                targetFiles: 'deployment.yml'
+                targetFiles: 'customerservice_deployment.yml'
                 encoding: 'auto'
                 tokenPattern: 'custom'
                 tokenPrefix: '#'
@@ -85,7 +85,6 @@ stages:
                 useLegacyPattern: false
                 enableTelemetry: true
             - task: KubernetesManifest@0
-              checkout: self
               inputs:
                 action: 'deploy'
                 namespace: 'app'
