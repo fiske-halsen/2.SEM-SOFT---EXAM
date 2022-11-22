@@ -38,18 +38,16 @@ stages:
         artifact: 'manifests'
         publishLocation: 'pipeline'
         
-    - task: VSTest@2
-      displayName: CustomerService Tests
+- stage: Tests
+  displayName: Running Tests
+  jobs:
+  - job:
+    steps:
+    - task: DotNetCoreCLI@2
       inputs:
-        testSelector: 'testAssemblies'
-        testAssemblyVer2: |
-          **\CustomerService.*test*.dll
-          !**\*TestAdapter.dll
-          !**\obj\**
-        searchFolder: '$(System.DefaultWorkingDirectory)'
-        runTestsInIsolation: true
-        codeCoverageEnabled: true
-        
+        command: 'test'
+        projects: '**/CustomerService.[Tt]est*/*.csproj'
+
 - stage: Deploy
   displayName: Deploy to dev
   dependsOn: Build
