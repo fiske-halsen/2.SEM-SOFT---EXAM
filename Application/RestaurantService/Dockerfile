@@ -7,14 +7,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["RestaurantService/RestaurantService.csproj", "RestaurantService/"]
-RUN dotnet restore "RestaurantService/RestaurantService.csproj"
+COPY RestaurantService.csproj .
+RUN dotnet restore "RestaurantService.csproj"
 COPY . .
 WORKDIR "/src/RestaurantService"
-RUN dotnet build "RestaurantService.csproj" -c Release -o /app/build
+RUN dotnet build "/src/RestaurantService.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "RestaurantService.csproj" -c Release -o /app/publish
+RUN dotnet publish "/src/RestaurantService.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
