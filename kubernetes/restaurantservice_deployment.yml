@@ -1,0 +1,32 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: restaurantservice
+  namespace: app
+spec:
+  replicas: #replicaNo#
+  selector:
+    matchLabels:
+      app: restaurantservice
+  template:
+    metadata:
+      labels:
+        app: restaurantservice 
+    spec:
+      containers:
+        - name: restaurantservice 
+          image: examregistry2sem.azurecr.io/restaurantservice
+          ports:
+          - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: restaurantservice
+spec:
+    type: ClusterIP
+    ports:
+    - port: 80 
+    selector:
+        app: restaurantservice
+
