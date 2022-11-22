@@ -4,7 +4,7 @@ trigger:
       - main
   paths:
     include:
-      - 'CustomerService/*'
+      - 'Application/CustomerService/*'
 
 resources:
 - repo: self
