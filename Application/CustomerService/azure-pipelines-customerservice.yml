@@ -85,11 +85,12 @@ stages:
                 useLegacyPattern: false
                 enableTelemetry: true
             - task: KubernetesManifest@0
+              checkout: self
               inputs:
                 action: 'deploy'
                 namespace: 'app'
                 manifests: |
-                  $(Build.SourcesDirectory)/Application/CustomerService/kubernetes/customerservice_deployment.yml
+                  $(Pipeline.Workspace)/manifests/customerservice_deployment.yml
                 containers: '$(acrDevUrl)/$(imageRepo):$(tag)'
                 imagePullSecrets: '$(acrsecret)'
        
