@@ -39,14 +39,14 @@ stages:
         publishLocation: 'pipeline'
         
 - stage: Tests
-  displayName: Running Tests
+  displayName: Run Tests
   jobs:
   - job:
     steps:
     - task: DotNetCoreCLI@2
       inputs:
         command: 'test'
-        projects: '**/CustomerService.[Tt]est*/*.csproj'
+        projects: '**/CustomerService.*[Tt]est*/*.csproj'
 
 - stage: Deploy
   displayName: Deploy to dev
