@@ -19,10 +19,10 @@ spec:
   - host: eksamen-aks-ingress.northeurope.cloudapp.azure.com
     http:
       paths:
-      - path: /microservice1(/|$)(.*)
+      - path: /customerservice(/|$)(.*)
         pathType: Prefix
         backend:
           service:
-            name: microservice1
+            name: customerservice
             port:
               number: 80
