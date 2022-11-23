@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderservice
+
+  namespace: app
+spec:
+  replicas: #replicaNo#
+  selector:
+    matchLabels:
+      app: orderservice
+
+  template:
+    metadata:
+      labels:
+        app: orderservice
+
+    spec:
+      containers:
+        - name: orderservice
+
+          image: examregistry2sem.azurecr.io/orderservice
+
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderservice
+
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+  selector:
+    app: orderservice
