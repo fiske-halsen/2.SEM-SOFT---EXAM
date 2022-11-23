@@ -1,0 +1,3 @@
+This file contains the link for the public webservice (we "created" with following link https://designer.mocky.io/)
+
+Webserivce link : https://run.mocky.io/v3/3205b295-0c22-43e8-8241-b698c4d85db4
