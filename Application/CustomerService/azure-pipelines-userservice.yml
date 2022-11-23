@@ -4,13 +4,13 @@ trigger:
       - main
   paths:
     include:
-      - 'Application/CustomerService/*'
+      - 'Application/UserService/*'
 
 resources:
 - repo: self
 
 variables:
-  imageRepo: customerservice
+  imageRepo: userservice
   tag: '$(Build.BuildId)'
 
 stages:
@@ -28,7 +28,7 @@ stages:
         containerRegistry: 'AzureRegistry'
         repository: '$(imageRepo)'
         command: 'buildAndPush'
-        Dockerfile: '$(Build.SourcesDirectory)/Application/CustomerService/Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/Application/UserService/Dockerfile'
         tags: |
           $(tag)
           latest
@@ -37,16 +37,6 @@ stages:
         targetPath: '$(Pipeline.Workspace)/s/kubernetes'
         artifact: 'manifests'
         publishLocation: 'pipeline'
-        
-- stage: Tests
-  displayName: Run Tests
-  jobs:
-  - job:
-    steps:
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '**/CustomerService.*[Tt]est*/*.csproj'
 
 - stage: Deploy
   displayName: Deploy to dev
@@ -81,7 +71,7 @@ stages:
               displayName: Replace tokens
               inputs:
                 rootDirectory: '$(Pipeline.Workspace)/manifests/'
-                targetFiles: 'customerservice_deployment.yml'
+                targetFiles: 'userservice_deployment.yml'
                 encoding: 'auto'
                 tokenPattern: 'custom'
                 tokenPrefix: '#'
@@ -99,7 +89,7 @@ stages:
                 action: 'deploy'
                 namespace: 'app'
                 manifests: |
-                  $(Pipeline.Workspace)/manifests/customerservice_deployment.yml
+                  $(Pipeline.Workspace)/manifests/userservice_deployment.yml
                 containers: '$(acrDevUrl)/$(imageRepo):$(tag)'
                 imagePullSecrets: '$(acrsecret)'
        

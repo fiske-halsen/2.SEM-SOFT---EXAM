@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice
+  namespace: app
+spec:
+  replicas: #replicaNo#
+  selector:
+    matchLabels:
+      app: userservice
+  template:
+    metadata:
+      labels:
+        app: userservice
+    spec:
+      containers:
+        - name: userservice
+          image: examregistry2sem.azurecr.io/userservice
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userservice
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+  selector:
+    app: userservice
