@@ -40,3 +40,10 @@ spec:
             name: authenticationservice
             port:
               number: 80
+      - path: /gateway(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: gateway
+            port:
+              number: 80
