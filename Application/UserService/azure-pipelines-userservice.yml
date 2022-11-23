@@ -53,7 +53,7 @@ stages:
   displayName: Deploy to dev
   dependsOn: 
     - Build
-    - Test
+    - Tests
   variables:
     acrsecret: 213j212iojewasdskd2oi1
     acrDevUrl: examregistry2sem.azurecr.io
