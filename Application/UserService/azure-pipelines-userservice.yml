@@ -41,8 +41,8 @@ stages:
 
 - stage: Tests
   displayName: Run Tests
-  jobs:
-  - job:
+  jobs: 
+  - job: Test
     steps:
     - task: DotNetCoreCLI@2
       inputs:
@@ -51,7 +51,9 @@ stages:
 
 - stage: Deploy
   displayName: Deploy to dev
-  dependsOn: Build
+  dependsOn: 
+    - Build
+    - Test
   variables:
     acrsecret: 213j212iojewasdskd2oi1
     acrDevUrl: examregistry2sem.azurecr.io
