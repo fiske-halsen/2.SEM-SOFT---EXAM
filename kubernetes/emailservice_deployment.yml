@@ -28,4 +28,4 @@ spec:
   ports:
     - port: 80
   selector:
-    app: emailservic
+    app: emailservice

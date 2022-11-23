@@ -10,7 +10,7 @@ resources:
 - repo: self
 
 variables:
-  imageRepo: deliveryservice
+  imageRepo: feedbackservice
   tag: '$(Build.BuildId)'
 
 stages:
