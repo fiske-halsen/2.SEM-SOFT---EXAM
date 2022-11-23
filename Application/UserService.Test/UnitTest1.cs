@@ -10,7 +10,7 @@ namespace Microservice1.Test
         [Test]
         public void Test1()
         {
-            Assert.AreEqual(1, 3);
+            Assert.AreEqual(1, 2);
         }
     }
 }
