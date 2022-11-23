@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feedbackservice
+  namespace: app
+spec:
+  replicas: #replicaNo#
+  selector:
+    matchLabels:
+      app: feedbackservice
+  template:
+    metadata:
+      labels:
+        app: feedbackservice
+    spec:
+      containers:
+        - name: feedbackservice
+          image: examregistry2sem.azurecr.io/feedbackservice
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feedbackservice
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+  selector:
+    app: feedbackservice
