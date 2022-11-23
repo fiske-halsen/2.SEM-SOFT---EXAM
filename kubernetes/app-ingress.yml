@@ -26,6 +26,13 @@ spec:
             name: userservice
             port:
               number: 80
+      - path: /emailservice(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: emailservice
+            port:
+              number: 80
       - path: /restaurantservice(/|$)(.*)
         pathType: Prefix
         backend:
