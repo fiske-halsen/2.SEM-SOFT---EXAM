@@ -72,7 +72,7 @@ stages:
               displayName: Replace tokens
               inputs:
                 rootDirectory: '$(Pipeline.Workspace)/manifests/'
-                targetFiles: 'deliveryservice_deployment.yml'
+                targetFiles: 'feedbackservice_deployment.yml'
                 encoding: 'auto'
                 tokenPattern: 'custom'
                 tokenPrefix: '#'
@@ -90,7 +90,7 @@ stages:
                 action: 'deploy'
                 namespace: 'app'
                 manifests: |
-                  $(Pipeline.Workspace)/manifests/deliveryservice_deployment.yml
+                  $(Pipeline.Workspace)/manifests/feedbackservice_deployment.yml
                 containers: '$(acrDevUrl)/$(imageRepo):$(tag)'
                 imagePullSecrets: '$(acrsecret)'
        
