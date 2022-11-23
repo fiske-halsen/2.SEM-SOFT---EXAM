@@ -7,7 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY CustomerService.csproj .
+COPY OrderService.csproj .
 RUN dotnet restore "OrderService.csproj"
 COPY . .
 WORKDIR "/src/OrderService"
