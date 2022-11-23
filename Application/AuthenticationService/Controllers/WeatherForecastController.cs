@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthenticationService.Controllers
 {
+    //test
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
