@@ -10,7 +10,7 @@ resources:
 - repo: self
 
 variables:
-  imageRepo: restaurantservice
+  imageRepo: emailservice
   tag: '$(Build.BuildId)'
 
 stages:
