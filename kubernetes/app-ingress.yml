@@ -33,6 +33,13 @@ spec:
             name: restaurantservice
             port:
               number: 80
+       - path: /deliveryservice(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: deliveryservice
+            port:
+              number: 80
       - path: /authenticationservice(/|$)(.*)
         pathType: Prefix
         backend:
