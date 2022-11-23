@@ -5,6 +5,7 @@ trigger:
   paths:
     include:
       - 'Application/UserService/*'
+      - 'Application/UserService.Test/*'
 
 resources:
 - repo: self
