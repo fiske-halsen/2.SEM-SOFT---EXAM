@@ -47,7 +47,7 @@ spec:
             name: orderservice
             port:
               number: 80        
-       - path: /deliveryservice(/|$)(.*)
+      - path: /deliveryservice(/|$)(.*)
         pathType: Prefix
         backend:
           service:
@@ -68,7 +68,7 @@ spec:
             name: gateway
             port:
               number: 80
-     - path: /feedbackservice(/|$)(.*)
+      - path: /feedbackservice(/|$)(.*)
         pathType: Prefix
         backend:
           service:
