@@ -26,3 +26,17 @@ spec:
             name: customerservice
             port:
               number: 80
+      - path: /restaurantservice(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: restaurantservice
+            port:
+              number: 80
+      - path: /authenticationservice(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: authenticationservice
+            port:
+              number: 80
