@@ -103,19 +103,19 @@ namespace UserService.IdentityConfiguration
 
             };
 
-            public static IEnumerable<ApiResource> ApiResources(IConfiguration configuration)
-            {
-                var gatewaySecret = configuration["Gateway:Key"];
-                var deliverySecret = configuration["DeliveryService:Key"];
-                var emailSecret = configuration["EmailService:Key"];
-                var feedbackSecret = configuration["FeedbackService:Key"];
-                var orderSecret = configuration["OrderService:Key"];
-                var restaurantSecret = configuration["RestaurantService:Key"]
+            //public static IEnumerable<ApiResource> ApiResources(IConfiguration configuration)
+            //{
+            //    var gatewaySecret = configuration["Gateway:Key"];
+            //    var deliverySecret = configuration["DeliveryService:Key"];
+            //    var emailSecret = configuration["EmailService:Key"];
+            //    var feedbackSecret = configuration["FeedbackService:Key"];
+            //    var orderSecret = configuration["OrderService:Key"];
+            //    var restaurantSecret = configuration["RestaurantService:Key"];
 
 
 
 
-            };
+            //};
 
         }
 
