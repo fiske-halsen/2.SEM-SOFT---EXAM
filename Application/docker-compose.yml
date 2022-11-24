@@ -2,6 +2,21 @@ version: "3.4"
 
 services:
 
+#---------- Gateway -------------
+    api-gateway:
+        build:
+          context: Gateway/
+          dockerfile: Dockerfile
+        ports:
+          - "8085:80"
+
+    api-emailservice:
+        build:
+          context: EmailService/
+          dockerfile: Dockerfile
+        ports:
+          - "8086:80"
+       
 #---------- Feedbackservice -----------
     api-feedbackservice:
         build:
@@ -129,7 +144,6 @@ services:
         -  ./data/kafka-data:/bitnami/kafka
 
       depends_on:
-
         - zookeeper
 
 
