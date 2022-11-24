@@ -5,6 +5,8 @@ trigger:
   paths:
     include:
       - 'Application/EmailService/*'
+    exclude:
+      - 'Application/*'
 
 resources:
 - repo: self
