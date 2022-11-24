@@ -5,6 +5,8 @@ trigger:
   paths:
     include:
       - 'Application/RestaurantService/*'
+    exclude:
+      - 'Application/*'
 
 resources:
 - repo: self
