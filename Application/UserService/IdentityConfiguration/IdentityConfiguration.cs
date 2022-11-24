@@ -113,11 +113,10 @@ namespace UserService.IdentityConfiguration
             //    var restaurantSecret = configuration["RestaurantService:Key"];
             ////////
 
+            ////
 
             //};
-
         }
-
         #endregion
     }
 }
