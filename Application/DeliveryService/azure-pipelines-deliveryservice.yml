@@ -5,6 +5,8 @@ trigger:
   paths:
     include:
       - 'Application/DeliveryService/*'
+    exclude:
+      - 'Application/*'
 
 resources:
 - repo: self
