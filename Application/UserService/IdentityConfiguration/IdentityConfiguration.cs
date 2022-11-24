@@ -111,8 +111,7 @@ namespace UserService.IdentityConfiguration
             //    var feedbackSecret = configuration["FeedbackService:Key"];
             //    var orderSecret = configuration["OrderService:Key"];
             //    var restaurantSecret = configuration["RestaurantService:Key"];
-
-
+            ////////
 
 
             //};
