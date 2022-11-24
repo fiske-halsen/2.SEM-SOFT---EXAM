@@ -3,6 +3,8 @@ trigger:
   paths:
     include:
       - 'Application/FeedbackService/*'
+    exclude:
+    - 'Application/*'
 
 resources:
 - repo: self
