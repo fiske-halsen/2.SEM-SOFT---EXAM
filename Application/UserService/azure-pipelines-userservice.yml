@@ -1,11 +1,11 @@
 trigger:
-  branches:
-    include:
-      - main
+  
   paths:
     include:
       - 'Application/UserService/*'
       - 'Application/UserService.Test/*'
+    exclude:
+      - 'Application/*'
 
 resources:
 - repo: self
