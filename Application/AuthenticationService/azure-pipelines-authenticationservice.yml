@@ -5,6 +5,8 @@ trigger:
   paths:
     include:
       - 'Application/AuthenticationService/*'
+    exclude:
+      - 'Application/*'
 
 resources:
 - repo: self
