@@ -2,7 +2,8 @@
 {
         public class Complaint
         {
-            public string name { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
             public string restaurant { get; set; }
             public string complaintText { get; set; }
             public DateTime complaintDate { get; set; }

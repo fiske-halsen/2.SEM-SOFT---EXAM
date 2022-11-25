@@ -2,6 +2,7 @@
 {
     public class Review
     {
+        public int id { get; set; }
         public string name { get; set; }
         public string restaurant{ get; set; }
         public string reviewText{ get; set; }
