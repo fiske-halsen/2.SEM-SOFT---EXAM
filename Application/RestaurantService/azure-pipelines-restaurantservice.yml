@@ -1,10 +1,5 @@
-trigger:
+trigger: none
   
-  paths:
-    include:
-      - 'Application/RestaurantService/*'
-    exclude:
-      - 'Application/*'
 pr:
   branches:
     include:
