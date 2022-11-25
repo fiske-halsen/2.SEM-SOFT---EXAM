@@ -1,3 +1,11 @@
+trigger:
+  
+  paths:
+    include:
+      - 'Application/UserService/*'
+    exclude:
+      - 'Application/*'
+
 pr:
   branches:
     include:
@@ -7,6 +15,7 @@ pr:
     include:
       - 'Application/UserService/*'
       - 'Application/UserService.Test/*'
+
 
 resources:
 - repo: self
