@@ -1,11 +1,5 @@
-
-trigger:
-  
-  paths:
-    include:
-      - 'Application/AuthenticationService/*'
-    exclude:
-      - 'Application/*'
+trigger: none
+    
 pr:
   branches:
     include:
