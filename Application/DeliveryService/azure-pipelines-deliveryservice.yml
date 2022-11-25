@@ -1,10 +1,11 @@
-trigger:
-  
+pr:
+  branches:
+    include:
+    - main
+    
   paths:
     include:
       - 'Application/DeliveryService/*'
-    exclude:
-      - 'Application/*'
 
 resources:
 - repo: self
