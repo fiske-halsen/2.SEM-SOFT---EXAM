@@ -1,3 +1,10 @@
+trigger:
+  
+  paths:
+    include:
+      - 'Application/DeliveryService/*'
+    exclude:
+      - 'Application/*'
 pr:
   branches:
     include:
