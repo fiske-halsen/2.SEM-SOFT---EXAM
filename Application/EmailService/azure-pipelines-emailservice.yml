@@ -1,11 +1,11 @@
-trigger:
-  
+pr:
+  branches:
+    include:
+    - main
     
   paths:
     include:
-      - 'Application/EmailService/*'
-    exclude:
-      - 'Application/*'
+    - 'Application/EmailService/*'
 
 resources:
 - repo: self
