@@ -5,7 +5,7 @@ pr:
     
   paths:
     include:
-    - Application/FeedbackService/*
+    - 'Application/FeedbackService/*'
        
 resources:
 - repo: self
