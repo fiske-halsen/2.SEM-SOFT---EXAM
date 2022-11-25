@@ -1,10 +1,5 @@
-trigger:
-  
-  paths:
-    include:
-      - 'Application/FeedbackService/*'
-    exclude:
-      - 'Application/*'
+trigger: none
+
 pr:
   branches:
     include:
