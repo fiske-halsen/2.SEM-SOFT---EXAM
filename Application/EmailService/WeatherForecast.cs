@@ -1,3 +1,5 @@
+using System;
+
 namespace EmailService
 {
     public class WeatherForecast
@@ -13,5 +15,6 @@ namespace EmailService
         //one more
         //asdasd
         //aasdasd
+        // asdasdasd
     }
 }
