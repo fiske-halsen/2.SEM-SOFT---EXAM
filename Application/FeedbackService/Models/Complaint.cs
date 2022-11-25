@@ -2,11 +2,12 @@
 {
         public class Complaint
         {
-            public string name { get; set; }
-            public string restaurant { get; set; }
-            public string complaintText { get; set; }
-            public DateTime complaintDate { get; set; }
-            public int orderId { get; set; }
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Restaurant { get; set; }
+            public string ComplaintText { get; set; }
+            public DateTime ComplaintDate { get; set; }
+            public int OrderId { get; set; }
 
         }
     
