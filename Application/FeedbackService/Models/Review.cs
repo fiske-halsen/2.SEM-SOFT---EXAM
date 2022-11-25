@@ -2,11 +2,12 @@
 {
     public class Review
     {
-        public string name { get; set; }
-        public string restaurant{ get; set; }
-        public string reviewText{ get; set; }
-        public DateTime reviewDate{ get; set; }
-        public int rating{ get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Restaurant{ get; set; }
+        public string ReviewText{ get; set; }
+        public DateTime ReviewDate{ get; set; }
+        public int Rating{ get; set; }
 
     }
 }
