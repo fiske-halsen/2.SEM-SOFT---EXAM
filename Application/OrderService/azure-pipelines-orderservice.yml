@@ -1,10 +1,13 @@
-trigger:
-  
+pr:
+  branches:
+    include:
+    - main
+    
   paths:
     include:
       - 'Application/OrderService/*'
-    exclude:
-      - 'Application/*'
+      
+
 
 resources:
 - repo: self
