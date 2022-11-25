@@ -1,11 +1,12 @@
-trigger:
-  
+pr:
+  branches:
+    include:
+    - main
+    
   paths:
     include:
-      - 'Application/FeedbackService/*'
-    exclude:
-    - 'Application/*'
-
+    - Application/FeedbackService/*
+       
 resources:
 - repo: self
 
