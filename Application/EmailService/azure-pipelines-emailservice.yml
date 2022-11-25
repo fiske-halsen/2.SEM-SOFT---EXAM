@@ -1,3 +1,10 @@
+trigger:
+  
+  paths:
+    include:
+      - 'Application/EmailService/*'
+    exclude:
+      - 'Application/*'
 pr:
   branches:
     include:
