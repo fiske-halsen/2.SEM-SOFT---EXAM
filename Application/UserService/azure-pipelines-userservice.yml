@@ -1,11 +1,5 @@
-trigger:
+trigger: none
   
-  paths:
-    include:
-      - 'Application/UserService/*'
-    exclude:
-      - 'Application/*'
-
 pr:
   branches:
     include:
