@@ -15,7 +15,8 @@ pr:
     include:
       - 'Application/UserService/*'
       - 'Application/UserService.Test/*'
-
+    exclude:
+      - 'Application/*'
 
 resources:
 - repo: self
