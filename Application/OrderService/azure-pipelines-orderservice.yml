@@ -1,11 +1,5 @@
-trigger:
+trigger: none
   
-  paths:
-    include:
-      - 'Application/OrderService/*'
-    exclude:
-      - 'Application/*'
-
 pr:
   branches:
     include:
