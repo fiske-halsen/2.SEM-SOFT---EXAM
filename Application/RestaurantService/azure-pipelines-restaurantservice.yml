@@ -1,8 +1,18 @@
 trigger:
- 
+  
   paths:
     include:
       - 'Application/RestaurantService/*'
+    exclude:
+      - 'Application/*'
+pr:
+  branches:
+    include:
+    - main
+    
+  paths:
+    include:
+    - 'Application/RestaurantService/*'
     exclude:
       - 'Application/*'
 
