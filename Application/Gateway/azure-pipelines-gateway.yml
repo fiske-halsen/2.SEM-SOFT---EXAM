@@ -5,6 +5,16 @@ trigger:
       - 'Application/Gateway/*'
     exclude:
       - 'Application/*'
+pr:
+  branches:
+    include:
+    - main
+    
+  paths:
+    include:
+    - 'Application/Gateway/*'
+    exclude:
+      - 'Application/*'
 
 resources:
 - repo: self
