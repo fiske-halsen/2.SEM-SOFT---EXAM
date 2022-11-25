@@ -14,7 +14,8 @@ pr:
   paths:
     include:
       - 'Application/OrderService/*'
-      
+    exclude:
+      - 'Application/*'  
 
 resources:
 - repo: self
