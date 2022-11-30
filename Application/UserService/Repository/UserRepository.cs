@@ -9,6 +9,7 @@ namespace UserService.Repository
         public Task<User> GetUserById(int userId);
         public Task<User> GetUserByEmail(string email);
         public Task<Role> GetUserRoleById(int userId);
+        public Task<bool> CreateUser(User user);
     }
 
     public class UserRepository : IUserRepository
@@ -20,25 +21,37 @@ namespace UserService.Repository
             _applicationContext = dbApplicationContext;
         }
 
+        public async Task<bool> CreateUser(User user)
+        {
+            try
+            {
+                _applicationContext.Users.Add(user);
+                await _applicationContext.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public async Task<User> GetUserByEmail(string email)
         {
-            return await _applicationContext.Users.
-                 Include(_ => _.Role)
+            return await _applicationContext.Users.Include(_ => _.Role)
                 .FirstOrDefaultAsync(_ => _.Email == email);
         }
 
         public async Task<User> GetUserById(int userId)
         {
-            return await _applicationContext.Users.
-                 Include(_ => _.Role)
+            return await _applicationContext.Users.Include(_ => _.Role)
                 .FirstOrDefaultAsync(_ => _.Id == userId);
         }
 
         public async Task<Role> GetUserRoleById(int userId)
         {
-            var user = await _applicationContext.Users.
-                Include(_ => _.Role)
-               .FirstOrDefaultAsync(_ => _.Id == userId);
+            var user = await _applicationContext.Users.Include(_ => _.Role)
+                .FirstOrDefaultAsync(_ => _.Id == userId);
 
             return user.Role;
         }

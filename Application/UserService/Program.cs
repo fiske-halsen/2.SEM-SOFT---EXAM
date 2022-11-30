@@ -1,6 +1,7 @@
 using IdentityServer4.AspNetIdentity;
 using Microsoft.EntityFrameworkCore;
 using UserService.Context;
+using UserService.IdentityConfig;
 using UserService.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
