@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserService.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using static Common.Enums.Enums;
 
 namespace UserService.Context
 {
@@ -25,10 +25,6 @@ namespace UserService.Context
             // Required properties
             modelBuilder.Entity<Address>()
                 .Property(b => b.StreetName)
-                .IsRequired();
-
-            modelBuilder.Entity<Address>()
-                .Property(b => b.HouseNumber)
                 .IsRequired();
 
             modelBuilder.Entity<CityInfo>()
@@ -70,8 +66,8 @@ namespace UserService.Context
 
             modelBuilder.Entity<Address>()
                 .HasData(
-                    new Address { Id = 1, StreetName = "Skovledet", HouseNumber = "94A", Floor = 3, DoorDesignation = "tv", CityInfoId = 1 },
-                    new Address { Id = 2, StreetName = "Cphbusinessvej", HouseNumber = "23", Floor = 2, CityInfoId = 5 });
+                    new Address { Id = 1, StreetName = "Skovledet", CityInfoId = 1 },
+                    new Address { Id = 2, StreetName = "Cphbusinessvej", CityInfoId = 5 });
 
             modelBuilder.Entity<User>()
                 .HasData(
