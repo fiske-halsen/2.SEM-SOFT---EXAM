@@ -3,29 +3,29 @@ version: "3.4"
 services:
 
 #---------- Gateway -------------
-    api-gateway:
-        build:
-          context: Gateway/
-          dockerfile: Dockerfile
-        ports:
-          - "8085:80"
+    # api-gateway:
+    #     build:
+    #       context: Gateway/
+    #       dockerfile: Dockerfile
+    #     ports:
+    #       - "8085:80"
 
-    api-emailservice:
-        build:
-          context: EmailService/
-          dockerfile: Dockerfile
-        ports:
-          - "8086:80"
+    # api-emailservice:
+    #     build:
+    #       context: EmailService/
+    #       dockerfile: Dockerfile
+    #     ports:
+    #       - "8086:80"
        
 #---------- Feedbackservice -----------
-    api-feedbackservice:
-        build:
-          context: FeedbackService/
-          dockerfile: Dockerfile
-        ports:
-          - "8080:80"
-        depends_on:
-          - db-feedbackservice
+    # api-feedbackservice:
+    #     build:
+    #       context: FeedbackService/
+    #       dockerfile: Dockerfile
+    #     ports:
+    #       - "8080:80"
+    #     depends_on:
+    #       - db-feedbackservice
 
     db-feedbackservice:
         image: "mcr.microsoft.com/mssql/server:2022-latest"
@@ -38,15 +38,15 @@ services:
             ACCEPT_EULA: "Y"
 
 #---------- Userservice -----------
-    api-userservice:
-        build:
-          context: UserService/
-          dockerfile: Dockerfile
-        ports:
-          - "8081:80"
+    # api-userservice:
+    #     build:
+    #       context: UserService/
+    #       dockerfile: Dockerfile
+    #     ports:
+    #       - "8081:80"
         
-        depends_on:
-          - db_userservice
+    #     depends_on:
+    #       - db_userservice
 
     db_userservice:
         image: "mcr.microsoft.com/mssql/server:2022-latest"
@@ -59,15 +59,15 @@ services:
             ACCEPT_EULA: "Y"
 
   #---------- Deliveryservice -----------
-    api-deliveryservice:
-          build:
-            context: DeliveryService/
-            dockerfile: Dockerfile
-          ports:
-            - "8082:80"
+    # api-deliveryservice:
+    #       build:
+    #         context: DeliveryService/
+    #         dockerfile: Dockerfile
+    #       ports:
+    #         - "8082:80"
           
-          depends_on:
-            - db_deliveryservice
+    #       depends_on:
+    #         - db_deliveryservice
 
     db_deliveryservice:
         image: "mcr.microsoft.com/mssql/server:2022-latest"
@@ -80,15 +80,15 @@ services:
             ACCEPT_EULA: "Y"
 
     #---------- Orderservice -----------  
-    api-orderservice:
-          build:
-            context: OrderService/
-            dockerfile: Dockerfile
-          ports:
-            - "8083:80"
+    # api-orderservice:
+    #       build:
+    #         context: OrderService/
+    #         dockerfile: Dockerfile
+    #       ports:
+    #         - "8083:80"
           
-          depends_on:
-            - db_orderservice
+    #       depends_on:
+    #         - db_orderservice
 
     db_orderservice:
         image: "mcr.microsoft.com/mssql/server:2022-latest"
@@ -101,15 +101,15 @@ services:
             ACCEPT_EULA: "Y"
 
     #---------- Restaurantservice -----------       
-    api-restaurantservice:
-          build:
-            context: RestaurantService/
-            dockerfile: Dockerfile
-          ports:
-            - "8084:80"
+    # api-restaurantservice:
+    #       build:
+    #         context: RestaurantService/
+    #         dockerfile: Dockerfile
+    #       ports:
+    #         - "8084:80"
           
-          depends_on:
-            - db_restaurantservice
+    #       depends_on:
+    #         - db_restaurantservice
 
     db_restaurantservice:
         image: "mcr.microsoft.com/mssql/server:2022-latest"
