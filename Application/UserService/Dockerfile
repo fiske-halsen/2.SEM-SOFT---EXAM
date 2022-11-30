@@ -11,7 +11,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
 WORKDIR ..
 
-#COPY ["Common/Common.csproj", "Common/"]
+COPY ["Common/Common.csproj", "Common/"]
 
 WORKDIR /src
 
