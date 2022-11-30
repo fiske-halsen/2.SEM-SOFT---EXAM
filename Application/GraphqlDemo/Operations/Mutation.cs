@@ -1,20 +1,19 @@
 ﻿using Common.Models;
 using GraphqlDemo.Services;
+using Newtonsoft.Json;
 
 namespace GraphqlDemo.Operations
 {
     public class Mutation
     {
-        private readonly List<Order> _order;
         private readonly KafkaProducerService _kafkaProducerService;
 
         public Mutation()
         {
-            _order = new List<Order>();
             _kafkaProducerService = new KafkaProducerService();
         }
 
-        public bool CreateOrder(List<MenuItem> menuItems, string customer, string restaurant, float total)
+        public async Task<Order> CreateOrder(List<MenuItem> menuItems, string customer, string restaurant, float total)
         {
             Order order = new Order
             {
@@ -25,11 +24,11 @@ namespace GraphqlDemo.Operations
                 Items = menuItems
             };
 
-            _order.Add(order);
+            var orderSerialized = JsonConvert.SerializeObject(order);
 
+            await _kafkaProducerService.SendReviewRequest("create_order", orderSerialized);
 
-
-            return true;
+            return order;
         }
     }
 }

@@ -1,5 +1,3 @@
-
-
 using GraphqlDemo.Operations;
 
 var builder = WebApplication.CreateBuilder(args);
