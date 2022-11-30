@@ -1,6 +1,6 @@
 ﻿namespace UserService.Models
 {
-    public enum RoleTypes
+    public enum RoleTypes // TODO move to COMMON when ready
     {
         Customer = 1,
         RestaurantOwner = 2,
