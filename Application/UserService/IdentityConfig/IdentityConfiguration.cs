@@ -33,7 +33,7 @@ namespace UserService.IdentityConfig
                     AccessTokenType = AccessTokenType.Jwt,
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = {"FeedbackService"},
-                    ClientSecrets = {new Secret(identityConfigKeys.FeedbackServiceKey.Sha256())},
+                    ClientSecrets = {new Secret(identityConfigKeys.FeedbackServiceKey.Sha512())},
                     AllowAccessTokensViaBrowser = true,
                 },
 
@@ -43,7 +43,7 @@ namespace UserService.IdentityConfig
                     AccessTokenType = AccessTokenType.Jwt,
                     AllowedGrantTypes =
                         GrantTypes.ResourceOwnerPassword, // Notice the resource owner password flow here
-                    AllowedScopes = {"UserService"},
+                    AllowedScopes = {"Gateway"},
                     ClientSecrets = {new Secret(identityConfigKeys.GatewayKey.Sha256())},
                     AllowAccessTokensViaBrowser = true,
                 },
@@ -100,7 +100,7 @@ namespace UserService.IdentityConfig
                     Name = "Gateway",
                     Description = "Gateway resource",
                     ApiSecrets = {new Secret(identityConfigKeys.GatewayKey.Sha256())},
-                    Scopes = {"Gateway",}
+                    Scopes = {"Gateway"}
                 },
 
                 new ApiResource
@@ -115,7 +115,7 @@ namespace UserService.IdentityConfig
                     Name = "OrderService",
                     Description = "OrderService resource",
                     ApiSecrets = {new Secret(identityConfigKeys.OrderServiceKey.Sha256())},
-                    Scopes = { "OrderService", }
+                    Scopes = {"OrderService",}
                 },
 
                 new ApiResource
@@ -123,9 +123,8 @@ namespace UserService.IdentityConfig
                     Name = "RestaurantService",
                     Description = "RestaurantService resource",
                     ApiSecrets = {new Secret(identityConfigKeys.RestaurantServiceKey.Sha256())},
-                    Scopes = { "RestaurantService", }
+                    Scopes = {"RestaurantService",}
                 },
-
             };
         }
 
