@@ -16,29 +16,21 @@ def get_connection(connection):
 def insert_zips():
     args = parse_args()
     if args.development:
-        connection = ("Driver={SQL Server Native Client 11.0};"
+        connection = ("Driver=SQL Server;"
                       "Server=127.0.0.1,5435;"
                       "Database=Orders;"
-                      "User Id=sa;"
-                      "Password=S3cur3P@ssW0rd!"
-                      "Trusted_Connection=yes;")
+                      "UID=sa;"
+                      "PWD=S3cur3P@ssW0rd!")
     if args.production:
-        connection = "Server=host.docker.internal,5435;Database=Orders;User Id=sa;Password=S3cur3P@ssW0rd!;TrustServerCertificate=True"
+        connection = "Server=host.docker.internal,5435;Database=Orders;UID=sa;PWD=S3cur3P@ssW0rd!"
 
     response = requests.get("https://api.dataforsyningen.dk/postnumre")
 
-    cities_info = [{"zip":x['nr'], "city":x['navn']} for x in response.json()]
-    try:
-        with get_connection(connection) as con:
-            with con.cursor() as cur:
-                print('inserted')
-                #Tjek om tablename og columnnames er korrekte i forhold til databasen
-                #[cur.execute(f'insert into CityInfo (ZipCode, CityName) values ({x["zip"]}, {x["city"]}) ') for x in cities_info]
-    except UnboundLocalError:
-        import sys
-        print('Module can only be run with arguemnts --production or --development')
-        sys.exit(1)
-
+    cities_info = [(x['nr'], x['navn']) for x in response.json()]
+    
+    with get_connection(connection) as con:
+        with con.cursor() as cur:
+            cur.executemany('insert into Cities (ZipCode, City) values(?,?)', cities_info)
 
 
 if __name__ == "__main__":
