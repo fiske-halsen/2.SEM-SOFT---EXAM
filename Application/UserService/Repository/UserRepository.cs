@@ -12,6 +12,9 @@ namespace UserService.Repository
         public Task<bool> CreateUser(User user);
     }
 
+    /// <summary>
+    /// Layer for communicating with the userservice db
+    /// </summary>
     public class UserRepository : IUserRepository
     {
         private readonly DbApplicationContext _applicationContext;
@@ -21,6 +24,11 @@ namespace UserService.Repository
             _applicationContext = dbApplicationContext;
         }
 
+        /// <summary>
+        /// Creates a user
+        /// </summary>
+        /// <param name="user"> The user entity</param>
+        /// <returns></returns>
         public async Task<bool> CreateUser(User user)
         {
             try
@@ -36,18 +44,33 @@ namespace UserService.Repository
             }
         }
 
+        /// <summary>
+        /// Gets a user by email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public async Task<User> GetUserByEmail(string email)
         {
             return await _applicationContext.Users.Include(_ => _.Role)
                 .FirstOrDefaultAsync(_ => _.Email == email);
         }
 
+        /// <summary>
+        /// Gets a user by id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<User> GetUserById(int userId)
         {
             return await _applicationContext.Users.Include(_ => _.Role)
                 .FirstOrDefaultAsync(_ => _.Id == userId);
         }
 
+        /// <summary>
+        /// Gets a user role by id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<Role> GetUserRoleById(int userId)
         {
             var user = await _applicationContext.Users.Include(_ => _.Role)

@@ -10,7 +10,7 @@ namespace UserService.Services
             {
                 FeedbackServiceKey = configuration["FeedbackService:Key"],
                 DeliveryServiceKey = configuration["DeliveryService:Key"],
-                GatewayKey = configuration["Gatway:Key"],
+                GatewayKey = configuration["Gateway:Key"],
                 OrderServiceKey = configuration["OrderService:Key"],
                 RestaurantServiceKey = configuration["RestaurantService:Key"]
             };

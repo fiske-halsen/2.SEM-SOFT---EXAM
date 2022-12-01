@@ -1,8 +1,10 @@
 using IdentityServer4.AspNetIdentity;
 using Microsoft.EntityFrameworkCore;
 using UserService.Context;
+using UserService.ErrorHandling;
 using UserService.IdentityConfig;
 using UserService.Repository;
+using UserService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,18 +21,19 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 
 builder.Services.AddHttpContextAccessor();
 
-//builder.Services.AddIdentityServer()
-//    .AddDeveloperSigningCredential()
-//    .AddInMemoryApiResources(IdentityConfiguration.ApiResources(configuration))
-//    .AddInMemoryApiScopes(IdentityConfiguration.ApiScopes)
-//    .AddInMemoryClients(IdentityConfiguration.Clients(configuration))
-//    .AddProfileService<ProfileService>()
-//    .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
+builder.Services.AddIdentityServer()
+    .AddDeveloperSigningCredential()
+    .AddInMemoryApiResources(IdentityConfiguration.ApiResources(configuration))
+    .AddInMemoryApiScopes(IdentityConfiguration.ApiScopes)
+    .AddInMemoryClients(IdentityConfiguration.Clients(configuration))
+    .AddProfileService<ProfileService>()
+    .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
 
 builder.Services.AddDbContext<DbApplicationContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UsersService>();
 
 var app = builder.Build();
 
@@ -40,7 +43,6 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
     db.Database.EnsureCreated();
 }
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -57,13 +59,10 @@ app.UseCors(x => x
                     .AllowCredentials());
 
 
+app.ConfigureExceptionHandler();
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.UseIdentityServer();
-
 app.MapControllers();
-
 app.Run();
