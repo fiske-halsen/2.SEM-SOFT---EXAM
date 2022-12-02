@@ -31,7 +31,7 @@ stages:
         containerRegistry: 'AzureRegistry'
         repository: '$(imageRepo)'
         command: 'buildAndPush'
-        Dockerfile: '$(Build.SourcesDirectory)/Application/Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/Application/DockerfileFeedback'
         tags: |
           $(tag)
           latest
