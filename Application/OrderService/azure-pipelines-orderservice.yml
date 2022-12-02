@@ -33,7 +33,7 @@ stages:
         containerRegistry: 'AzureRegistry'
         repository: '$(imageRepo)'
         command: 'buildAndPush'
-        Dockerfile: '$(Build.SourcesDirectory)/Application/OrderService/Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/Application/DockerfileOrder'
         tags: |
           $(tag)
           latest
