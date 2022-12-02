@@ -3,10 +3,9 @@
     public class Review
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Restaurant{ get; set; }
         public string ReviewText{ get; set; }
-        public DateTime ReviewDate{ get; set; }
+        public DateTime ReviewDate{ get; set; } = DateTime.UtcNow;
+        public int OrderId { get; set; }
         public int Rating{ get; set; }
 
     }
