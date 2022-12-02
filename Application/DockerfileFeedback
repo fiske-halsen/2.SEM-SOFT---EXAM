@@ -11,7 +11,7 @@ COPY ["Common/Common.csproj", "Common/"]
 COPY ["FeedbackService/FeedbackService.csproj","FeedbackService/"]
 RUN dotnet restore "FeedbackService.csproj"
 COPY . .
-WORKDIR "FeedbackService"
+WORKDIR "/src/FeedbackService"
 RUN dotnet build "FeedbackService.csproj" -c Release -o /app/build
 
 FROM build AS publish
