@@ -1,4 +1,4 @@
-using Common.Dto;
+﻿using Common.Dto;
 using Common.Enums;
 using Common.ErrorModels;
 using FluentAssertions;
@@ -7,7 +7,7 @@ using UserService.Models;
 using UserService.Repository;
 using UserService.Services;
 
-namespace Microservice1.Test
+namespace UserService.Test.UnitTests
 {
     public class UserServiceUnitTests
     {
@@ -322,5 +322,6 @@ namespace Microservice1.Test
                 .WithMessage("User does not exist");
 
         }
+
     }
 }

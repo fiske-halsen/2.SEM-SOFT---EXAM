@@ -5,9 +5,9 @@ using static Common.Enums.Enums;
 
 namespace UserService.Context
 {
-    public class DbApplicationContext : DbContext
+    public class UserDbContext : DbContext
     {
-        public DbApplicationContext(DbContextOptions<DbApplicationContext> options) : base(options) { }
+        public UserDbContext(DbContextOptions<UserDbContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
