@@ -1,4 +1,3 @@
-using IdentityServer4.AspNetIdentity;
 using Microsoft.EntityFrameworkCore;
 using UserService.Context;
 using UserService.ErrorHandling;
