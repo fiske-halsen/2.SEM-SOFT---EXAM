@@ -1,4 +1,5 @@
 ﻿using FeedbackService.Context;
+using FeedbackService.DTO;
 using FeedbackService.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,8 +9,7 @@ namespace FeedbackService.Repository
     {
         public interface IReviewStorage
         {
-            public Task<Review> CreateReview(Review review);
-            public Task<Review> GetReviewByReviewId(int reviewId);
+            public Task<bool> CreateReview(Review review);
             public Task<List<Review>> GetReviewsByUserId(int userId);
             public Task<List<Review>> GetReviewsByRestaurantId(int restaurantId);
             public Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryUserId);
@@ -24,27 +24,27 @@ namespace FeedbackService.Repository
                 _dbContext = dBApplicationContext;
             }
 
-         
-            public async Task<Review> CreateReview(Review review)
+
+            public async Task<bool> CreateReview(Review review)
             {
                 try
                 {
                     await _dbContext.AddAsync(review);
                     await _dbContext.SaveChangesAsync();
-                    return review;
+                    return true;
                 }
                 catch (Exception)
                 {
-
-                    throw;
+                    return false;
                 }
             }
-        
-            public async Task<Review> GetReviewByReviewId(int reviewId)
+
+            public async Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryUserId)
             {
                 try
                 {
-                    var reviews = await _dbContext.Reviews.FirstOrDefaultAsync(x => x.Id == reviewId);
+
+                    var reviews = await _dbContext.Reviews.Where(x => x.Id == deliveryUserId).ToListAsync();
                     return reviews;
                 }
                 catch (Exception)
@@ -54,19 +54,34 @@ namespace FeedbackService.Repository
                 }
             }
 
-            public Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryUserId)
+            public async Task<List<Review>> GetReviewsByRestaurantId(int restaurantId)
             {
-                throw new NotImplementedException();
+                try
+                {
+
+                    var reviews = await _dbContext.Reviews.Where(x => x.Id == restaurantId).ToListAsync();
+                    return reviews;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
             }
 
-            public Task<List<Review>> GetReviewsByRestaurantId(int restaurantId)
+            public async Task<List<Review>> GetReviewsByUserId(int userId)
             {
-                throw new NotImplementedException();
-            }
+                try
+                {
 
-            public Task<List<Review>> GetReviewsByUserId(int userId)
-            {
-                throw new NotImplementedException();
+                    var reviews = await _dbContext.Reviews.Where(x => x.Id == userId).ToListAsync();
+                    return reviews;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
             }
         }
-}
+    }
