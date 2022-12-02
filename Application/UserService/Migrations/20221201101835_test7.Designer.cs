@@ -11,7 +11,7 @@ using UserService.Context;
 
 namespace UserService.Migrations
 {
-    [DbContext(typeof(DbApplicationContext))]
+    [DbContext(typeof(UserDbContext))]
     [Migration("20221201101835_test7")]
     partial class test7
     {

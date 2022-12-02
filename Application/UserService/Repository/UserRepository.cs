@@ -17,9 +17,9 @@ namespace UserService.Repository
     /// </summary>
     public class UserRepository : IUserRepository
     {
-        private readonly DbApplicationContext _applicationContext;
+        private readonly UserDbContext _applicationContext;
 
-        public UserRepository(DbApplicationContext dbApplicationContext)
+        public UserRepository(UserDbContext dbApplicationContext)
         {
             _applicationContext = dbApplicationContext;
         }

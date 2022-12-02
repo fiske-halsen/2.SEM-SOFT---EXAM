@@ -28,7 +28,7 @@ builder.Services.AddIdentityServer()
     .AddProfileService<ProfileService>()
     .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
 
-builder.Services.AddDbContext<DbApplicationContext>(options =>
+builder.Services.AddDbContext<UserDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -38,9 +38,12 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<DbApplicationContext>();
-    db.Database.Migrate();
-    db.Database.EnsureCreated();
+    var db = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+    if (db.Database.IsRelational())
+    {
+        db.Database.Migrate();
+        db.Database.EnsureCreated();
+    }
 }
 
 // Configure the HTTP request pipeline.
@@ -65,3 +68,6 @@ app.UseAuthorization();
 app.UseIdentityServer();
 app.MapControllers();
 app.Run();
+
+// For integration testing purposes; Woops! Needed because program is behind the scenes a internal class, we need a public way to get it
+public partial class Program {}
