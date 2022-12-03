@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using UserService.Context;
-using UserService.IdentityConfig;
 
 namespace UserService.Test.IntegrationTestConfig
 {
@@ -22,7 +21,8 @@ namespace UserService.Test.IntegrationTestConfig
 
                 services.Remove(descriptor);
 
-                services.AddDbContext<UserDbContext>(options => { options.UseInMemoryDatabase("InMemoryUserTest"); });
+                services.AddDbContext<UserDbContext>(options => { 
+                    options.UseInMemoryDatabase("InMemoryUserTest"); });
 
                 var sp = services.BuildServiceProvider();
 
@@ -44,14 +44,6 @@ namespace UserService.Test.IntegrationTestConfig
                         throw;
                     }
                 }
-
-                services.AddIdentityServer()
-                    .AddDeveloperSigningCredential()
-                    .AddInMemoryApiResources(IdentityConfiguration.ApiResources(configuration))
-                    .AddInMemoryApiScopes(IdentityConfiguration.ApiScopes)
-                    .AddInMemoryClients(IdentityConfiguration.Clients(configuration))
-                    .AddProfileService<ProfileService>()
-                    .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
 
             });
 
