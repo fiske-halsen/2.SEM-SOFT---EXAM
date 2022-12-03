@@ -1,15 +1,10 @@
 ﻿using Common.Dto;
+using Common.ErrorModels;
 using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
-using Common.ErrorModels;
-using IdentityModel.Client;
 using UserService.Test.IntegrationTestConfig;
-using UserService.Models;
-using System.Security.Policy;
-using IdentityServer4.Models;
-using System;
 
 namespace UserService.Test.IntegrationTests
 {
@@ -121,10 +116,8 @@ namespace UserService.Test.IntegrationTests
             var token = response.Content.ReadAsStringAsync().Result;
 
             // Assert
-            response.Should().HaveStatusCode(HttpStatusCode.OK);
             token.Should().NotBeNullOrWhiteSpace();
         }
-
 
         //public async string GetTokenIdentityServer()
         //{
