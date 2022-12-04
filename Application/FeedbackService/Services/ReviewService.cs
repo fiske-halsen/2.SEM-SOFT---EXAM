@@ -7,6 +7,7 @@ namespace FeedbackService.Services
 
     public interface IReviewService
     {
+
         public Task<bool> CreateReview(CreateReviewDTO createReviewDTO);
         public Task<List<Review>> GetReviewsByUserId(int userId);
         public Task<List<Review>> GetReviewsByRestaurantId(int restaurantId);
@@ -73,5 +74,6 @@ namespace FeedbackService.Services
             }
             return reviews;
         }
+
     }
 }

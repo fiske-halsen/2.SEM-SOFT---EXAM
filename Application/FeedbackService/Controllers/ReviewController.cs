@@ -12,6 +12,7 @@ namespace FeedbackService.Controllers
     [Route("api/[controller][action]")]
     public class ReviewController : ControllerBase
     {
+
         private readonly IReviewService _reviewService;
 
         public ReviewController(IReviewService reviewService)
@@ -41,6 +42,7 @@ namespace FeedbackService.Controllers
         {
             return await _reviewService.GetReviewsByDeliveryUserId(deliveryDriverId);
         }
+
     }
 }
 
