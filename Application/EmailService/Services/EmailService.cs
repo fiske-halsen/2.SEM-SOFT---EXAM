@@ -32,8 +32,8 @@ namespace EmailService.Services
                 }
             };
 
-            MailAddress FromEmail = new MailAddress("dbassignmenttwopostgres@gmail.com", "ComplaintAssignment");
-            MailAddress ToEmail = new MailAddress(emailPackageDto.Email, "Complaint Assignment");
+            MailAddress FromEmail = new MailAddress("dbassignmenttwopostgres@gmail.com", "MTOGO System");
+            MailAddress ToEmail = new MailAddress(emailPackageDto.Email, "MTOGO System");
             MailMessage Message = new MailMessage()
             {
                 From = FromEmail,
