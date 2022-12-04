@@ -1,21 +1,19 @@
 ﻿using FeedbackService.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 
 namespace FeedbackService.Context
 {
 
-        public class DBFeedbackServiceContext : DbContext
+    public class DBFeedbackServiceContext : DbContext
+    {
+        public DBFeedbackServiceContext(DbContextOptions<DBFeedbackServiceContext> options) : base(options) { }
+
+        public DbSet<Review> Reviews { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            public DBFeedbackServiceContext(DbContextOptions<DBFeedbackServiceContext> options) : base(options) { }
-
-            public DbSet<Review> Reviews { get; set; }
-
-            protected override void OnModelCreating(ModelBuilder builder)
-            {
-                base.OnModelCreating(builder);
-            }
+            base.OnModelCreating(builder);
+        }
 
         private void Seed(ModelBuilder builder)
         {
@@ -26,5 +24,5 @@ namespace FeedbackService.Context
               );
         }
     }
-    }
+}
 
