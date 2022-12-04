@@ -1,19 +1,19 @@
 ﻿using FeedbackService.Context;
-using FeedbackService.DTO;
 using FeedbackService.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FeedbackService.Repository
 {
+    public interface IReviewStorage
+    {
+        public Task<bool> CreateReview(Review review);
+        public Task<List<Review>> GetReviewsByUserId(int userId);
+        public Task<List<Review>> GetReviewsByRestaurantId(int restaurantId);
+        public Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryUserId);
+    }
+
     public class FeedbackRepository
     {
-        public interface IReviewStorage
-        {
-            public Task<bool> CreateReview(Review review);
-            public Task<List<Review>> GetReviewsByUserId(int userId);
-            public Task<List<Review>> GetReviewsByRestaurantId(int restaurantId);
-            public Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryUserId);
-        }
 
         public class BookingStorage : IReviewStorage
         {
@@ -85,3 +85,4 @@ namespace FeedbackService.Repository
             }
         }
     }
+}

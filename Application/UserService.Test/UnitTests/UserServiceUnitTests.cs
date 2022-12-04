@@ -274,7 +274,7 @@ namespace UserService.Test.UnitTests
             var role = new Role
             {
                 Id = 1,
-                RoleType = Enums.RoleTypes.Customer
+                RoleType = RoleTypes.Customer
             };
 
             _userRepositoryMock.Setup(_ => _.GetUserRoleById(userId)).ReturnsAsync(role);

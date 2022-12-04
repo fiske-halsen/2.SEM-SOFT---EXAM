@@ -16,6 +16,8 @@ namespace UserService.Models
         [ForeignKey("RoleId")]
         public int RoleId { get; set; }
         public Role Role { get; set; }
+
+        public double Balance { get; set; } = 1000; //Lets just assume everyone has 1000 DKK in free balance when they sign up for the first time
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime ModifiedAt { get; set; } = DateTime.UtcNow;
     }
