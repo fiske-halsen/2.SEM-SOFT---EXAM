@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "TransactionService": {
+    "PaymentValidatorService": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7004;http://localhost:5138"
+      "applicationUrl": "https://localhost:7114;http://localhost:5180"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -31,8 +31,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:31517",
-      "sslPort": 44357
+      "applicationUrl": "http://localhost:20422",
+      "sslPort": 44368
     }
   }
 }

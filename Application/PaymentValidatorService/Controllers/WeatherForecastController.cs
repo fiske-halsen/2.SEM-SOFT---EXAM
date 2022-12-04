@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace TransactionService.Controllers
+namespace PaymentValidatorService.Controllers
 {
     [ApiController]
     [Route("[controller]")]

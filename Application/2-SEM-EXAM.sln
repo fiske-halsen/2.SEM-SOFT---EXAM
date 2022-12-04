@@ -21,11 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService", "UserService\UserService.csproj", "{03F3BCB8-D24F-4BA9-8314-578E032C6A2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentProcessorService", "PaymentProcessorService\PaymentProcessorService.csproj", "{2085FB31-ED3E-44C4-901F-D451B2FD24F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentProcessorService", "PaymentProcessorService\PaymentProcessorService.csproj", "{2085FB31-ED3E-44C4-901F-D451B2FD24F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionService", "TransactionService\TransactionService.csproj", "{4A88AC73-C194-4FF3-9E32-B3000EEF72D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSocketHubService", "WebSocketHubService\WebSocketHubService.csproj", "{E7E14491-7C0F-4B75-BBA7-2DCC7EA4AB69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocketHubService", "WebSocketHubService\WebSocketHubService.csproj", "{E7E14491-7C0F-4B75-BBA7-2DCC7EA4AB69}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentValidatorService", "PaymentValidatorService\PaymentValidatorService.csproj", "{95C6BF78-1721-4F04-BF14-D8A8A938D89B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,14 +73,14 @@ Global
 		{2085FB31-ED3E-44C4-901F-D451B2FD24F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2085FB31-ED3E-44C4-901F-D451B2FD24F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2085FB31-ED3E-44C4-901F-D451B2FD24F4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A88AC73-C194-4FF3-9E32-B3000EEF72D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A88AC73-C194-4FF3-9E32-B3000EEF72D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A88AC73-C194-4FF3-9E32-B3000EEF72D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A88AC73-C194-4FF3-9E32-B3000EEF72D4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E7E14491-7C0F-4B75-BBA7-2DCC7EA4AB69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7E14491-7C0F-4B75-BBA7-2DCC7EA4AB69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7E14491-7C0F-4B75-BBA7-2DCC7EA4AB69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7E14491-7C0F-4B75-BBA7-2DCC7EA4AB69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95C6BF78-1721-4F04-BF14-D8A8A938D89B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95C6BF78-1721-4F04-BF14-D8A8A938D89B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95C6BF78-1721-4F04-BF14-D8A8A938D89B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95C6BF78-1721-4F04-BF14-D8A8A938D89B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

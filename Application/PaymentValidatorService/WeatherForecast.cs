@@ -1,4 +1,4 @@
-namespace TransactionService
+namespace PaymentValidatorService
 {
     public class WeatherForecast
     {
