@@ -8,7 +8,6 @@ namespace EmailService.Services
     public interface IEmailService
     {
         public Task<bool> SendEmail(EmailPackageDto emailPackageDto);
-
     }
 
     public class EmailService : IEmailService

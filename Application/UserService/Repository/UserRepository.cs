@@ -44,6 +44,7 @@ namespace UserService.Repository
             }
         }
 
+
         /// <summary>
         /// Gets a user by email
         /// </summary>

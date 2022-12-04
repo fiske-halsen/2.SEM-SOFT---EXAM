@@ -13,6 +13,7 @@ namespace UserService.Services
         public Task<User> GetUserByEmail(string email);
         public Task<Role> GetUserRoleById(int userId);
         public Task<bool> CreateUser(CreateUserDto createUserDto);
+        public Task<double> GetUserBalanceById(int userId);
     }
 
     public class UsersService : IUserService
@@ -41,7 +42,7 @@ namespace UserService.Services
                 Email = createUserDto.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(createUserDto.Password),
                 FirstName = createUserDto.FirstName,
-                RoleId = (int) Enums.RoleTypes.Customer,
+                RoleId = (int) RoleTypes.Customer,
                 Address = new Address
                 {
                     StreetName = createUserDto.StreetName,
@@ -57,6 +58,23 @@ namespace UserService.Services
             await _userRepository.CreateUser(user);
 
             return true;
+        }
+
+        /// <summary>
+        /// Gets a users balance by id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<double> GetUserBalanceById(int userId)
+        {
+            var user = await _userRepository.GetUserById(userId);
+
+            if (user == null)
+            {
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, "User does not exist");
+            }
+
+            return user.Balance;
         }
 
         public async Task<User> GetUserByEmail(string email)
