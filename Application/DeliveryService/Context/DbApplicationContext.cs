@@ -9,7 +9,7 @@ namespace DeliveryService.Context
     {
         public DbApplicationContext(DbContextOptions<DbApplicationContext> options) : base(options) { }
 
-        public DbSet<Delivery> Delivery { get; set; }
+        public DbSet<Delivery> Deliveries{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -28,9 +28,7 @@ namespace DeliveryService.Context
                         DeliveryId = 1,
                         DeliveryPersonId = 3,
                         OrderId = 1,
-                        UserEmail = "phillip.andersen1999@gmail.com",
-                        Address = "Skovledet",
-                        ZipCode = "3400"
+                        UserEmail = "phillip.andersen1999@gmail.com"
                     }
                 );
 
