@@ -1,6 +1,8 @@
 ﻿using Common.Dto;
 using Common.Enums;
 using Common.ErrorModels;
+using Common.KafkaEvents;
+using Newtonsoft.Json;
 using UserService.Models;
 using UserService.Repository;
 using Address = UserService.Models.Address;
@@ -19,26 +21,32 @@ namespace UserService.Services
     public class UsersService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserProducer _kafkaProducer;
 
-        public UsersService(IUserRepository userRepository)
+        public UsersService(IUserRepository userRepository, IUserProducer kafkaProducer)
         {
             _userRepository = userRepository;
+            _kafkaProducer = kafkaProducer;
         }
 
         public async Task<bool> CheckIfUserBalanceHasEnoughCreditForOrder(CreateOrderDto createOrderDto)
         {
-            var user = await _userRepository.GetUserByEmail("");
+            var user = await _userRepository.GetUserByEmail(createOrderDto.CustomerEmail);
 
             if (user == null)
             {
                 throw new HttpStatusException(StatusCodes.Status400BadRequest, "User does not exist");
             }
 
-            //// Now the checking
-            //if (user.Balance >= orderAmount)
-            //{
-            //    return true;
-            //}
+            // Now the checking
+            if (user.Balance >= createOrderDto.OrderTotal)
+            {
+                await _kafkaProducer.ProduceToKafka(EventStreamerEvents.CheckRestaurantStockEvent,
+                    JsonConvert.SerializeObject(createOrderDto));
+                return true;
+            }
+
+            // Else notify hub for error on client side
 
             return false;
         }

@@ -2,18 +2,18 @@
 using System.Diagnostics;
 using System.Net;
 
-namespace PaymentProcessorService.Services
+namespace RestaurantService.Services
 {
-    public interface IKafkaPaymentProcessorProducer
+    public interface IRestaurantProducerService
     {
         public Task<bool> ProduceToKafka(string topic, string data);
     }
 
-    public class KafkaPaymentProcessorProducer : IKafkaPaymentProcessorProducer
+    public class RestaurantProducerService : IRestaurantProducerService
     {
         private readonly string server = "localhost:9092";
 
-        public async Task<bool> ProduceToKafka(string topic, string jsonObject)
+        public async Task<bool> ProduceToKafka(string topic, string data)
         {
             ProducerConfig config = new ProducerConfig
             {
@@ -27,7 +27,7 @@ namespace PaymentProcessorService.Services
                 {
                     var result = await producer.ProduceAsync(topic, new Message<Null, string>
                     {
-                        Value = jsonObject
+                        Value = data
                     });
 
                     return await Task.FromResult(true);

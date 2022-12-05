@@ -1,11 +1,11 @@
-﻿using Confluent.Kafka;
-using static PaymentValidatorService.Services.PaymentValidatorService;
+﻿using Common.Dto;
+using Common.KafkaEvents;
+using Confluent.Kafka;
 
 namespace PaymentValidatorService.Services
 {
     public class PaymentValidatorConsumer : BackgroundService
     {
-        private readonly string topic = "create_order";
         private readonly string groupId = "create_order_group";
         private readonly string bootstrapServers = "localhost:9092";
 
@@ -26,26 +26,29 @@ namespace PaymentValidatorService.Services
             };
 
             using (var consumerBuilder = new ConsumerBuilder
-            <Ignore, string>(config).Build())
+                       <Ignore, string>(config).Build())
             {
-                consumerBuilder.Subscribe(topic);
+                consumerBuilder.Subscribe(EventStreamerEvents.CreateOrderEvent);
                 var cancelToken = new CancellationTokenSource();
                 try
                 {
                     while (!stoppingToken.IsCancellationRequested)
                     {
                         var consumer = consumerBuilder.Consume
-                           (cancelToken.Token);
-                        var test = consumer.Message.Value;
+                            (cancelToken.Token);
+                        var jsonObj = consumer.Message.Value;
 
 
                         using (var scope = _serviceProvider.CreateScope())
                         {
-                            var myScopedService = scope.ServiceProvider.GetRequiredService<IPaymentValidatorSerice>();
-                            //var obj = System.Text.Json.JsonSerializer.Deserialize<ReviewDto>(test);
-                            //Debug.WriteLine(obj.Message);
+                            var paymentValidatorService =
+                                scope.ServiceProvider.GetRequiredService<IPaymentValidatorService>();
+                            var obj = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
 
-                            //await myScopedService.SaveReview(obj);
+                            if (obj != null)
+                            {
+                                await paymentValidatorService.ValidatePayment(obj);
+                            }
                         }
                     }
                 }
@@ -53,9 +56,7 @@ namespace PaymentValidatorService.Services
                 {
                     consumerBuilder.Close();
                 }
-            };
-
-
+            }
         }
     }
 }

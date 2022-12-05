@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using Common.KafkaEvents;
 using Confluent.Kafka;
 
 namespace PaymentProcessorService.Services
@@ -7,7 +8,6 @@ namespace PaymentProcessorService.Services
     {
         #region private class properties
 
-        private readonly string topic = "valid_payment";
         private readonly string groupId = "user_valid_payments";
         private readonly string bootstrapServers = "localhost:9092";
 
@@ -37,7 +37,7 @@ namespace PaymentProcessorService.Services
             using (var consumerBuilder = new ConsumerBuilder
                        <Ignore, string>(config).Build())
             {
-                consumerBuilder.Subscribe(topic);
+                consumerBuilder.Subscribe(EventStreamerEvents.ValidPaymentEvent);
                 var cancelToken = new CancellationTokenSource();
                 try
                 {
