@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserService.Context;
 
@@ -11,9 +12,10 @@ using UserService.Context;
 namespace UserService.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    partial class DbApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20221205111608_newest_Updated_properties")]
+    partial class newest_Updated_properties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
