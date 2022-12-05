@@ -9,7 +9,7 @@ namespace DeliveryService.Context
     {
         public DbApplicationContext(DbContextOptions<DbApplicationContext> options) : base(options) { }
 
-        public DbSet<Delivery> Delivery { get; set; }
+        public DbSet<Delivery> Deliveries{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
