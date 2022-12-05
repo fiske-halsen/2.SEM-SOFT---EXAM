@@ -13,7 +13,7 @@ namespace UserService.Services
         public Task<User> GetUserByEmail(string email);
         public Task<Role> GetUserRoleById(int userId);
         public Task<bool> CreateUser(CreateUserDto createUserDto);
-        public Task<bool> CheckIfUserBalanceHasEnoughCreditForOrder(int userId, double orderAmount);
+        public Task<bool> CheckIfUserBalanceHasEnoughCreditForOrder(CreateOrderDto createOrderDto);
     }
 
     public class UsersService : IUserService
@@ -25,20 +25,20 @@ namespace UserService.Services
             _userRepository = userRepository;
         }
 
-        public async Task<bool> CheckIfUserBalanceHasEnoughCreditForOrder(int userId, double orderAmount)
+        public async Task<bool> CheckIfUserBalanceHasEnoughCreditForOrder(CreateOrderDto createOrderDto)
         {
-            var user = await _userRepository.GetUserById(userId);
+            var user = await _userRepository.GetUserByEmail("");
 
             if (user == null)
             {
                 throw new HttpStatusException(StatusCodes.Status400BadRequest, "User does not exist");
             }
 
-            // Now the checking
-            if (user.Balance >= orderAmount)
-            {
-                return true;
-            }
+            //// Now the checking
+            //if (user.Balance >= orderAmount)
+            //{
+            //    return true;
+            //}
 
             return false;
         }
