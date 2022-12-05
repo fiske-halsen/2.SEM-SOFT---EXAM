@@ -39,8 +39,8 @@ namespace RestaurantService.Context
                new Restaurant { AddressId = 2, Id = 2, Name = "SushiSlyngeren", MenuId = 2, OwnerId = 2 }
            );
             builder.Entity<MenuItem>().HasData(
-                 new MenuItem { Id = 1, Name = "salatpizza",  Price = 79.99, MenuId = 1, Description = "wow smager godt" },
-                new MenuItem { Id = 2, Name = "Peperoni", Price = 79.23, MenuId = 1, Description = "wow smager godt" },
+                 new MenuItem { Id = 1, Name = "salatpizza",  Price = 79.99, MenuId = 1, Description = "wow smager godt", StockCount = 10 },
+                new MenuItem { Id = 2, Name = "Peperoni", Price = 79.23, MenuId = 1, Description = "wow smager godt", StockCount = 100 },
                 new MenuItem { Id = 3, Name = "Calzone", Price = 89.99, MenuId = 1, Description = "wow smager godt" },
                 new MenuItem { Id = 4, Name = "ChokoladeIs",  Price = 39.99, MenuId = 1 , Description = "wow smager godt" },
                 new MenuItem { Id = 5, Name = "vaniljeis",  Price = 39.99, MenuId = 1, Description = "wow smager godt" },

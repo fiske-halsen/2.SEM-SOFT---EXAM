@@ -6,5 +6,6 @@ namespace Common.Dto
     {
         // Not sure what should go in here yet
         public PaymentTypes PaymentType { get; set; }
+        public List<MenuItemDTO> MenuItems { get; set; }
     }
 }

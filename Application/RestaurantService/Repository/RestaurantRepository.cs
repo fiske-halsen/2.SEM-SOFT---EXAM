@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common.Dto;
+using Microsoft.EntityFrameworkCore;
 using RestaurantService.Context;
 using RestaurantService.Model;
 
@@ -13,6 +14,8 @@ namespace RestaurantService.Repository
         Task<bool> CreateMenuItem(MenuItem menuItem, int restaurantId);
         Task<bool> UpdateMenuItem(MenuItem menuItem, MenuItemDTO menuItemDTO);
         Task<bool> DeleteMenuItem(int menuItemId);
+        Task<List<MenuItem>> CheckMenuItemStock(List<MenuItemDTO> menuItems);
+        Task<bool> UpdateMenuItemStock(List<MenuItemDTO> menuItems);
 
         //Customer
         Task<MenuDTO> GetRestaurantMenu(int restaurantId);
@@ -31,7 +34,20 @@ namespace RestaurantService.Repository
             _dbContext = dBApplicationContext;
         }
 
-        
+        public async Task<List<MenuItem>> CheckMenuItemStock(List<MenuItemDTO> menuItems)
+        {
+            try
+            {
+                var menuItemIdList = menuItems.Select(x => x.Id).ToList();
+                return await _dbContext.MenuItems.Where(x => menuItemIdList.Contains(x.Id)).ToListAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+        }
 
         public async Task<bool> CreateMenuItem(MenuItem menuItem, int restaurantId)
         {
@@ -78,6 +94,24 @@ namespace RestaurantService.Repository
         public Task<bool> UpdateMenuItem(MenuItem menuItem, MenuItemDTO menuItemDTO)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> UpdateMenuItemStock(List<MenuItemDTO> menuItems)
+        {
+            try
+            {
+                var menuItemIdList = menuItems.Select(x => x.Id).ToList();
+                var test = await _dbContext.MenuItems.Where(x => menuItemIdList.Contains(x.Id)).ToListAsync();
+                test.ForEach(x => x.StockCount -= 1);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
     }
 }
