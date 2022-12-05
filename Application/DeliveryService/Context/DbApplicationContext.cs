@@ -28,9 +28,7 @@ namespace DeliveryService.Context
                         DeliveryId = 1,
                         DeliveryPersonId = 3,
                         OrderId = 1,
-                        UserEmail = "phillip.andersen1999@gmail.com",
-                        Address = "Skovledet",
-                        ZipCode = "3400"
+                        UserEmail = "phillip.andersen1999@gmail.com"
                     }
                 );
 
