@@ -11,9 +11,7 @@ namespace DeliveryService.Services
         public Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int DeliveryPersonId);
         public Task<Delivery> GetDeliveryByOrderId(int OrderId);
         public Task<List<Delivery>> GetDeliveriesByUserEmail(string UserEmail);
-        public Task<List<Delivery>> GetDeliveriesByZipCode(string ZipCode);
-        public Task<List<Delivery>> GetDeliveriesIfDelivered();
-        public Task<List<Delivery>> GetDeliveriesNotDelivered();
+
 
     }
     public class DeliveryService : IDeliverySerivce
@@ -37,48 +35,35 @@ namespace DeliveryService.Services
 
         public async Task<bool> CreateDelivery(CreateDeliveryDTO createDeliveryDTO)
         {
-
-
             var delivery = new Delivery
             {
                 DeliveryPersonId = createDeliveryDTO.DeliveryPersonId,
                 OrderId = createDeliveryDTO.OrderId,
                 UserEmail = createDeliveryDTO.UserEmail
             };
-            
-            
             await _deliveryRepository.CreateDelivery(delivery);
             return true;
         }
 
-        public Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int deliveryPersonId)
+        public async Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int deliveryPersonId)
         {
-            throw new NotImplementedException();
+            var deliveries = await _deliveryRepository.GetDeliveriesByDeliveryPersonId(deliveryPersonId);
+            if (!deliveries.Any()) { throw new HttpStatusException(StatusCodes.Status400BadRequest, "U do not have any deliveries"); }
+            return deliveries;
         }
 
-        public Task<List<Delivery>> GetDeliveriesByUserEmail(string userEmail)
+        public async Task<List<Delivery>> GetDeliveriesByUserEmail(string userEmail)
         {
-            throw new NotImplementedException();
+            var deliveries = await _deliveryRepository.GetDeliveriesByUserEmail(userEmail);
+            if (!deliveries.Any()) { throw new HttpStatusException(StatusCodes.Status400BadRequest, "U do not have any deliveries"); }
+            return deliveries;
         }
 
-        public Task<List<Delivery>> GetDeliveriesByZipCode(string zipCode)
+        public async Task<Delivery> GetDeliveryByOrderId(int orderId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Delivery>> GetDeliveriesIfDelivered()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Delivery>> GetDeliveriesNotDelivered()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Delivery> GetDeliveryByOrderId(int orderId)
-        {
-            throw new NotImplementedException();
+            var delivery = await _deliveryRepository.GetDeliveryByOrderId(orderId);
+            if(delivery == null) { throw new HttpStatusException(StatusCodes.Status400BadRequest, $"Order with given id = {orderId} does not exist"); }
+            return delivery;
         }
     }
 }

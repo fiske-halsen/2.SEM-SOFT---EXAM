@@ -27,6 +27,7 @@ namespace DeliveryService.Context
                     {
                         DeliveryId = 1,
                         DeliveryPersonId = 3,
+                        RestaurantId = 1,
                         OrderId = 1,
                         UserEmail = "phillip.andersen1999@gmail.com"
                     }
