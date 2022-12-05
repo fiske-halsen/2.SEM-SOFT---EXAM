@@ -20,7 +20,7 @@ namespace Microservice1.Controllers
         [HttpPost]
         public async Task<bool> CreateUser([FromBody] CreateUserDto createUserDto)
         {
-           return await _userService.CreateUser(createUserDto);
+            return await _userService.CreateUser(createUserDto);
         }
     }
 }
