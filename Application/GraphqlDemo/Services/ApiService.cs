@@ -4,6 +4,7 @@ using Common.HttpUtils;
 using Newtonsoft.Json;
 using System.Text;
 using IdentityModel.Client;
+using System.Net.Http;
 
 namespace GraphqlDemo.Services
 {
@@ -15,6 +16,7 @@ namespace GraphqlDemo.Services
         public Task<bool> Patch(string url, string contentJson, ApplicationCredentials applicationCredentials);
         public Task<bool> Delete(string url, ApplicationCredentials applicationCredentials);
     }
+
     public class ApiService : IApiService
     {
         private readonly ITokenService _tokenService;
@@ -24,13 +26,15 @@ namespace GraphqlDemo.Services
             _tokenService = tokenService;
         }
 
-        public async Task<bool> Delete(string url, ApplicationCredentials applicationCredentials)
+        public async Task<bool> Delete(string url, ApplicationCredentials? applicationCredentials)
         {
             var httpClient = HttpClientInitializer.GetClient();
 
-            var token = await _tokenService.RequestTokenClientFromInternalMicroService(applicationCredentials);
-
-            httpClient.SetBearerToken(token.TokenResponse.AccessToken);
+            if (applicationCredentials != null)
+            {
+                var token = await _tokenService.RequestTokenClientFromInternalMicroService(applicationCredentials);
+                httpClient.SetBearerToken(token.TokenResponse.AccessToken);
+            }
 
             using (var response = await httpClient.DeleteAsync(url))
             {
@@ -47,15 +51,17 @@ namespace GraphqlDemo.Services
             }
         }
 
-        public async Task<IEnumerable<T>> Get<T>(string url, ApplicationCredentials applicationCredentials)
+        public async Task<IEnumerable<T>> Get<T>(string url, ApplicationCredentials? applicationCredentials)
         {
-            var apiClient = HttpClientInitializer.GetClient();
+            var httpClient = HttpClientInitializer.GetClient();
 
-            var token = await _tokenService.RequestTokenClientFromInternalMicroService(applicationCredentials);
+            if (applicationCredentials != null)
+            {
+                var token = await _tokenService.RequestTokenClientFromInternalMicroService(applicationCredentials);
+                httpClient.SetBearerToken(token.TokenResponse.AccessToken);
+            }
 
-            apiClient.SetBearerToken(token.TokenResponse.AccessToken);
-
-            using (var response = await apiClient.GetAsync(url))
+            using (var response = await httpClient.GetAsync(url))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -73,15 +79,17 @@ namespace GraphqlDemo.Services
             }
         }
 
-        public async Task<T> GetSingle<T>(string url, ApplicationCredentials applicationCredentials)
+        public async Task<T> GetSingle<T>(string url, ApplicationCredentials? applicationCredentials)
         {
-            var apiClient = HttpClientInitializer.GetClient();
+            var httpClient = HttpClientInitializer.GetClient();
 
-            var token = await _tokenService.RequestTokenClientFromInternalMicroService(applicationCredentials);
+            if (applicationCredentials != null)
+            {
+                var token = await _tokenService.RequestTokenClientFromInternalMicroService(applicationCredentials);
+                httpClient.SetBearerToken(token.TokenResponse.AccessToken);
+            }
 
-            apiClient.SetBearerToken(token.TokenResponse.AccessToken);
-
-            using (var response = await apiClient.GetAsync(url))
+            using (var response = await httpClient.GetAsync(url))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -98,15 +106,20 @@ namespace GraphqlDemo.Services
             }
         }
 
-        public async Task<bool> Patch(string url, string contentJson, ApplicationCredentials applicationCredentials)
+        public async Task<bool> Patch(string url, string contentJson, ApplicationCredentials? applicationCredentials)
         {
-            var apiClient = HttpClientInitializer.GetClient();
-            var token = await _tokenService.RequestTokenClientFromInternalMicroService(applicationCredentials);
-            apiClient.SetBearerToken(token.TokenResponse.AccessToken);
+            var httpClient = HttpClientInitializer.GetClient();
+
+            if (applicationCredentials != null)
+            {
+                var token = await _tokenService.RequestTokenClientFromInternalMicroService(applicationCredentials);
+                httpClient.SetBearerToken(token.TokenResponse.AccessToken);
+            }
+
             var request = new HttpRequestMessage(new HttpMethod("PATCH"), url);
             request.Content = new StringContent(contentJson, Encoding.UTF8, "application/json");
 
-            using (var response = await apiClient.SendAsync(request))
+            using (var response = await httpClient.SendAsync(request))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -121,17 +134,19 @@ namespace GraphqlDemo.Services
             }
         }
 
-        public async Task<bool> Post(string url, string contentJson, ApplicationCredentials applicationCredentials)
+        public async Task<bool> Post(string url, string contentJson, ApplicationCredentials? applicationCredentials)
         {
-            var apiClient = HttpClientInitializer.GetClient();
+            var httpClient = HttpClientInitializer.GetClient();
 
-            var token = await _tokenService.RequestTokenClientFromInternalMicroService(applicationCredentials);
-
-            apiClient.SetBearerToken(token.TokenResponse.AccessToken);
+            if (applicationCredentials != null)
+            {
+                var token = await _tokenService.RequestTokenClientFromInternalMicroService(applicationCredentials);
+                httpClient.SetBearerToken(token.TokenResponse.AccessToken);
+            }
 
             HttpContent httpContent = new StringContent(contentJson, Encoding.UTF8, "application/json");
 
-            using (var response = await apiClient.PostAsync(url, httpContent))
+            using (var response = await httpClient.PostAsync(url, httpContent))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -146,6 +161,4 @@ namespace GraphqlDemo.Services
             }
         }
     }
-
 }
-
