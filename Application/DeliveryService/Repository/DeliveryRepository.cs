@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DeliveryService.Repository
 {
-    public interface IDeliveryRepository { 
+    public interface IDeliveryRepository
+    {
         public Task<bool> CreateDelivery(Delivery delivery);
         public Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int DeliveryPersonId);
         public Task<Delivery> GetDeliveryByOrderId(int OrderId);
         public Task<List<Delivery>> GetDeliveriesByUserEmail(string UserEmail);
-        public Task<List<Delivery>> GetDeliveriesByZipCode(string ZipCode);
         public Task<Delivery> GetDeliveryPersonWhereIsDeliveredFalse(int deliverPersonId);
     }
     public class DeliveryRepository : IDeliveryRepository
@@ -24,41 +24,29 @@ namespace DeliveryService.Repository
 
         public async Task<bool> CreateDelivery(Delivery delivery)
         {
-            try
-            {
                 _applicationContext.Deliveries.Add(delivery);
                 await _applicationContext.SaveChangesAsync();
                 return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
         }
 
-        public Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int DeliveryPersonId)
+        public async Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int deliveryPersonId)
         {
-            throw new NotImplementedException();
+            return await _applicationContext.Deliveries.Where(x => x.DeliveryPersonId == deliveryPersonId).ToListAsync();
         }
 
-        public Task<List<Delivery>> GetDeliveriesByUserEmail(string UserEmail)
+        public async Task<List<Delivery>> GetDeliveriesByUserEmail(string userEmail)
         {
-            throw new NotImplementedException();
+            return await _applicationContext.Deliveries.Where(x => x.UserEmail == userEmail).ToListAsync();
         }
 
-        public Task<List<Delivery>> GetDeliveriesByZipCode(string ZipCode)
+        public async Task<Delivery> GetDeliveryPersonWhereIsDeliveredFalse(int deliveryPersonId)
         {
-            throw new NotImplementedException();
+            return await _applicationContext.Deliveries.Where(x => x.DeliveryPersonId == deliveryPersonId && !x.IsDelivered).FirstOrDefaultAsync();
         }
 
-        public async Task<Delivery> GetDeliveryPersonWhereIsDeliveredFalse(int DeliveryPersonId)
+        public async Task<Delivery> GetDeliveryByOrderId(int orderId)
         {
-            return await _applicationContext.Deliveries.Where(x => x.DeliveryPersonId == DeliveryPersonId && !x.IsDelivered).FirstOrDefaultAsync();            
-        }
-
-        public Task<Delivery> GetDeliveryByOrderId(int OrderId)
-        {
-            throw new NotImplementedException();
+            return await _applicationContext.Deliveries.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
         }
     }
 }
