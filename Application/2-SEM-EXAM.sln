@@ -15,11 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Test", "UserSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailService", "EmailService\EmailService.csproj", "{FB50A566-0845-4A8B-9FE2-6AF66D53B6F0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailService", "EmailService\EmailService.csproj", "{FB50A566-0845-4A8B-9FE2-6AF66D53B6F0}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedbackService", "FeedbackService\FeedbackService.csproj", "{B1142285-679E-4A2C-BA53-F44E9416B51F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{7E9BEF29-F971-472A-8FE8-0BBFFDF320EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphqlDemo", "GraphqlDemo\GraphqlDemo.csproj", "{45ECA272-4E33-460D-96FE-B4B42316B0BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService", "UserService\UserService.csproj", "{03F3BCB8-D24F-4BA9-8314-578E032C6A2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{8A3C960F-B4AD-4A60-981F-3FF066635D5E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentProcessorService", "PaymentProcessorService\PaymentProcessorService.csproj", "{2085FB31-ED3E-44C4-901F-D451B2FD24F4}"
 EndProject
@@ -63,6 +65,14 @@ Global
 		{B1142285-679E-4A2C-BA53-F44E9416B51F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1142285-679E-4A2C-BA53-F44E9416B51F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1142285-679E-4A2C-BA53-F44E9416B51F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45ECA272-4E33-460D-96FE-B4B42316B0BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45ECA272-4E33-460D-96FE-B4B42316B0BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45ECA272-4E33-460D-96FE-B4B42316B0BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45ECA272-4E33-460D-96FE-B4B42316B0BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A3C960F-B4AD-4A60-981F-3FF066635D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A3C960F-B4AD-4A60-981F-3FF066635D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A3C960F-B4AD-4A60-981F-3FF066635D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A3C960F-B4AD-4A60-981F-3FF066635D5E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E9BEF29-F971-472A-8FE8-0BBFFDF320EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E9BEF29-F971-472A-8FE8-0BBFFDF320EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E9BEF29-F971-472A-8FE8-0BBFFDF320EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
