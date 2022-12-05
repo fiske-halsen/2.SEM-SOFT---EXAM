@@ -1,15 +1,15 @@
-﻿using Confluent.Kafka;
-using System.Diagnostics;
-using Common.Dto;
+﻿using Common.Dto;
+using Confluent.Kafka;
+using RestaurantService.Model;
 
-namespace UserService.Services
+namespace RestaurantService.Services
 {
-    public class UserKafkaConsumer : BackgroundService
+    public class Consumer: BackgroundService
     {
         #region private class properties
 
-        private readonly string topic = "check_user_balance";
-        private readonly string groupId = "user_group";
+        private readonly string topic = "check_restaurant_stock";
+        private readonly string groupId = "restaurant_group";
         private readonly string bootstrapServers = "localhost:9092";
 
         #endregion
@@ -18,7 +18,7 @@ namespace UserService.Services
 
         #endregion
 
-        public UserKafkaConsumer(IServiceProvider serviceProvider)
+        public Consumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -43,18 +43,19 @@ namespace UserService.Services
                     {
                         var consumer = consumerBuilder.Consume
                            (cancelToken.Token);
-                        var jsonObj = consumer.Message.Value;
+                        var msg_value = consumer.Message.Value;
 
-
+                        
                         using (var scope = _serviceProvider.CreateScope())
                         {
-                            var myScopedService = scope.ServiceProvider.GetRequiredService<IUserService>();
-                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
+                             var myScopedService = scope.ServiceProvider.GetRequiredService<IRestaurantService>();
+                             
+                            var CreateOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(msg_value);
+                            await myScopedService.CheckMenuItemStock(CreateOrderDto);
+                            await myScopedService.UpdateMenuItemStock(CreateOrderDto);
 
-                            if (createOrderDto != null)
-                            {
-                                await myScopedService.CheckIfUserBalanceHasEnoughCreditForOrder(createOrderDto);
-                            }
+                            //publish event 
+
                         }
                     }
                 }

@@ -7,6 +7,7 @@
         public double Price { get; set; }
         public string Description { get; set; }
         public int MenuId { get; set; }
+        public int StockCount { get; set; }
         public Menu Menu { get; set; }
     }
 }

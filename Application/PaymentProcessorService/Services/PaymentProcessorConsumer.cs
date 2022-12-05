@@ -1,24 +1,24 @@
-﻿using Confluent.Kafka;
-using System.Diagnostics;
-using Common.Dto;
+﻿using Common.Dto;
+using Confluent.Kafka;
 
-namespace UserService.Services
+namespace PaymentProcessorService.Services
 {
-    public class UserKafkaConsumer : BackgroundService
+    public class PaymentProcessorConsumer : BackgroundService
     {
         #region private class properties
 
-        private readonly string topic = "check_user_balance";
-        private readonly string groupId = "user_group";
+        private readonly string topic = "valid_payment";
+        private readonly string groupId = "user_valid_payments";
         private readonly string bootstrapServers = "localhost:9092";
 
         #endregion
+
         #region DI services
         private readonly IServiceProvider _serviceProvider;
 
         #endregion
 
-        public UserKafkaConsumer(IServiceProvider serviceProvider)
+        public PaymentProcessorConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -33,7 +33,7 @@ namespace UserService.Services
             };
 
             using (var consumerBuilder = new ConsumerBuilder
-            <Ignore, string>(config).Build())
+                       <Ignore, string>(config).Build())
             {
                 consumerBuilder.Subscribe(topic);
                 var cancelToken = new CancellationTokenSource();
@@ -42,19 +42,19 @@ namespace UserService.Services
                     while (!stoppingToken.IsCancellationRequested)
                     {
                         var consumer = consumerBuilder.Consume
-                           (cancelToken.Token);
-                        var jsonObj = consumer.Message.Value;
+                            (cancelToken.Token);
+                        var obj = consumer.Message.Value;
 
 
                         using (var scope = _serviceProvider.CreateScope())
                         {
-                            var myScopedService = scope.ServiceProvider.GetRequiredService<IUserService>();
-                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
+                             var paymentService = scope.ServiceProvider.GetRequiredService<IPaymentService>();
+                             var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(obj);
 
-                            if (createOrderDto != null)
-                            {
-                                await myScopedService.CheckIfUserBalanceHasEnoughCreditForOrder(createOrderDto);
-                            }
+                             if (createOrderDto != null)
+                             {
+                                 await paymentService.SimulatePayment(createOrderDto);
+                             }
                         }
                     }
                 }
@@ -63,7 +63,6 @@ namespace UserService.Services
                     consumerBuilder.Close();
                 }
             }
-
 
         }
     }

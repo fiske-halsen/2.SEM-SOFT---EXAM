@@ -1,4 +1,3 @@
-﻿using Common.Enums;
 using Common.Models;
 
 namespace Common.Dto
@@ -14,5 +13,7 @@ namespace Common.Dto
         public int RestaurantId { get; set; }
         public string CustomerEmail { get; set; }
         public bool FreeDelivery { get; set; }
+        public List<MenuItemDTO> MenuItems { get; set; }
+
     }
 }

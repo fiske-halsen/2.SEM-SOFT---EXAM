@@ -25,7 +25,7 @@ namespace DeliveryService.Context
                     //Customer = 1
                     new Delivery
                     {
-                        Id = 1,
+                        DeliveryId = 1,
                         DeliveryPersonId = 3,
                         OrderId = 1,
                         UserEmail = "phillip.andersen1999@gmail.com",
