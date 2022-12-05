@@ -17,20 +17,20 @@ namespace GraphqlDemo.Operations
             _configuration = configuration;
         }
 
-        public async Task<bool> CreateOrder(List<MenuItem> menuItems, string customer, string restaurant, float total)
+        public async Task<bool> CreateOrder(CreateOrderDto dto)
         {
             try
             {
-                Order order = new Order
+                CreateOrderDto orderDto = new CreateOrderDto
                 {
-                    Id = Guid.NewGuid(),
-                    Customer = customer,
-                    Restaurant = restaurant,
-                    Total = total,
-                    Items = menuItems
+                    PaymentType = dto.PaymentType,
+                    CustomerEmail = dto.CustomerEmail,
+                    RestaurantId = dto.RestaurantId,
+                    Total = dto.Total,
+                    MenuItems = dto.MenuItems
                 };
 
-                var orderSerialized = JsonConvert.SerializeObject(order);
+                var orderSerialized = JsonConvert.SerializeObject(orderDto);
 
                 await _kafkaProducerService.ProduceToKafka("create_order", orderSerialized);
 
@@ -39,7 +39,6 @@ namespace GraphqlDemo.Operations
             catch (Exception e)
             {
                 return false;
-
             }
         }
 
@@ -52,9 +51,6 @@ namespace GraphqlDemo.Operations
         {
             try
             {
-
-
-
                 return true;
             }
             catch (Exception e)

@@ -1,69 +1,45 @@
 ﻿using Common.Dto;
 using Common.Enums;
+using Newtonsoft.Json;
 
 namespace PaymentValidatorService.Services
 {
-    public class PaymentValidatorService
+    public interface IPaymentValidatorService
     {
-        public interface IPaymentValidatorSerice {
-            bool CheckPaymentType(CreateOrderDto dto);
-            bool CheckForCardType(CreateOrderDto dto);
-            void CheckForCardNumber(CreateOrderDto dto);
-        }
+        public Task<bool> ValidatePayment(CreateOrderDto createOrderDto);
+    }
 
-        public PaymentValidatorService() {
-        }
+    public class PaymentValidatorService : IPaymentValidatorService
+    {
+        private readonly IPaymentValidatorHelpers _paymentHelper;
+        private readonly IPaymentValidatorProducer _kafkaProducer;
 
-        //Check for payment types
-        public bool CheckPaymentType(CreateOrderDto dto)
+        public PaymentValidatorService(IPaymentValidatorHelpers paymentHelper, IPaymentValidatorProducer kafkaProducer)
         {
-            switch (dto.PaymentType)
+            _paymentHelper = paymentHelper;
+            _kafkaProducer = kafkaProducer;
+        }
+
+        /// <summary>
+        /// Validates the actual payment
+        /// </summary>
+        /// <param name="createOrderDto"></param>
+        /// <returns></returns>
+        public async Task<bool> ValidatePayment(CreateOrderDto createOrderDto)
+        {
+            var isValidPaymentType = _paymentHelper.CheckPaymentType(createOrderDto);
+            var isValidCreditCapeType = _paymentHelper.CheckForCardType(createOrderDto);
+            var isValidVoucher = _paymentHelper.CheckForValidVoucherCode(createOrderDto.VoucherCode);
+
+            if (isValidCreditCapeType && isValidPaymentType && isValidVoucher)
             {
-                case PaymentTypes.CreditCard:
-                    return true;
-                case PaymentTypes.Voucher:
-                    return true;
-                case PaymentTypes.UserCredit:
-                    return true;
-                default:
-                    return false;
+                // Produce new event to kafka in case of valid payment types
+                await _kafkaProducer.ProduceToKafka("valid_payment", JsonConvert.SerializeObject(createOrderDto));
+                return true;
             }
-        }
+            // Notify hub using web sockets
 
-        //Check for card types
-        public bool CheckForCardType(CreateOrderDto dto)
-        {
-            switch (dto.CardType) {
-                case CardTypes.Visa:
-                    return true;
-                case CardTypes.MasterCard:
-                    return true;
-                case CardTypes.Debit:
-                    return true;
-                case CardTypes.Dankort:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        //Check for vouchers
-        public void CheckForVouchers(CreateOrderDto dto)
-        {
-            switch (dto.Voucher)
-            {
-                case Vouchers.FiftyOff:
-                    dto.Total = dto.Total / 2;
-                    break;
-                case Vouchers.FreeDelivery:
-                    dto.FreeDelivery = true;
-                    break;
-                case Vouchers.FreeFood:
-                    dto.Total = 0;
-                    break;
-                default:
-                    return;
-            }
+            return false;
         }
     }
 }
