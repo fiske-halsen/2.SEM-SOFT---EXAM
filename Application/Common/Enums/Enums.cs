@@ -1,4 +1,6 @@
-﻿namespace Common.Enums
+﻿using System.Runtime.Serialization;
+
+namespace Common.Enums
 {
     #region Enums
 
@@ -18,6 +20,24 @@
 
     public enum Rating
     {
+    }
+
+    public enum CardTypes
+    {
+        Visa = 1,
+        MasterCard = 2,
+        Debit = 3,
+        Dankort = 4
+    }
+
+    public enum Vouchers
+    {
+        [EnumMember(Value = "fifty%OffFood")]
+        FiftyOff = 1,
+        [EnumMember(Value = "FreeDeliveryFood")]
+        FreeDelivery = 2,
+        [EnumMember(Value = "FreeFoodForPoorPeople")]
+        FreeFood = 3
     }
 
     #endregion
