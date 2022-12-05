@@ -1,4 +1,6 @@
-﻿using Common.Models;
+﻿using System.Diagnostics;
+using Common.Dto;
+using Common.Models;
 using GraphqlDemo.Services;
 using Newtonsoft.Json;
 
@@ -6,29 +8,61 @@ namespace GraphqlDemo.Operations
 {
     public class Mutation
     {
-        private readonly KafkaProducerService _kafkaProducerService;
+        private readonly IKafkaProducerService _kafkaProducerService;
+        private readonly IConfiguration _configuration;
 
-        public Mutation()
+        public Mutation(IKafkaProducerService kafkaProducerService, IConfiguration configuration)
         {
-            _kafkaProducerService = new KafkaProducerService();
+            _kafkaProducerService = kafkaProducerService;
+            _configuration = configuration;
         }
 
-        public async Task<Order> CreateOrder(List<MenuItem> menuItems, string customer, string restaurant, float total)
+        public async Task<bool> CreateOrder(List<MenuItem> menuItems, string customer, string restaurant, float total)
         {
-            Order order = new Order
+            try
             {
-                Id = Guid.NewGuid(),
-                Customer = customer,
-                Restaurant = restaurant,
-                Total = total,
-                Items = menuItems
-            };
+                Order order = new Order
+                {
+                    Id = Guid.NewGuid(),
+                    Customer = customer,
+                    Restaurant = restaurant,
+                    Total = total,
+                    Items = menuItems
+                };
 
-            var orderSerialized = JsonConvert.SerializeObject(order);
+                var orderSerialized = JsonConvert.SerializeObject(order);
 
-            await _kafkaProducerService.SendReviewRequest("create_order", orderSerialized);
+                await _kafkaProducerService.ProduceToKafka("create_order", orderSerialized);
 
-            return order;
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+
+            }
+        }
+
+        /// <summary>
+        /// Creates a new user to the system; Sends a call to UserService
+        /// </summary>
+        /// <param name="createUserDto"></param>
+        /// <returns></returns>
+        public async Task<bool> CreateUser(CreateUserDto createUserDto)
+        {
+            try
+            {
+
+
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+
         }
     }
 }
