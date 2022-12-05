@@ -12,13 +12,14 @@ namespace UserService.Test.UnitTests
     public class UserServiceUnitTests
     {
         private Mock<IUserRepository> _userRepositoryMock;
+        private Mock<IUserProducer> _userProducerMock;
         private IUserService _userService;
 
         [SetUp]
         public void Setup()
         {
             _userRepositoryMock = new Mock<IUserRepository>();
-            _userService = new UsersService(_userRepositoryMock.Object);
+            _userService = new UsersService(_userRepositoryMock.Object, _userProducerMock.Object);
         }
 
         /// <summary>
@@ -320,8 +321,6 @@ namespace UserService.Test.UnitTests
             actualMocked.Should().BeNull();
             await act.Should().ThrowAsync<HttpStatusException>()
                 .WithMessage("User does not exist");
-
         }
-
     }
 }

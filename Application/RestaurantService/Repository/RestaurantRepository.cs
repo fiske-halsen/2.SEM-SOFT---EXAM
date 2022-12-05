@@ -7,8 +7,6 @@ namespace RestaurantService.Repository
 {
     public interface IRestaurantRepository
     {
-        
-
         Task<bool> CreateRestaurant(Restaurant restaurant);
         Task<bool> CreateRestaurantMenu(Menu menu);
         Task<bool> CreateMenuItem(MenuItem menuItem, int restaurantId);
@@ -21,10 +19,8 @@ namespace RestaurantService.Repository
         Task<MenuDTO> GetRestaurantMenu(int restaurantId);
         Task<List<RestaurantDTO>> GetAllRestaurants();
         Task<MenuItemDTO> GetRestaurantMenuItem(int MenuItemId);
-
-
-
     }
+
     public class RestaurantRepository : IRestaurantRepository
     {
         private readonly DBApplicationContext _dbContext;
@@ -43,10 +39,8 @@ namespace RestaurantService.Repository
             }
             catch (Exception)
             {
-
                 throw;
             }
-           
         }
 
         public async Task<bool> CreateMenuItem(MenuItem menuItem, int restaurantId)
@@ -71,7 +65,7 @@ namespace RestaurantService.Repository
         public async Task<bool> DeleteMenuItem(int menuItemId)
         {
             var menuItem = await _dbContext.MenuItems.FirstOrDefaultAsync(x => x.Id == menuItemId);
-             _dbContext.MenuItems.Remove(menuItem);
+            _dbContext.MenuItems.Remove(menuItem);
             await _dbContext.SaveChangesAsync();
             return true;
         }
@@ -108,10 +102,8 @@ namespace RestaurantService.Repository
             }
             catch (Exception)
             {
-
                 throw;
             }
-            
         }
     }
 }

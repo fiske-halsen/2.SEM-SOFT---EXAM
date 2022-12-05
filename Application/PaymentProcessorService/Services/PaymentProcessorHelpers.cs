@@ -16,16 +16,16 @@ namespace PaymentProcessorService.Services
                 switch (createOrderDto.VoucherCode)
                 {
                     case "15off":
-                        createOrderDto.Total = createOrderDto.Total * 0.85f;
+                        createOrderDto.OrderTotal = createOrderDto.OrderTotal * 0.85f;
                         break;
                     case "25off":
-                        createOrderDto.Total = createOrderDto.Total * 0.75f;
+                        createOrderDto.OrderTotal = createOrderDto.OrderTotal * 0.75f;
                         break;
                     case "50off":
-                        createOrderDto.Total = createOrderDto.Total * 0.50f;
+                        createOrderDto.OrderTotal = createOrderDto.OrderTotal * 0.50f;
                         break;
                     case "100off":
-                        createOrderDto.Total = 0; // In this case its free
+                        createOrderDto.OrderTotal = 0; // In this case its free
                         break;
                     default:
                         return;

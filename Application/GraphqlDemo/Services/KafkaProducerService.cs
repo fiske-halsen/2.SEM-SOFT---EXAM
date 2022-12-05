@@ -13,7 +13,7 @@ namespace GraphqlDemo.Services
     {
         private readonly string server = "localhost:9092";
 
-        public async Task<bool> ProduceToKafka(string topic, string jsonObject)
+        public async Task<bool> ProduceToKafka(string topic, string data)
         {
             ProducerConfig config = new ProducerConfig
             {
@@ -27,7 +27,7 @@ namespace GraphqlDemo.Services
                 {
                     var result = await producer.ProduceAsync(topic, new Message<Null, string>
                     {
-                        Value = jsonObject
+                        Value = data
                     });
 
                     return await Task.FromResult(true);

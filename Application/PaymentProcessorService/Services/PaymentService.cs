@@ -1,5 +1,6 @@
 ﻿using Common.Dto;
 using Common.Enums;
+using Common.KafkaEvents;
 using Newtonsoft.Json;
 
 namespace PaymentProcessorService.Services
@@ -29,15 +30,15 @@ namespace PaymentProcessorService.Services
             switch (createOrderDto.PaymentType)
             {
                 case PaymentTypes.CreditCard: // Notify restaurant directly to check stock
-                    await _kafkaPaymentProcessorProducer.ProduceToKafka("check_restaurant_stock",
+                    await _kafkaPaymentProcessorProducer.ProduceToKafka(EventStreamerEvents.CheckRestaurantStockEvent,
                         JsonConvert.SerializeObject(createOrderDto));
                     break;
                 case PaymentTypes.UserCredit: // Notify user service to update user credit 
-                    await _kafkaPaymentProcessorProducer.ProduceToKafka("check_user_balance",
+                    await _kafkaPaymentProcessorProducer.ProduceToKafka(EventStreamerEvents.CheckUserBalanceEvent,
                         JsonConvert.SerializeObject(createOrderDto));
                     break;
                 case PaymentTypes.Voucher: // Notify restaurant directly to check stock
-                    await _kafkaPaymentProcessorProducer.ProduceToKafka("check_restaurant_stock",
+                    await _kafkaPaymentProcessorProducer.ProduceToKafka(EventStreamerEvents.CheckRestaurantStockEvent,
                         JsonConvert.SerializeObject(createOrderDto));
                     break;
             }

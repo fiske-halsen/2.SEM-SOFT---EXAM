@@ -2,14 +2,14 @@
 using System.Diagnostics;
 using System.Net;
 
-namespace PaymentProcessorService.Services
+namespace UserService.Services
 {
-    public interface IKafkaPaymentProcessorProducer
+    public interface IUserProducer
     {
         public Task<bool> ProduceToKafka(string topic, string data);
     }
 
-    public class KafkaPaymentProcessorProducer : IKafkaPaymentProcessorProducer
+    public class UserProducer : IUserProducer
     {
         private readonly string server = "localhost:9092";
 

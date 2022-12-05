@@ -1,6 +1,7 @@
 ﻿using Confluent.Kafka;
 using System.Diagnostics;
 using Common.Dto;
+using Common.KafkaEvents;
 
 namespace UserService.Services
 {
@@ -8,12 +9,13 @@ namespace UserService.Services
     {
         #region private class properties
 
-        private readonly string topic = "check_user_balance";
         private readonly string groupId = "user_group";
         private readonly string bootstrapServers = "localhost:9092";
 
         #endregion
+
         #region DI services
+
         private readonly IServiceProvider _serviceProvider;
 
         #endregion
@@ -29,20 +31,21 @@ namespace UserService.Services
             {
                 GroupId = groupId,
                 BootstrapServers = bootstrapServers,
-                AutoOffsetReset = AutoOffsetReset.Earliest // Important to understand this part here; case if this client crashes
+                AutoOffsetReset =
+                    AutoOffsetReset.Earliest // Important to understand this part here; case if this client crashes
             };
 
             using (var consumerBuilder = new ConsumerBuilder
-            <Ignore, string>(config).Build())
+                       <Ignore, string>(config).Build())
             {
-                consumerBuilder.Subscribe(topic);
+                consumerBuilder.Subscribe(EventStreamerEvents.CheckUserBalanceEvent);
                 var cancelToken = new CancellationTokenSource();
                 try
                 {
                     while (!stoppingToken.IsCancellationRequested)
                     {
                         var consumer = consumerBuilder.Consume
-                           (cancelToken.Token);
+                            (cancelToken.Token);
                         var jsonObj = consumer.Message.Value;
 
 
@@ -63,8 +66,6 @@ namespace UserService.Services
                     consumerBuilder.Close();
                 }
             }
-
-
         }
     }
 }

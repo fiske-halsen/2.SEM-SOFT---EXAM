@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Common.Dto;
+using Common.KafkaEvents;
 using Common.Models;
 using GraphqlDemo.Services;
 using Newtonsoft.Json;
@@ -26,13 +27,13 @@ namespace GraphqlDemo.Operations
                     PaymentType = dto.PaymentType,
                     CustomerEmail = dto.CustomerEmail,
                     RestaurantId = dto.RestaurantId,
-                    Total = dto.Total,
+                    OrderTotal = dto.OrderTotal,
                     MenuItems = dto.MenuItems
                 };
 
                 var orderSerialized = JsonConvert.SerializeObject(orderDto);
 
-                await _kafkaProducerService.ProduceToKafka("create_order", orderSerialized);
+                await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.CreateOrderEvent, orderSerialized);
 
                 return true;
             }

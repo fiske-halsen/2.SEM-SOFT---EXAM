@@ -1,5 +1,6 @@
 ﻿using Common.Dto;
 using Common.Enums;
+using Common.KafkaEvents;
 using Newtonsoft.Json;
 
 namespace PaymentValidatorService.Services
@@ -34,7 +35,8 @@ namespace PaymentValidatorService.Services
             if (isValidCreditCapeType && isValidPaymentType && isValidVoucher)
             {
                 // Produce new event to kafka in case of valid payment types
-                await _kafkaProducer.ProduceToKafka("valid_payment", JsonConvert.SerializeObject(createOrderDto));
+                await _kafkaProducer.ProduceToKafka(EventStreamerEvents.ValidPaymentEvent,
+                    JsonConvert.SerializeObject(createOrderDto));
                 return true;
             }
             // Notify hub using web sockets

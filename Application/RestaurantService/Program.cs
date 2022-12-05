@@ -14,9 +14,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
-builder.Services.AddHostedService<Consumer>();
+builder.Services.AddScoped<IRestaurantService, RestaurantService.Services.RestaurantService>();
+builder.Services.AddScoped<IRestaurantProducerService, RestaurantProducerService>();
+builder.Services.AddHostedService<RestaurantConsumerService>();
+
 builder.Services.AddDbContext<DBApplicationContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.ConfigureExceptionHandler();
 app.UseHttpsRedirection();
 

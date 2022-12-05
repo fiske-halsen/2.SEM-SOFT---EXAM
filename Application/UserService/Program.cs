@@ -34,6 +34,7 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UsersService>();
+builder.Services.AddScoped<IUserProducer, UserProducer>();
 builder.Services.AddHostedService<UserKafkaConsumer>();
 
 var app = builder.Build();
