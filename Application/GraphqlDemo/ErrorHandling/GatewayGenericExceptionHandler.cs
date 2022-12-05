@@ -1,9 +1,9 @@
 ﻿using Common.ErrorModels;
 using Microsoft.AspNetCore.Diagnostics;
 
-namespace UserService.ErrorHandling
+namespace GraphqlDemo.ErrorHandling
 {
-    public static class GlobalUserServiceErrorHandler
+    public static class GatewayGenericExceptionHandler
     {
         public static void ConfigureExceptionHandler(this IApplicationBuilder app)
         {

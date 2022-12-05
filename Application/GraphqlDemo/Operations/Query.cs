@@ -25,5 +25,6 @@ namespace GraphqlDemo.Operations
 
             return orderFaker.Generate(10);
         }
+
     }
 }
