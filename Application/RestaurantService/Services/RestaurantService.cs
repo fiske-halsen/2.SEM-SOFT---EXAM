@@ -1,5 +1,7 @@
-﻿using RestaurantService.Model;
+﻿using Common.Dto;
+using RestaurantService.Model;
 using RestaurantService.Repository;
+using System.Collections.Generic;
 
 namespace RestaurantService.Services
 {
@@ -14,7 +16,9 @@ namespace RestaurantService.Services
         //Customer
         Task<MenuDTO> GetRestaurantMenu(int restaurantId);
         Task <List<RestaurantDTO>>GetAllRestaurants();
-        Task<MenuItemDTO> GetRestaurantMenuItem(int MenuItemId);
+        Task<MenuItemDTO> GetRestaurantMenuItem(int menuItemId);
+        Task<bool> CheckMenuItemStock(CreateOrderDto createOrderDTO);
+        Task<bool> UpdateMenuItemStock(CreateOrderDto createOrderDTO);
         
         
     }
@@ -25,6 +29,15 @@ namespace RestaurantService.Services
         public RestaurantService(IRestaurantRepository restaurantRepository)
         {
             _restaurantRepository = restaurantRepository;
+        }
+
+        public async Task<bool> CheckMenuItemStock(CreateOrderDto createOrderDTO)
+        {
+            
+            var menuItemStock = await _restaurantRepository.CheckMenuItemStock(createOrderDTO.MenuItems);
+            bool isInStock = menuItemStock.Any(x => x.StockCount < 1);
+            return isInStock;
+           //send message to hub if isInStock = false;
         }
 
         public async Task<bool> CreateMenuItem(MenuItemDTO menuItemDTO, int restaurantId)
@@ -77,6 +90,12 @@ namespace RestaurantService.Services
         public Task<bool> UpdateMenuItem(int menuItemId, MenuItemDTO menuItemDTO)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> UpdateMenuItemStock(CreateOrderDto createOrderDTO)
+        {
+            
+            return await _restaurantRepository.UpdateMenuItemStock(createOrderDTO.MenuItems);
         }
     }
 }

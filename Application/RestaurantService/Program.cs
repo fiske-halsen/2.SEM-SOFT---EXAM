@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RestaurantService.Context;
+using RestaurantService.ErrorHandling;
 using RestaurantService.Repository;
 using RestaurantService.Services;
 
@@ -13,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+builder.Services.AddHostedService<Consumer>();
 builder.Services.AddDbContext<DBApplicationContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 var app = builder.Build();
@@ -23,7 +25,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.ConfigureExceptionHandler();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
