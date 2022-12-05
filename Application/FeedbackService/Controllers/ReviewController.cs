@@ -9,7 +9,7 @@ namespace FeedbackService.Controllers
 
 
     [ApiController]
-    [Route("api/[controller][action]")]
+    [Route("api/[controller]")]
     public class ReviewController : ControllerBase
     {
 
