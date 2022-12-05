@@ -4,7 +4,6 @@ using System.Net;
 
 namespace EmailService.Services
 {
-
     public interface IEmailService
     {
         public Task<bool> SendEmail(EmailPackageDto emailPackageDto);
@@ -50,6 +49,7 @@ namespace EmailService.Services
             {
                 throw;
             }
+
             return isSucces;
         }
     }
