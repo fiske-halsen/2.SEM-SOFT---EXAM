@@ -1,12 +1,11 @@
-﻿using System.Net;
-using System.Text;
-using Common.Dto;
+﻿using Common.Dto;
 using Common.ErrorModels;
 using Common.HttpUtils;
-using IdentityModel.Client;
 using Newtonsoft.Json;
+using System.Text;
+using IdentityModel.Client;
 
-namespace GraphqlDemo.Service
+namespace GraphqlDemo.Services
 {
     public interface IApiService
     {
@@ -16,7 +15,6 @@ namespace GraphqlDemo.Service
         public Task<bool> Patch(string url, string contentJson, ApplicationCredentials applicationCredentials);
         public Task<bool> Delete(string url, ApplicationCredentials applicationCredentials);
     }
-
     public class ApiService : IApiService
     {
         private readonly ITokenService _tokenService;
@@ -148,4 +146,6 @@ namespace GraphqlDemo.Service
             }
         }
     }
+
+}
 }

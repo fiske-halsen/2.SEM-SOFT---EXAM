@@ -1,6 +1,5 @@
 using GraphqlDemo.ErrorHandling;
 using GraphqlDemo.Operations;
-using GraphqlDemo.Service;
 using GraphqlDemo.Services;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -2,7 +2,7 @@
 using GraphqlDemo.Models;
 using IdentityModel.Client;
 
-namespace GraphqlDemo.Service
+namespace GraphqlDemo.Services
 {
     public interface ITokenService
     {

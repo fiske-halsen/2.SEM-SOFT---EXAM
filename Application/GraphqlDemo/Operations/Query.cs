@@ -11,7 +11,7 @@ namespace GraphqlDemo.Operations
         {
             Faker<MenuItem> menuItemFaker = new Faker<MenuItem>()
                 .StrictMode(true)
-                .RuleFor(x => x.Id, x => Guid.NewGuid())
+                .RuleFor(x => x.Id, x => x.Random.Int())
                 .RuleFor(x => x.Price, x => x.Random.Int())
                 .RuleFor(x => x.Name, x => x.Name.FirstName());
 
