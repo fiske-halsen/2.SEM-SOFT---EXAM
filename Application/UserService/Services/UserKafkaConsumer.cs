@@ -1,5 +1,6 @@
 ﻿using Confluent.Kafka;
 using System.Diagnostics;
+using Common.Dto;
 
 namespace UserService.Services
 {
@@ -7,7 +8,7 @@ namespace UserService.Services
     {
         #region private class properties
 
-        private readonly string topic = "payment_usercredit";
+        private readonly string topic = "check_user_balance";
         private readonly string groupId = "user_group";
         private readonly string bootstrapServers = "localhost:9092";
 
@@ -42,16 +43,18 @@ namespace UserService.Services
                     {
                         var consumer = consumerBuilder.Consume
                            (cancelToken.Token);
-                        var test = consumer.Message.Value;
+                        var jsonObj = consumer.Message.Value;
 
 
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var myScopedService = scope.ServiceProvider.GetRequiredService<IUserService>();
-                            //var obj = System.Text.Json.JsonSerializer.Deserialize<ReviewDto>(test);
-                            //Debug.WriteLine(obj.Message);
+                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
 
-                            //await myScopedService.SaveReview(obj);
+                            if (createOrderDto != null)
+                            {
+                                await myScopedService.CheckIfUserBalanceHasEnoughCreditForOrder(createOrderDto);
+                            }
                         }
                     }
                 }
