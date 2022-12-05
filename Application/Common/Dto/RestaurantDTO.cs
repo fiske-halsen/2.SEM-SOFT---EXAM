@@ -1,6 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace RestaurantService.Model
+namespace Common.Dto
 {
     public class RestaurantDTO
     {
@@ -12,5 +17,7 @@ namespace RestaurantService.Model
         public string City { get; set; }
         [Required]
         public string ZipCode { get; set; }
+        [Required]
+        public MenuDTO Menu { get; set; }
     }
 }
