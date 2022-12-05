@@ -6,6 +6,6 @@ namespace DeliveryService.Controllers
     [Route("api/[controller]")]
     public class DeliveryController : ControllerBase
     {
-        private readonly IDeliveryService deliveryService;
+        //private readonly IDeliveryService deliveryService;
     }
 }
