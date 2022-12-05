@@ -10,11 +10,16 @@ namespace GraphqlDemo.Operations
     {
         private readonly IKafkaProducerService _kafkaProducerService;
         private readonly IConfiguration _configuration;
+        private readonly IUserServiceCommunicator _userServiceCommunicator;
 
-        public Mutation(IKafkaProducerService kafkaProducerService, IConfiguration configuration)
+        public Mutation(
+            IKafkaProducerService kafkaProducerService,
+            IConfiguration configuration,
+            IUserServiceCommunicator userServiceCommunicator)
         {
             _kafkaProducerService = kafkaProducerService;
             _configuration = configuration;
+            _userServiceCommunicator = userServiceCommunicator;
         }
 
         public async Task<bool> CreateOrder(CreateOrderDto dto)
@@ -50,6 +55,7 @@ namespace GraphqlDemo.Operations
         {
             try
             {
+                await _userServiceCommunicator.CreateUser(createUserDto);
                 return true;
             }
             catch (Exception e)
@@ -57,7 +63,24 @@ namespace GraphqlDemo.Operations
                 Debug.WriteLine(e.Message);
                 return false;
             }
+        }
 
+        /// <summary>
+        /// Login for a user
+        /// </summary>
+        /// <param name="loginUserDto"></param>
+        /// <returns></returns>
+        public async Task<TokenDto> Login(LoginUserDto loginUserDto)
+        {
+            try
+            {
+                return await _userServiceCommunicator.Login(loginUserDto);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return null;
+            }
         }
     }
 }
