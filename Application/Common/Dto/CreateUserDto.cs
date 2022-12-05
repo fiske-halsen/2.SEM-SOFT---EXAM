@@ -30,11 +30,14 @@ namespace Common.Dto
         [MinLength(length: 6)]
         [JsonProperty("p2")]
         public string PasswordRepeated { get; set; }
+        [JsonProperty("sn")]
         [Required(ErrorMessage = "Streetname is required")]
         public string StreetName { get; set; }
         [Required(ErrorMessage = "City is required")]
+        [JsonProperty("c")]
         public string City { get; set; }
         [Required(ErrorMessage = "Zip code is required")]
+        [JsonProperty("z")]
         public string ZipCode { get; set; }
 
     }

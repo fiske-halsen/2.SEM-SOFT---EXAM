@@ -1,0 +1,14 @@
+﻿namespace DeliveryService.Models
+{
+    public class Delivery
+    {
+        public int Id { get; set; }
+        public int DeliveryPersonId { get; set; }
+        public int OrderId { get; set; }
+        public string UserEmail { get; set; }
+        public string Address { get; set; }
+        public string ZipCode { get; set; }
+        public bool IsDelivered { get; set; } = false;
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+    }
+}
