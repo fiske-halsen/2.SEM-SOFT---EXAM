@@ -1,9 +1,8 @@
-﻿using System.Diagnostics;
-using Common.Dto;
+﻿using Common.Dto;
 using Common.KafkaEvents;
-using Common.Models;
 using GraphqlDemo.Services;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace GraphqlDemo.Operations
 {
