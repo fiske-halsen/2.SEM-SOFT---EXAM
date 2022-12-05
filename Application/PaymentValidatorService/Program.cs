@@ -1,3 +1,5 @@
+using PaymentValidatorService.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,8 +9,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
 
+builder.Services.AddHostedService<PaymentValidatorConsumer>();
+builder.Services.AddScoped<IPaymentValidatorHelpers, PaymentValidatorHelpers>();
+builder.Services.AddScoped<IPaymentValidatorProducer, PaymentValidatorProducer>();
+
+var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.

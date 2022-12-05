@@ -11,6 +11,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IKafkaPaymentProcessorProducer, KafkaPaymentProcessorProducer>();
+builder.Services.AddScoped<IPaymentProcessorHelpers, PaymentProcessorHelpers>();
+
 builder.Services.AddHostedService<PaymentProcessorConsumer>();
 
 var app = builder.Build();
