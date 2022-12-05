@@ -2,7 +2,7 @@
 {
     public class Delivery
     {
-        public int Id { get; set; }
+        public int DeliveryId { get; set; }
         public int DeliveryPersonId { get; set; }
         public int OrderId { get; set; }
         public string UserEmail { get; set; }
