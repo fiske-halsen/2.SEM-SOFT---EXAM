@@ -40,19 +40,24 @@ namespace PaymentValidatorService.Services
         /// <returns></returns>
         public bool CheckForCardType(CreateOrderDto dto)
         {
-            switch (dto.CardType)
+            if (dto.CardType.HasValue)
             {
-                case CardTypes.Visa:
-                    return true;
-                case CardTypes.MasterCard:
-                    return true;
-                case CardTypes.Debit:
-                    return true;
-                case CardTypes.Dankort:
-                    return true;
-                default:
-                    return false;
+                switch (dto.CardType)
+                {
+                    case CardTypes.Visa:
+                        return true;
+                    case CardTypes.MasterCard:
+                        return true;
+                    case CardTypes.Debit:
+                        return true;
+                    case CardTypes.Dankort:
+                        return true;
+                    default:
+                        return false;
+                }
             }
+
+            return true; // meaning no credit card payment
         }
 
         public bool CheckForValidVoucherCode(string voucherCode)
