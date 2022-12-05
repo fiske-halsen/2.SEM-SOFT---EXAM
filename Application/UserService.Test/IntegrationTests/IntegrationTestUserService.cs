@@ -18,8 +18,6 @@ namespace UserService.Test.IntegrationTests
         public void GivenARequestToTheController()
         {
             _factory = new IntegrationTestingWebAppFactory<Program>();
-
-
             _httpClient = _factory.CreateClient();
         }
 
@@ -95,29 +93,29 @@ namespace UserService.Test.IntegrationTests
             );
         }
 
-        /// <summary>
-        /// Positive integration test when user enters valid credentials
-        /// </summary>
-        /// <returns></returns>
-        [Test]
-        public async Task Should_Return_Token_If_User_Registers_With_Valid_Input()
-        {
-            //Arrange
-           var dictParams = new Dictionary<string, string>();
-            dictParams.Add("client_id", "Gateway");
-            dictParams.Add("client_secret", "ec8ea455-541f-410d-ba96-b46587ab7fcc");
-            dictParams.Add("grant_type", "password");
-            dictParams.Add("scope", "Gateway");
-            dictParams.Add("username", "phillip.andersen1999@gmail.com");
-            dictParams.Add("password", "P@ris2027!");
+        ///// <summary>
+        ///// Positive integration test when user enters valid credentials
+        ///// </summary>
+        ///// <returns></returns>
+        //[Test]
+        //public async Task Should_Return_Token_If_User_Registers_With_Valid_Input()
+        //{
+        //    //Arrange
+        //   var dictParams = new Dictionary<string, string>();
+        //    dictParams.Add("client_id", "Gateway");
+        //    dictParams.Add("client_secret", "ec8ea455-541f-410d-ba96-b46587ab7fcc");
+        //    dictParams.Add("grant_type", "password");
+        //    dictParams.Add("scope", "Gateway");
+        //    dictParams.Add("username", "phillip.andersen1999@gmail.com");
+        //    dictParams.Add("password", "P@ris2027!");
 
 
-            HttpResponseMessage response = _httpClient.PostAsync("connect/token", new FormUrlEncodedContent(dictParams)).Result;
-            var token = response.Content.ReadAsStringAsync().Result;
+        //    HttpResponseMessage response = _httpClient.PostAsync("connect/token", new FormUrlEncodedContent(dictParams)).Result;
+        //    var token = response.Content.ReadAsStringAsync().Result;
 
-            // Assert
-            token.Should().NotBeNullOrWhiteSpace();
-        }
+        //    // Assert
+        //    token.Should().NotBeNullOrWhiteSpace();
+        //}
 
         //public async string GetTokenIdentityServer()
         //{

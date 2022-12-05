@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserService.Context;
 
@@ -11,9 +12,10 @@ using UserService.Context;
 namespace UserService.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    partial class DbApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20221205111434_newest_withuserbalance")]
+    partial class newest_withuserbalance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,11 +205,11 @@ namespace UserService.Migrations
                             Id = 1,
                             AddressId = 1,
                             Balance = 1000.0,
-                            CreatedAt = new DateTime(2022, 12, 5, 11, 16, 8, 464, DateTimeKind.Utc).AddTicks(1904),
+                            CreatedAt = new DateTime(2022, 12, 5, 11, 14, 34, 92, DateTimeKind.Utc).AddTicks(1190),
                             Email = "phillip.andersen1999@gmail.com",
                             FirstName = "Phillip",
-                            ModifiedAt = new DateTime(2022, 12, 5, 11, 16, 8, 464, DateTimeKind.Utc).AddTicks(1906),
-                            Password = "$2a$11$ICbPMppv0XMpM/5GmI9/qOsLg9x8bJtfScUPs7G3/4LBVnzOs9NcG",
+                            ModifiedAt = new DateTime(2022, 12, 5, 11, 14, 34, 92, DateTimeKind.Utc).AddTicks(1193),
+                            Password = "$2a$11$NH/hlOU.S/sXfLZFPps0M.1PcVsV6.XRMRO7MDu0QLXi6TsymhMHq",
                             RoleId = 1
                         },
                         new
@@ -215,11 +217,11 @@ namespace UserService.Migrations
                             Id = 2,
                             AddressId = 2,
                             Balance = 1000.0,
-                            CreatedAt = new DateTime(2022, 12, 5, 11, 16, 8, 574, DateTimeKind.Utc).AddTicks(9385),
+                            CreatedAt = new DateTime(2022, 12, 5, 11, 14, 34, 204, DateTimeKind.Utc).AddTicks(293),
                             Email = "lukasbangstoltz@gmail.com",
                             FirstName = "Lukas",
-                            ModifiedAt = new DateTime(2022, 12, 5, 11, 16, 8, 574, DateTimeKind.Utc).AddTicks(9392),
-                            Password = "$2a$11$PIe18FWerkm0YH9dhRX5vu4mWDD3MCHnszyhISNhVO.H38eHV4OwG",
+                            ModifiedAt = new DateTime(2022, 12, 5, 11, 14, 34, 204, DateTimeKind.Utc).AddTicks(299),
+                            Password = "$2a$11$gbKfZUS2AqtrtS7AEfxQF.OFg.t2GmBe4mJNGVlBG4xp1Vb9GyxoO",
                             RoleId = 3
                         },
                         new
@@ -227,11 +229,11 @@ namespace UserService.Migrations
                             Id = 3,
                             AddressId = 2,
                             Balance = 1000.0,
-                            CreatedAt = new DateTime(2022, 12, 5, 11, 16, 8, 686, DateTimeKind.Utc).AddTicks(1393),
+                            CreatedAt = new DateTime(2022, 12, 5, 11, 14, 34, 315, DateTimeKind.Utc).AddTicks(8086),
                             Email = "christofferiw@gmail.com",
                             FirstName = "Christoffer",
-                            ModifiedAt = new DateTime(2022, 12, 5, 11, 16, 8, 686, DateTimeKind.Utc).AddTicks(1400),
-                            Password = "$2a$11$8UpvpU.6tPDbeaO8WkNmEeh0JAzPetrJXmpe9ZOzzfa/Hfg7L9rPW",
+                            ModifiedAt = new DateTime(2022, 12, 5, 11, 14, 34, 315, DateTimeKind.Utc).AddTicks(8091),
+                            Password = "$2a$11$uuQXyOh.4Eg4CDwYqT4EUuka8bP6O.1UH73dfeCM2wPVcbGtAw11.",
                             RoleId = 2
                         });
                 });

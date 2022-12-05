@@ -10,14 +10,14 @@ namespace UserService.Models
         public string FirstName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        [ForeignKey("AddressId")]
-        public int AddressId { get; set; }
-        public Address Address { get; set; }
-        [ForeignKey("RoleId")]
-        public int RoleId { get; set; }
-        public Role Role { get; set; }
 
-        public double Balance { get; set; } = 1000; //Lets just assume everyone has 1000 DKK in free balance when they sign up for the first time
+        public double Balance { get; set; } =
+            1000; //Lets just assume everyone has 1000 DKK in free balance when they sign up for the first time
+
+        [ForeignKey("AddressId")] public int AddressId { get; set; }
+        public Address Address { get; set; }
+        [ForeignKey("RoleId")] public int RoleId { get; set; }
+        public Role Role { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime ModifiedAt { get; set; } = DateTime.UtcNow;
     }
