@@ -8,17 +8,16 @@ namespace RestaurantService.Repository
     public interface IRestaurantRepository
     {
         Task<bool> CreateRestaurant(Restaurant restaurant);
-        Task<bool> CreateRestaurantMenu(Menu menu);
         Task<bool> CreateMenuItem(MenuItem menuItem, int restaurantId);
-        Task<bool> UpdateMenuItem(MenuItem menuItem, MenuItemDTO menuItemDTO);
+        Task<bool> UpdateMenuItem(int menuItemId, MenuItemDTO menuItemDTO);
         Task<bool> DeleteMenuItem(int menuItemId);
         Task<List<MenuItem>> CheckMenuItemStock(List<MenuItemDTO> menuItems);
         Task<bool> UpdateMenuItemStock(List<MenuItemDTO> menuItems);
 
         //Customer
-        Task<MenuDTO> GetRestaurantMenu(int restaurantId);
-        Task<List<RestaurantDTO>> GetAllRestaurants();
-        Task<MenuItemDTO> GetRestaurantMenuItem(int MenuItemId);
+        Task<Menu> GetRestaurantMenu(int restaurantId);
+        Task<List<Restaurant>> GetAllRestaurants();
+        Task<MenuItem> GetRestaurantMenuItem(int MenuItemId);
     }
 
     public class RestaurantRepository : IRestaurantRepository
@@ -32,15 +31,8 @@ namespace RestaurantService.Repository
 
         public async Task<List<MenuItem>> CheckMenuItemStock(List<MenuItemDTO> menuItems)
         {
-            try
-            {
-                var menuItemIdList = menuItems.Select(x => x.Id).ToList();
-                return await _dbContext.MenuItems.Where(x => menuItemIdList.Contains(x.Id)).ToListAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var menuItemIdList = menuItems.Select(x => x.Id).ToList();
+            return await _dbContext.MenuItems.Where(x => menuItemIdList.Contains(x.Id)).ToListAsync();
         }
 
         public async Task<bool> CreateMenuItem(MenuItem menuItem, int restaurantId)
@@ -57,10 +49,7 @@ namespace RestaurantService.Repository
             return true;
         }
 
-        public Task<bool> CreateRestaurantMenu(Menu menu)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public async Task<bool> DeleteMenuItem(int menuItemId)
         {
@@ -70,40 +59,37 @@ namespace RestaurantService.Repository
             return true;
         }
 
-        public Task<List<RestaurantDTO>> GetAllRestaurants()
+        public async Task<List<Restaurant>> GetAllRestaurants()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Restaurants.ToListAsync();
         }
 
-        public Task<MenuDTO> GetRestaurantMenu(int restaurantId)
+        public async Task<Menu> GetRestaurantMenu(int restaurantId)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Menus.Where(x => x.Restaurant.Id == restaurantId).FirstOrDefaultAsync();
         }
 
-        public Task<MenuItemDTO> GetRestaurantMenuItem(int MenuItemId)
+        public async Task<MenuItem> GetRestaurantMenuItem(int MenuItemId)
         {
-            throw new NotImplementedException();
+            return await _dbContext.MenuItems.Where(x => x.Id == MenuItemId).FirstOrDefaultAsync();
         }
 
-        public Task<bool> UpdateMenuItem(MenuItem menuItem, MenuItemDTO menuItemDTO)
+        public async Task<bool> UpdateMenuItem(int menuItemId, MenuItemDTO menuItemDTO)
         {
-            throw new NotImplementedException();
+            var menuItemToUpdate = await _dbContext.MenuItems.FindAsync(menuItemId);
+            menuItemToUpdate.Description = menuItemDTO.description;
+            menuItemToUpdate.Name = menuItemDTO.name;
+            menuItemToUpdate.Price = menuItemDTO.price;
+            return true;
         }
 
         public async Task<bool> UpdateMenuItemStock(List<MenuItemDTO> menuItems)
         {
-            try
-            {
-                var menuItemIdList = menuItems.Select(x => x.Id).ToList();
-                var test = await _dbContext.MenuItems.Where(x => menuItemIdList.Contains(x.Id)).ToListAsync();
-                test.ForEach(x => x.StockCount -= 1);
-                await _dbContext.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var menuItemIdList = menuItems.Select(x => x.Id).ToList();
+            var test = await _dbContext.MenuItems.Where(x => menuItemIdList.Contains(x.Id)).ToListAsync();
+            test.ForEach(x => x.StockCount -= 1);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

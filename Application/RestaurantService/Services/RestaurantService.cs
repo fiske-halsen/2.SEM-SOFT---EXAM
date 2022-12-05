@@ -1,5 +1,7 @@
 ﻿using Common.Dto;
+using Common.ErrorModels;
 using Common.KafkaEvents;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Newtonsoft.Json;
 using RestaurantService.Model;
 using RestaurantService.Repository;
@@ -17,7 +19,10 @@ namespace RestaurantService.Services
         //Customer
         Task<MenuDTO> GetRestaurantMenu(int restaurantId);
         Task<List<RestaurantDTO>> GetAllRestaurants();
+
         Task<MenuItemDTO> GetRestaurantMenuItem(int menuItemId);
+
+        //KAFKA
         Task<bool> CheckMenuItemStock(CreateOrderDto createOrderDTO);
         Task<bool> UpdateMenuItemStock(CreateOrderDto createOrderDTO);
     }
@@ -36,6 +41,10 @@ namespace RestaurantService.Services
         public async Task<bool> CheckMenuItemStock(CreateOrderDto createOrderDTO)
         {
             var menuItemStock = await _restaurantRepository.CheckMenuItemStock(createOrderDTO.MenuItems);
+            if (menuItemStock == null)
+            {
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, "Could not find stock for menu item");
+            }
             bool isInStock = menuItemStock.Any(x => x.StockCount < 1);
             return isInStock;
             //send message to hub if isInStock = false;
@@ -43,25 +52,26 @@ namespace RestaurantService.Services
 
         public async Task<bool> CreateMenuItem(MenuItemDTO menuItemDTO, int restaurantId)
         {
-            try
-            {
-                return await _restaurantRepository.CreateMenuItem(
-                    new MenuItem
-                        {Name = menuItemDTO.name, Price = menuItemDTO.price, Description = menuItemDTO.description},
-                    restaurantId);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return await _restaurantRepository.CreateMenuItem(
+                new MenuItem
+                    { Name = menuItemDTO.name, Price = menuItemDTO.price, Description = menuItemDTO.description },
+                restaurantId);
         }
 
         public async Task<bool> CreateRestaurant(RestaurantDTO restaurantDTO)
         {
-            var cityInfo = new CityInfo {City = restaurantDTO.City, ZipCode = restaurantDTO.ZipCode};
-            var address = new Address {StreetName = restaurantDTO.StreetName, CityInfo = cityInfo};
+            var cityInfo = new CityInfo { City = restaurantDTO.City, ZipCode = restaurantDTO.ZipCode };
+            var address = new Address { StreetName = restaurantDTO.StreetName, CityInfo = cityInfo };
             return await _restaurantRepository.CreateRestaurant(new Restaurant
-                {Name = restaurantDTO.RestaurantName, Address = address});
+            {
+                Name = restaurantDTO.RestaurantName, Address = address,
+                Menu = new Menu
+                {
+                    MenuItems = restaurantDTO.Menu.MenuItems.Select(x => new MenuItem
+                            { Description = x.description, Name = x.name, Price = x.price, StockCount = x.StockCount })
+                        .ToList()
+                }
+            });
         }
 
 
@@ -70,30 +80,42 @@ namespace RestaurantService.Services
             return await _restaurantRepository.DeleteMenuItem(menuItemId);
         }
 
-        public Task<List<RestaurantDTO>> GetAllRestaurants()
+        public async Task<List<RestaurantDTO>> GetAllRestaurants()
         {
-            throw new NotImplementedException();
+            var restaurants = await _restaurantRepository.GetAllRestaurants();
+            return restaurants.Select(x => new RestaurantDTO
+            {
+                City = x.Address.CityInfo.City, RestaurantName = x.Name, StreetName = x.Address.StreetName,
+                ZipCode = x.Address.CityInfo.ZipCode
+            }).ToList();
         }
 
-        public Task<MenuDTO> GetRestaurantMenu(int restaurantId)
+        public async Task<MenuDTO> GetRestaurantMenu(int restaurantId)
         {
-            throw new NotImplementedException();
+            var restaurantMenu = await _restaurantRepository.GetRestaurantMenu(restaurantId);
+            return new MenuDTO
+            {
+                RestaurantName = restaurantMenu.Restaurant.Name,
+                MenuItems = restaurantMenu.MenuItems.Select(x => new MenuItemDTO
+                    { description = x.Description, name = x.Name, price = x.Price, Id = x.Id }).ToList()
+            };
         }
 
-        public Task<MenuItemDTO> GetRestaurantMenuItem(int MenuItemId)
+        public async Task<MenuItemDTO> GetRestaurantMenuItem(int menuItemId)
         {
-            throw new NotImplementedException();
+            var menuItem = await _restaurantRepository.GetRestaurantMenuItem(menuItemId);
+            return new MenuItemDTO
+                { Id = menuItem.Id, name = menuItem.Name, price = menuItem.Price, description = menuItem.Description };
         }
 
-        public Task<bool> UpdateMenuItem(int menuItemId, MenuItemDTO menuItemDTO)
+        public async Task<bool> UpdateMenuItem(int menuItemId, MenuItemDTO menuItemDTO)
         {
-            throw new NotImplementedException();
+            return await _restaurantRepository.UpdateMenuItem(menuItemId, menuItemDTO);
         }
 
         public async Task<bool> UpdateMenuItemStock(CreateOrderDto createOrderDTO)
         {
-            try
-            {
+            
                 await _restaurantRepository.UpdateMenuItemStock(createOrderDTO.MenuItems);
 
                 // Notify our order service..
@@ -101,11 +123,8 @@ namespace RestaurantService.Services
                     JsonConvert.SerializeObject(createOrderDTO));
 
                 return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            
+            
         }
     }
 }
