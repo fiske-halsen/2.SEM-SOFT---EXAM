@@ -27,17 +27,17 @@ namespace FeedbackService.Controllers
             return await _reviewService.CreateReview(createReviewDto);
         }
 
-        [HttpGet(Name = "GetReviewsByUserId")]
+        [HttpGet("/{userId}/userreviews")]
         public async Task<List<Review>> GetReviewsByUserId(int userId)
         {
             return await _reviewService.GetReviewsByUserId(userId);
         }
-        [HttpGet(Name = "GetReviewsByRestaurantId")]
+        [HttpGet("/{restaurantId}/restaurantreviews")]
         public async Task<List<Review>> GetReviewsByRestaurantId(int restaurantId)
         {
             return await _reviewService.GetReviewsByRestaurantId(restaurantId);
         }
-        [HttpGet(Name = "GetReviewsByDeliveryUserId")]
+        [HttpGet("/{deliveryDriverId}/deliverydriverreviews")]
         public async Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryDriverId)
         {
             return await _reviewService.GetReviewsByDeliveryUserId(deliveryDriverId);

@@ -42,7 +42,7 @@ namespace FeedbackService.Repository
             try
             {
 
-                var reviews = await _dbContext.Reviews.Where(x => x.Id == deliveryUserId).ToListAsync();
+                var reviews = await _dbContext.Reviews.Where(x => x.DeliveryDriverId == deliveryUserId).ToListAsync();
                 return reviews;
             }
             catch (Exception)
@@ -57,7 +57,7 @@ namespace FeedbackService.Repository
             try
             {
 
-                var reviews = await _dbContext.Reviews.Where(x => x.Id == restaurantId).ToListAsync();
+                var reviews = await _dbContext.Reviews.Where(x => x.RestaurantId == restaurantId).ToListAsync();
                 return reviews;
             }
             catch (Exception)
