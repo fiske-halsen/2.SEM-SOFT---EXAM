@@ -51,7 +51,7 @@ namespace EmailService.Services
                         {
                             var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
 
-                             var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(msg_value);
+                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(msg_value);
 
                             if (createOrderDto != null)
                             {
