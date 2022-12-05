@@ -1,4 +1,5 @@
 using FeedbackService.Context;
+using FeedbackService.ErrorHAndling;
 using FeedbackService.Repository;
 using FeedbackService.Services;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.ConfigureExceptionHandler();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
