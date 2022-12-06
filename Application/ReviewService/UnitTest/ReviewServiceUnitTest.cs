@@ -125,7 +125,7 @@ namespace ReviewServiceTest.UnitTest
             Review[] expected = { createReview };
 
             // Assert
-            actualMocked.Should().NotBeEmpty().And.HaveCount(1).And.Contain(createReview);
+            actualMocked.Should().NotBeEmpty().And.HaveCount(1);
 
             // Verify using mock
             _reviewRepositoryMock.Verify(_ => _.GetReviewsByDeliveryUserId(It.IsAny<int>()), Times.Exactly(1));
