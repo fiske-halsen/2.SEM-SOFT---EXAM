@@ -13,14 +13,14 @@ namespace RestaurantService.Services
         //Restaurant owner
         Task<bool> CreateRestaurant(RestaurantDTO restaurantDTO);
         Task<bool> CreateMenuItem(MenuItemDTO menuItemDTO, int restaurantId);
-        Task<bool> UpdateMenuItem(int menuItemId, MenuItemDTO menuItemDTO);
-        Task<bool> DeleteMenuItem(int menuItemId);
+        Task<bool> UpdateMenuItem(MenuItemDTO menuItemDTO, int restaurantId);
+        Task<bool> DeleteMenuItem(MenuItemDTO menuItemDTO, int restaurantId);
 
         //Customer
         Task<MenuDTO> GetRestaurantMenu(int restaurantId);
         Task<List<RestaurantDTO>> GetAllRestaurants();
 
-        Task<MenuItemDTO> GetRestaurantMenuItem(int menuItemId);
+        Task<MenuItemDTO> GetRestaurantMenuItem(int restaurantId, int menuItemId);
 
         //KAFKA
         Task<bool> CheckMenuItemStock(CreateOrderDto createOrderDTO);
@@ -75,9 +75,9 @@ namespace RestaurantService.Services
         }
 
 
-        public async Task<bool> DeleteMenuItem(int menuItemId)
+        public async Task<bool> DeleteMenuItem(MenuItemDTO menuItemDTO, int restaurantId)
         {
-            return await _restaurantRepository.DeleteMenuItem(menuItemId);
+            return await _restaurantRepository.DeleteMenuItem(menuItemDTO.Id, restaurantId);
         }
 
         public async Task<List<RestaurantDTO>> GetAllRestaurants()
@@ -101,16 +101,16 @@ namespace RestaurantService.Services
             };
         }
 
-        public async Task<MenuItemDTO> GetRestaurantMenuItem(int menuItemId)
+        public async Task<MenuItemDTO> GetRestaurantMenuItem(int restaurantId, int menuItemId)
         {
-            var menuItem = await _restaurantRepository.GetRestaurantMenuItem(menuItemId);
+            var menuItem = await _restaurantRepository.GetRestaurantMenuItem(restaurantId, menuItemId);
             return new MenuItemDTO
-                { Id = menuItem.Id, name = menuItem.Name, price = menuItem.Price, description = menuItem.Description };
+                { Id = menuItem.Id, name = menuItem.Name, price = menuItem.Price, description = menuItem.Description,StockCount = menuItem.StockCount};
         }
 
-        public async Task<bool> UpdateMenuItem(int menuItemId, MenuItemDTO menuItemDTO)
+        public async Task<bool> UpdateMenuItem(MenuItemDTO menuItemDTO, int restaurantId)
         {
-            return await _restaurantRepository.UpdateMenuItem(menuItemId, menuItemDTO);
+            return await _restaurantRepository.UpdateMenuItem(menuItemDTO, restaurantId);
         }
 
         public async Task<bool> UpdateMenuItemStock(CreateOrderDto createOrderDTO)

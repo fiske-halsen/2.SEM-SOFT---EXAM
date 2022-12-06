@@ -1,3 +1,6 @@
+using Common.KafkaEvents;
+using Confluent.Kafka.Admin;
+using Confluent.Kafka;
 using Microsoft.EntityFrameworkCore;
 using RestaurantService.Context;
 using RestaurantService.ErrorHandling;
@@ -6,6 +9,8 @@ using RestaurantService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+
+
 
 // Add services to the container.
 
