@@ -1,3 +1,6 @@
+using Common.KafkaEvents;
+using Confluent.Kafka;
+using Confluent.Kafka.Admin;
 using Microsoft.EntityFrameworkCore;
 using UserService.Context;
 using UserService.ErrorHandling;
@@ -11,18 +14,20 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 
-//using (var adminClient = new AdminClientBuilder(new AdminClientConfig { BootstrapServers = "localhost:9092" }).Build())
-//{
-//    try
-//    {
-//        await adminClient.CreateTopicsAsync(new TopicSpecification[] {
-//            new TopicSpecification { Name = EventStreamerEvents.CheckUserBalanceEvent, ReplicationFactor = 1, NumPartitions = 3 } });
-//    }
-//    catch (CreateTopicsException e)
-//    {
-//        Console.WriteLine($"An error occured creating topic {e.Results[0].Topic}: {e.Results[0].Error.Reason}");
-//    }
-//}
+using (var adminClient = new AdminClientBuilder(new AdminClientConfig { BootstrapServers = "localhost:9092" }).Build())
+{
+    try
+    {
+        //await adminClient.DeleteTopicsAsync(new List<string>() {EventStreamerEvents.SaveOrderEvent});
+
+        await adminClient.CreateTopicsAsync(new TopicSpecification[] {
+            new TopicSpecification { Name = EventStreamerEvents.SaveOrderEvent, ReplicationFactor = 1, NumPartitions = 3 } });
+    }
+    catch (CreateTopicsException e)
+    {
+        Console.WriteLine($"An error occured creating topic {e.Results[0].Topic}: {e.Results[0].Error.Reason}");
+    }
+}
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

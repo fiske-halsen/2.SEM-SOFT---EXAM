@@ -26,6 +26,8 @@ namespace EmailService.Services
 
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await Task.Yield();
+
             var config = new ConsumerConfig
             {
                 GroupId = groupId,

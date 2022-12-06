@@ -1,14 +1,15 @@
 ﻿using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
+using System.Diagnostics;
 
-namespace PaymentProcessorService.Services
+namespace OrderService.Services
 {
-    public class PaymentProcessorConsumer : BackgroundService
+    public class SaveOrderConsumer : BackgroundService
     {
         #region private class properties
 
-        private readonly string groupId = "user_valid_payments";
+        private readonly string groupId = "user_group";
         private readonly string bootstrapServers = "localhost:9092";
 
         #endregion
@@ -19,7 +20,7 @@ namespace PaymentProcessorService.Services
 
         #endregion
 
-        public PaymentProcessorConsumer(IServiceProvider serviceProvider)
+        public SaveOrderConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -40,7 +41,7 @@ namespace PaymentProcessorService.Services
             using (var consumerBuilder = new ConsumerBuilder
                        <Ignore, string>(config).Build())
             {
-                consumerBuilder.Subscribe(EventStreamerEvents.ValidPaymentEvent);
+                consumerBuilder.Subscribe(EventStreamerEvents.SaveOrderEvent);
                 var cancelToken = new CancellationTokenSource();
                 try
                 {
@@ -51,14 +52,15 @@ namespace PaymentProcessorService.Services
                         var jsonObj = consumer.Message.Value;
 
 
+                        Debug.WriteLine(jsonObj);
                         using (var scope = _serviceProvider.CreateScope())
                         {
-                            var paymentService = scope.ServiceProvider.GetRequiredService<IPaymentService>();
+                            var myScopedService = scope.ServiceProvider.GetRequiredService<IOrderService>();
                             var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
 
                             if (createOrderDto != null)
                             {
-                                await paymentService.SimulatePayment(createOrderDto);
+                                await myScopedService.CreateOrder(createOrderDto);
                             }
                         }
                     }
@@ -69,5 +71,7 @@ namespace PaymentProcessorService.Services
                 }
             }
         }
+
+
     }
 }
