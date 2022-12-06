@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using OrderService.DataLayer.Context;
+using OrderService.Context;
+using OrderService.ErrorHandling;
+using OrderService.Repository;
+using OrderService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +15,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<DbOrderServiceContext>(options =>
-options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<OrderDbContext>(options =>
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IOrderService, OrderService.Services.OrderService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 var app = builder.Build();
 
@@ -23,11 +29,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-//comment
+
+app.ConfigureExceptionHandler();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-//asdasdasdasd
 app.MapControllers();
 
 app.Run();

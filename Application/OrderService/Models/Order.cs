@@ -3,10 +3,11 @@
     public class Order
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public List<Item> MenuItems { get; set; }
-        public string TotalPrice { get; set; }
-        public string Restaurant { get; set; }
-        public string Customer { get; set; }
+        public double TotalPrice { get; set; }
+        public int RestaurantId { get; set; }
+        public string CustomerEmail { get; set; }
+        public bool IsActive { get; set; } = true;
+        public bool IsApproved { get; set; } = false;
+        public List<OrderItem> MenuItems { get; set; }
     }
 }
