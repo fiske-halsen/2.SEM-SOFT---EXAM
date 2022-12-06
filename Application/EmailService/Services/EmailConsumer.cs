@@ -26,12 +26,15 @@ namespace EmailService.Services
 
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await Task.Yield();
+
             var config = new ConsumerConfig
             {
                 GroupId = groupId,
                 BootstrapServers = bootstrapServers,
                 AutoOffsetReset =
-                    AutoOffsetReset.Earliest // Important to understand this part here; case if this client crashes
+                    AutoOffsetReset.Earliest, // Important to understand this part here; case if this client crashes
+                AllowAutoCreateTopics = true
             };
             using (var consumerBuilder = new ConsumerBuilder
                        <Ignore, string>(config).Build())

@@ -1,7 +1,7 @@
-﻿using Confluent.Kafka;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Common.Dto;
 using Common.KafkaEvents;
+using Confluent.Kafka;
 
 namespace UserService.Services
 {
@@ -27,12 +27,15 @@ namespace UserService.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await Task.Yield();
+
             var config = new ConsumerConfig
             {
                 GroupId = groupId,
                 BootstrapServers = bootstrapServers,
                 AutoOffsetReset =
-                    AutoOffsetReset.Earliest // Important to understand this part here; case if this client crashes
+                    AutoOffsetReset.Earliest, // Important to understand this part here; case if this client crashes
+                AllowAutoCreateTopics = true
             };
 
             using (var consumerBuilder = new ConsumerBuilder
@@ -49,6 +52,7 @@ namespace UserService.Services
                         var jsonObj = consumer.Message.Value;
 
 
+                        Debug.WriteLine(jsonObj);
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var myScopedService = scope.ServiceProvider.GetRequiredService<IUserService>();
@@ -60,6 +64,7 @@ namespace UserService.Services
                             }
                         }
                     }
+
                 }
                 catch (OperationCanceledException)
                 {
