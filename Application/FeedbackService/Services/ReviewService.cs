@@ -1,4 +1,5 @@
-﻿using FeedbackService.DTO;
+﻿using Common.ErrorModels;
+using FeedbackService.DTO;
 using FeedbackService.Models;
 using FeedbackService.Repository;
 
@@ -23,6 +24,11 @@ namespace FeedbackService.Services
 
         public async Task<bool> CreateReview(CreateReviewDTO createReviewDTO)
         {
+
+            if (createReviewDTO.Rating > 5)
+            {
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, "Rating cant be higher than 5");
+            }
             var review = new Review
             {
                 UserId = createReviewDTO.UserId,
@@ -40,9 +46,9 @@ namespace FeedbackService.Services
         public async Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryUserId)
         {
             var reviews = await _reviewRepository.GetReviewsByDeliveryUserId(deliveryUserId);
-            if (reviews == null)
+            if (!reviews.Any())
             {
-                throw new ArgumentException("Given Id not found.");
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, "Given id not found");
             }
 
             return reviews;
@@ -52,9 +58,9 @@ namespace FeedbackService.Services
         public async Task<List<Review>> GetReviewsByRestaurantId(int restaurantId)
         {
             var reviews = await _reviewRepository.GetReviewsByRestaurantId(restaurantId);
-            if (reviews == null)
+            if (!reviews.Any())
             {
-                throw new ArgumentException("Given Id not found.");
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, "Given id not found");
             }
 
             return reviews;
@@ -63,9 +69,9 @@ namespace FeedbackService.Services
         public async Task<List<Review>> GetReviewsByUserId(int userId)
         {
             var reviews = await _reviewRepository.GetReviewsByUserId(userId);
-            if (reviews == null)
+            if (!reviews.Any())
             {
-                throw new ArgumentException("Given Id not found.");
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, "Given id not found");
             }
 
             return reviews;
