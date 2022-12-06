@@ -1,6 +1,3 @@
-using Common.KafkaEvents;
-using Confluent.Kafka;
-using Confluent.Kafka.Admin;
 using Microsoft.EntityFrameworkCore;
 using UserService.Context;
 using UserService.ErrorHandling;
@@ -33,7 +30,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
-                   options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 builder.Services.AddHttpContextAccessor();
 
@@ -46,12 +43,14 @@ builder.Services.AddIdentityServer()
     .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
 
 builder.Services.AddDbContext<UserDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+
+builder.Services.AddHostedService<UserKafkaConsumer>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UsersService>();
 builder.Services.AddScoped<IUserProducer, UserProducer>();
-//builder.Services.AddHostedService<UserKafkaConsumer>();
+
 
 var identityServer = configuration["UserService:Host"];
 
@@ -59,11 +58,10 @@ var identityServer = configuration["UserService:Host"];
 builder.Services.AddAuthentication("token")
     .AddJwtBearer("token", options =>
     {
-
         options.Authority = identityServer;
         options.TokenValidationParameters.ValidateAudience = true;
         options.Audience = "UserService";
-        options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+        options.TokenValidationParameters.ValidTypes = new[] {"at+jwt"};
         options.RequireHttpsMetadata = false;
     });
 
@@ -89,11 +87,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(x => x
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .SetIsOriginAllowed(origin => true) // allow any origin
-                                                        //.WithOrigins("https://localhost:44351")); // Allow only this origin can also have multiple origins separated with comma
-                    .AllowCredentials());
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true) // allow any origin
+    //.WithOrigins("https://localhost:44351")); // Allow only this origin can also have multiple origins separated with comma
+    .AllowCredentials());
 
 
 app.ConfigureExceptionHandler();
@@ -105,4 +103,6 @@ app.MapControllers();
 app.Run();
 
 // For integration testing purposes; Woops! Needed because program is behind the scenes a internal class, we need a public way to get it
-public partial class Program {}
+public partial class Program
+{
+}

@@ -1,4 +1,5 @@
-﻿using Common.Dto;
+﻿using System.Diagnostics;
+using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
 
@@ -26,6 +27,8 @@ namespace UserService.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await Task.Yield();
+
             var config = new ConsumerConfig
             {
                 GroupId = groupId,
@@ -49,6 +52,7 @@ namespace UserService.Services
                         var jsonObj = consumer.Message.Value;
 
 
+                        Debug.WriteLine(jsonObj);
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var myScopedService = scope.ServiceProvider.GetRequiredService<IUserService>();
@@ -60,6 +64,7 @@ namespace UserService.Services
                             }
                         }
                     }
+
                 }
                 catch (OperationCanceledException)
                 {
