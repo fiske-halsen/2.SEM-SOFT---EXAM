@@ -1,3 +1,6 @@
+using Common.KafkaEvents;
+using Confluent.Kafka.Admin;
+using Confluent.Kafka;
 using Microsoft.EntityFrameworkCore;
 using RestaurantService.Context;
 using RestaurantService.ErrorHandling;
@@ -6,6 +9,22 @@ using RestaurantService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+
+using (var adminClient = new AdminClientBuilder(new AdminClientConfig { BootstrapServers = "localhost:9092" }).Build())
+{
+    try
+    {
+        //await adminClient.DeleteTopicsAsync(new List<string>() { EventStreamerEvents.CheckRestaurantStockEvent });
+
+        await adminClient.CreateTopicsAsync(new TopicSpecification[] {
+            new TopicSpecification { Name = EventStreamerEvents.CheckRestaurantStockEvent, ReplicationFactor = 1, NumPartitions = 3 } });
+    }
+    catch (CreateTopicsException e)
+    {
+        Console.WriteLine($"An error occured creating topic {e.Results[0].Topic}: {e.Results[0].Error.Reason}");
+    }
+}
+
 
 // Add services to the container.
 

@@ -2,6 +2,7 @@
 {
     public static class EventStreamerEvents
     {
+        public const string ValidatePayment = "validate_payment"; 
         public const string ValidPaymentEvent = "valid_payment";
         public const string StockValidEvent = "stock_valid";
         public const string NotifyUserEvent = "notify_user";

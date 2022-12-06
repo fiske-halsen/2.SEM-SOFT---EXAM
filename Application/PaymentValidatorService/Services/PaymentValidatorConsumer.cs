@@ -18,6 +18,8 @@ namespace PaymentValidatorService.Services
 
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await Task.Yield();
+
             var config = new ConsumerConfig
             {
                 GroupId = groupId,
@@ -29,7 +31,7 @@ namespace PaymentValidatorService.Services
             using (var consumerBuilder = new ConsumerBuilder
                        <Ignore, string>(config).Build())
             {
-                consumerBuilder.Subscribe(EventStreamerEvents.CreateOrderEvent);
+                consumerBuilder.Subscribe(EventStreamerEvents.ValidatePayment);
                 var cancelToken = new CancellationTokenSource();
                 try
                 {

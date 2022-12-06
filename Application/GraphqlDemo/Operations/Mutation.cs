@@ -36,7 +36,7 @@ namespace GraphqlDemo.Operations
                 };
 
                 var orderSerialized = JsonConvert.SerializeObject(orderDto);
-                await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.CreateOrderEvent, orderSerialized);
+                await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.ValidatePayment, orderSerialized);
 
                 return true;
             }
