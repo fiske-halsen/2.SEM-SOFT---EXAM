@@ -43,5 +43,61 @@ namespace OrderService.Services
                 return false;
             }
         }
+
+        public async Task<Order> CancelOrder(int id)
+        {
+            try
+            {
+                Order order = await _orderRepository.CancelOrder(id);
+                return order;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<int> TimeToDelivery(int id)
+        {
+            try
+            {
+                var time = await _orderRepository.TimeToDelivery(id);
+                return time;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<Order> AcceptOrder(int id)
+        {
+            try
+            {
+                Order order = await _orderRepository.AcceptOrder(id);
+                return order;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<Order> DenyOrder(int id)
+        {
+            try
+            {
+                Order order = await _orderRepository.DenyOrder(id);
+                return order;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                throw;
+            }
+        }
     }
 }
