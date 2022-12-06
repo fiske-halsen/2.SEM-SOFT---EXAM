@@ -125,7 +125,7 @@ namespace ReviewServiceTest.UnitTest
             Review[] expected = { createReview };
 
             // Assert
-            actualMocked.Should().NotBeEmpty().And.HaveCount(1);
+            actualMocked.Should().NotBeEmpty().And.HaveCount(5);
 
             // Verify using mock
             _reviewRepositoryMock.Verify(_ => _.GetReviewsByDeliveryUserId(It.IsAny<int>()), Times.Exactly(1));
@@ -145,7 +145,7 @@ namespace ReviewServiceTest.UnitTest
                .RuleFor(x => x.ReviewDate, x => x.Date.Recent(0))
                .RuleFor(x => x.Rating, x => x.Random.Int(5));
 
-            return reviewFaker.Generate(1);
+            return reviewFaker.Generate(5);
         }
     }
 }
