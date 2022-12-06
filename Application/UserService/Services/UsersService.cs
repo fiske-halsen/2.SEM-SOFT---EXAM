@@ -16,8 +16,12 @@ namespace UserService.Services
         public Task<Role> GetUserRoleById(int userId);
         public Task<bool> CreateUser(CreateUserDto createUserDto);
         public Task<bool> CheckIfUserBalanceHasEnoughCreditForOrder(CreateOrderDto createOrderDto);
+        public Task<bool> UpdateUserBalance(UpdateUserBalanceDto updateUserBalanceDto);
     }
 
+    /// <summary>
+    /// User service contains the business logic
+    /// </summary>
     public class UsersService : IUserService
     {
         private readonly IUserRepository _userRepository;
@@ -29,6 +33,12 @@ namespace UserService.Services
             _kafkaProducer = kafkaProducer;
         }
 
+        /// <summary>
+        /// Checks if a given user has enough user credit to perform a order
+        /// </summary>
+        /// <param name="createOrderDto"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<bool> CheckIfUserBalanceHasEnoughCreditForOrder(CreateOrderDto createOrderDto)
         {
             var user = await _userRepository.GetUserByEmail(createOrderDto.CustomerEmail);
@@ -50,7 +60,12 @@ namespace UserService.Services
 
             return false;
         }
-
+        /// <summary>
+        /// Creates a new user
+        /// </summary>
+        /// <param name="createUserDto"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<bool> CreateUser(CreateUserDto createUserDto)
         {
             if ((await _userRepository.GetUserByEmail(createUserDto.Email)) != null)
@@ -97,47 +112,82 @@ namespace UserService.Services
 
             if (user == null)
             {
-                throw new HttpStatusException(StatusCodes.Status400BadRequest, "User does not exist");
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, $"User does not exist");
             }
 
             return user.Balance;
         }
 
-
+        /// <summary>
+        /// Gets a user by a email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<User> GetUserByEmail(string email)
         {
             var user = await _userRepository.GetUserByEmail(email);
 
             if (user == null)
             {
-                throw new HttpStatusException(StatusCodes.Status400BadRequest, "User does not exist");
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, $"User does not exist");
             }
 
             return user;
         }
 
+        /// <summary>
+        /// Gets a user by a given Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<User> GetUserById(int userId)
         {
             var user = await _userRepository.GetUserById(userId);
 
             if (user == null)
             {
-                throw new HttpStatusException(StatusCodes.Status400BadRequest, "User does not exist");
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, $"User does not exist");
             }
 
             return user;
         }
-
+        /// <summary>
+        /// Gets a user by role
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<Role> GetUserRoleById(int userId)
         {
             var user = await _userRepository.GetUserRoleById(userId);
 
             if (user == null)
             {
-                throw new HttpStatusException(StatusCodes.Status400BadRequest, "User does not exist");
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, $"User does not exist");
             }
 
             return user;
+        }
+
+        /// <summary>
+        /// Updates user balance
+        /// </summary>
+        /// <param name="updateUserBalanceDto"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
+        public async Task<bool> UpdateUserBalance(UpdateUserBalanceDto updateUserBalanceDto)
+        {
+            var user = await _userRepository.GetUserById(updateUserBalanceDto.UserId);
+
+            if (user == null)
+            {
+                throw new HttpStatusException(StatusCodes.Status400BadRequest,
+                    $"User with the given id does not exist");
+            }
+
+            return await _userRepository.UpdateUserBalance(user, updateUserBalanceDto.NewBalance);
         }
     }
 }

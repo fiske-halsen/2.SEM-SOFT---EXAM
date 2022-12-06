@@ -55,6 +55,11 @@ public class HelperService
                 clientSecret = _configuration["FeedbackService:Key"];
                 scope = _configuration["FeedbackService:Scope"];
                 break;
+            case ClientType.UserService:
+                clientId = _configuration["IdentityServer:Host"];
+                clientSecret = _configuration["IdentityServer:Key"];
+                scope = _configuration["IdentityServer:Scope"];
+                break;
             default:
                 break;
         }

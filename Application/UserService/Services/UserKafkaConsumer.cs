@@ -1,7 +1,6 @@
-﻿using Confluent.Kafka;
-using System.Diagnostics;
-using Common.Dto;
+﻿using Common.Dto;
 using Common.KafkaEvents;
+using Confluent.Kafka;
 
 namespace UserService.Services
 {
@@ -32,7 +31,8 @@ namespace UserService.Services
                 GroupId = groupId,
                 BootstrapServers = bootstrapServers,
                 AutoOffsetReset =
-                    AutoOffsetReset.Earliest // Important to understand this part here; case if this client crashes
+                    AutoOffsetReset.Earliest, // Important to understand this part here; case if this client crashes
+                AllowAutoCreateTopics = true
             };
 
             using (var consumerBuilder = new ConsumerBuilder

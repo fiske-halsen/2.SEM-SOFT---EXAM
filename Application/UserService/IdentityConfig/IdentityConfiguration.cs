@@ -19,6 +19,7 @@ namespace UserService.IdentityConfig
                 new ApiScope("DeliveryService", "DeliveryService Scope"),
                 new ApiScope("OrderService", "OrderService Scope"),
                 new ApiScope("RestaurantService", "DeliveryService Scope"),
+                new ApiScope("UserService", "UserService Scope"),
             };
 
         public static IEnumerable<Client> Clients(IConfiguration configuration)
@@ -77,6 +78,15 @@ namespace UserService.IdentityConfig
                     ClientSecrets = {new Secret(identityConfigKeys.RestaurantServiceKey.Sha256())},
                     AllowAccessTokensViaBrowser = true,
                 },
+                new Client
+                {
+                    ClientId = "UserService",
+                    AccessTokenType = AccessTokenType.Jwt,
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedScopes = {"UserService"},
+                    ClientSecrets = {new Secret(identityConfigKeys.UserServiceKey.Sha512())},
+                    AllowAccessTokensViaBrowser = true,
+                }
             };
         }
 
@@ -125,6 +135,13 @@ namespace UserService.IdentityConfig
                     ApiSecrets = {new Secret(identityConfigKeys.RestaurantServiceKey.Sha256())},
                     Scopes = {"RestaurantService",}
                 },
+                new ApiResource
+                {
+                    Name = "UserService",
+                    Description = "UserService resource",
+                    ApiSecrets = {new Secret(identityConfigKeys.RestaurantServiceKey.Sha256())},
+                    Scopes = {"UserService",}
+                }
             };
         }
 

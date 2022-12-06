@@ -22,7 +22,8 @@ namespace PaymentValidatorService.Services
             {
                 GroupId = groupId,
                 BootstrapServers = bootstrapServers,
-                AutoOffsetReset = AutoOffsetReset.Earliest
+                AutoOffsetReset = AutoOffsetReset.Earliest,
+                AllowAutoCreateTopics = true
             };
 
             using (var consumerBuilder = new ConsumerBuilder

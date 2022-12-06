@@ -7,5 +7,6 @@
         public string FeedbackServiceKey { get; set; }
         public string OrderServiceKey { get; set; }
         public string RestaurantServiceKey { get; set; }
+        public string UserServiceKey { get; set; }
     }
 }
