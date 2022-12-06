@@ -119,10 +119,16 @@ namespace ReviewServiceTest.UnitTest
 
             _reviewRepositoryMock.Setup(_ => _.GetReviewsByDeliveryUserId(DeliveryDriverId)).ReturnsAsync(GenerateDummyData());
             List<Review> actualMocked = new List<Review>();
+
             // Act
             actualMocked = await _reviewService.GetReviewsByDeliveryUserId(DeliveryDriverId);
 
-            Review[] expected = { createReview };
+            Func<Task> act = async () =>
+            {
+                actualMocked = await _reviewService.GetReviewsByDeliveryUserId(DeliveryDriverId);
+                await Task.CompletedTask;
+            };
+
 
             // Assert
             actualMocked.Should().NotBeEmpty().And.HaveCount(5);
@@ -131,6 +137,141 @@ namespace ReviewServiceTest.UnitTest
             _reviewRepositoryMock.Verify(_ => _.GetReviewsByDeliveryUserId(It.IsAny<int>()), Times.Exactly(1));
 
         }
+
+        [Test]
+        public async Task GetReviewsByDeliveryUserId_Should_Not_Return_List_Negative()
+        {
+            // Arrange
+            var DeliveryDriverId = 10;
+
+            _reviewRepositoryMock.Setup(_ => _.GetReviewsByDeliveryUserId(DeliveryDriverId)).ReturnsAsync(GenerateDummyData());
+            List<Review> actualMocked = new List<Review>();
+
+            // Act
+            Func<Task> act = async () =>
+            {
+                actualMocked = await _reviewService.GetReviewsByDeliveryUserId(DeliveryDriverId);
+                await Task.CompletedTask;
+            };
+
+            // Assert
+            actualMocked.Should().BeEmpty().And.HaveCount(0);
+        }
+
+        [Test]
+        public async Task GetReviewsByRestaurantId_Should_Return_List_Positive()
+        {
+            // Arrange
+            var restaurantId = 3;
+
+            var createReview = new Review
+            {
+                UserId = 1,
+                RestaurantId = 3,
+                DeliveryDriverId = 4,
+                OrderId = 4,
+                ReviewText = "Very good food and nice delivery guy",
+                Rating = 5
+            };
+
+            _reviewRepositoryMock.Setup(_ => _.GetReviewsByRestaurantId(restaurantId)).ReturnsAsync(GenerateDummyData());
+            List<Review> actualMocked = new List<Review>();
+
+            // Act
+            actualMocked = await _reviewService.GetReviewsByRestaurantId(restaurantId);
+
+            Func<Task> act = async () =>
+            {
+                actualMocked = await _reviewService.GetReviewsByRestaurantId(restaurantId);
+                await Task.CompletedTask;
+            };
+
+
+            // Assert
+            actualMocked.Should().NotBeEmpty().And.HaveCount(5);
+
+            // Verify using mock
+            _reviewRepositoryMock.Verify(_ => _.GetReviewsByRestaurantId(It.IsAny<int>()), Times.Exactly(1));
+
+        }
+
+        [Test]
+        public async Task GetReviewsByRestaurantId_Should_Not_Return_List_Negative()
+        {
+            // Arrange
+            var restaurantId = 10;
+
+            _reviewRepositoryMock.Setup(_ => _.GetReviewsByRestaurantId(restaurantId)).ReturnsAsync(GenerateDummyData());
+            List<Review> actualMocked = new List<Review>();
+
+            // Act
+            Func<Task> act = async () =>
+            {
+                actualMocked = await _reviewService.GetReviewsByRestaurantId(restaurantId);
+                await Task.CompletedTask;
+            };
+
+
+            // Assert
+            actualMocked.Should().BeEmpty().And.HaveCount(0);
+
+            // Verify using mock
+            _reviewRepositoryMock.Verify(_ => _.GetReviewsByRestaurantId(It.IsAny<int>()), Times.Exactly(0));
+
+        }
+        [Test]
+        public async Task GetReviewsByUserId_Should_Return_List_Positive()
+        {
+            // Arrange
+            var userId = 10;
+
+
+            _reviewRepositoryMock.Setup(_ => _.GetReviewsByUserId(userId)).ReturnsAsync(GenerateDummyData());
+            List<Review> actualMocked = new List<Review>();
+
+            // Act
+            actualMocked = await _reviewService.GetReviewsByUserId(userId);
+
+            Func<Task> act = async () =>
+            {
+                actualMocked = await _reviewService.GetReviewsByUserId(userId);
+                await Task.CompletedTask;
+            };
+
+
+            // Assert
+            actualMocked.Should().NotBeEmpty().And.HaveCount(5);
+
+            // Verify using mock
+            _reviewRepositoryMock.Verify(_ => _.GetReviewsByUserId(It.IsAny<int>()), Times.Exactly(1));
+
+        }
+
+        [Test]
+        public async Task GetReviewsByUserId_Should_Not_Return_List_Negative()
+        {
+            // Arrange
+            var userId = 10;
+
+            _reviewRepositoryMock.Setup(_ => _.GetReviewsByUserId(userId)).ReturnsAsync(GenerateDummyData());
+            List<Review> actualMocked = new List<Review>();
+
+            // Act
+            Func<Task> act = async () =>
+            {
+                actualMocked = await _reviewService.GetReviewsByUserId(userId);
+                await Task.CompletedTask;
+            };
+
+
+            // Assert
+            actualMocked.Should().BeEmpty().And.HaveCount(0);
+
+            // Verify using mock
+            _reviewRepositoryMock.Verify(_ => _.GetReviewsByUserId(It.IsAny<int>()), Times.Exactly(0));
+
+        }
+
 
         public static List<Review> GenerateDummyData()
         {
