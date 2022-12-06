@@ -21,7 +21,7 @@ namespace GraphqlDemo.Operations
                 .RuleFor(x => x.Customer, x => x.Person.FullName)
                 .RuleFor(x => x.Restaurant, x => x.Company.CompanyName())
                 .RuleFor(x => x.Total, x => x.Random.Int())
-                .RuleFor(x => x.Items, menuItemFaker.Generate(5));
+                .RuleFor(x => x.Items, menuItemFaker.Generate(10));
 
             return orderFaker.Generate(10);
         }

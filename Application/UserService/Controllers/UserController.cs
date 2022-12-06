@@ -16,11 +16,28 @@ namespace Microservice1.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// End point for creating new user
+        /// </summary>
+        /// <param name="createUserDto"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public async Task<bool> CreateUser([FromBody] CreateUserDto createUserDto)
         {
             return await _userService.CreateUser(createUserDto);
+        }
+
+        /// <summary>
+        /// End point to update user balance
+        /// </summary>
+        /// <param name="updateUserBalanceDto"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPatch]
+        public async Task<bool> UpdateUserBalance([FromBody] UpdateUserBalanceDto updateUserBalanceDto)
+        {
+            return await _userService.UpdateUserBalance(updateUserBalanceDto);
         }
     }
 }

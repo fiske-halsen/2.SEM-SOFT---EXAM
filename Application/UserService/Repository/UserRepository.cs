@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using UserService.Context;
 using UserService.Models;
 
@@ -10,6 +11,7 @@ namespace UserService.Repository
         public Task<User> GetUserByEmail(string email);
         public Task<Role> GetUserRoleById(int userId);
         public Task<bool> CreateUser(User user);
+        public Task<bool> UpdateUserBalance(User user, double newBalance);
     }
 
     /// <summary>
@@ -52,8 +54,19 @@ namespace UserService.Repository
         /// <returns></returns>
         public async Task<User> GetUserByEmail(string email)
         {
-            return await _applicationContext.Users.Include(_ => _.Role)
-                .FirstOrDefaultAsync(_ => _.Email == email);
+            try
+            {
+                var user = await _applicationContext.Users.Include(_ => _.Role)
+                    .FirstOrDefaultAsync(_ => _.Email == email);
+
+                return user;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -63,8 +76,19 @@ namespace UserService.Repository
         /// <returns></returns>
         public async Task<User> GetUserById(int userId)
         {
-            return await _applicationContext.Users.Include(_ => _.Role)
-                .FirstOrDefaultAsync(_ => _.Id == userId);
+            try
+            {
+                var user = await _applicationContext.Users.Include(_ => _.Role)
+                    .FirstOrDefaultAsync(_ => _.Id == userId);
+
+                return user;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -74,10 +98,40 @@ namespace UserService.Repository
         /// <returns></returns>
         public async Task<Role> GetUserRoleById(int userId)
         {
-            var user = await _applicationContext.Users.Include(_ => _.Role)
-                .FirstOrDefaultAsync(_ => _.Id == userId);
+            try
+            {
+                var user = await _applicationContext.Users.Include(_ => _.Role)
+                    .FirstOrDefaultAsync(_ => _.Id == userId);
 
-            return user.Role;
+                return user.Role;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Updates a user balance 
+        /// </summary>
+        /// <param name="user"> The given user that needs a update</param>
+        /// <param name="newBalance">The new balance for the given user</param>
+        /// <returns></returns>
+        public async Task<bool> UpdateUserBalance(User user, double newBalance)
+        {
+            try
+            {
+                user.Balance = newBalance;
+                await _applicationContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
         }
     }
 }
