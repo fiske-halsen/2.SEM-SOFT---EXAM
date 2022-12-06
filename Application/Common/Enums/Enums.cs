@@ -4,6 +4,7 @@ namespace Common.Enums
 {
     #region Enums
 
+
     public enum PaymentTypes
     {
         CreditCard = 1,
