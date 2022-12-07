@@ -38,6 +38,8 @@ namespace OrderService.Services
                     IsActive = true,
                     RestaurantId = createOrderDto.RestaurantId,
                     TotalPrice = createOrderDto.OrderTotal,
+                    CardType = createOrderDto.CardType,
+                    PaymentType = createOrderDto.PaymentType,
                     MenuItems = createOrderDto.MenuItems
                         .Select(_ => new OrderItem {MenuItemId = _.Id, ItemPrice = _.Price})
                         .ToList()

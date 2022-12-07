@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OrderService.Context;
 
@@ -11,9 +12,10 @@ using OrderService.Context;
 namespace OrderService.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    partial class OrderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221207152136_addedPaymentCard")]
+    partial class addedPaymentCard
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,12 +66,11 @@ namespace OrderService.Migrations
                         new
                         {
                             Id = 1,
-                            CardType = "Dankort",
-                            CreatedAt = new DateTime(2022, 12, 7, 16, 22, 28, 561, DateTimeKind.Local).AddTicks(5542),
+                            CreatedAt = new DateTime(2022, 12, 7, 16, 21, 36, 641, DateTimeKind.Local).AddTicks(2612),
                             CustomerEmail = "phillip.andersen1999@gmail.com",
                             IsActive = true,
                             IsApproved = false,
-                            PaymentType = "CreditCard",
+                            PaymentType = "0",
                             RestaurantId = 1,
                             TotalPrice = 367.0
                         });
