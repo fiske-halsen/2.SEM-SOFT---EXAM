@@ -53,7 +53,7 @@ namespace RestaurantService.Services
                         {
                             var restaurantService = scope.ServiceProvider.GetRequiredService<IRestaurantService>();
 
-                            var approveOrderDto = JsonConvert.DeserializeObject<ApproveOrderDto>(jsonObj)
+                            var approveOrderDto = JsonConvert.DeserializeObject<ApproveOrderDto>(jsonObj);
 
                             if (approveOrderDto != null)
                             {
