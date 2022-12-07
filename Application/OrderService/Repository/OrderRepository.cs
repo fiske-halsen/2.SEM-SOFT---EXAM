@@ -1,16 +1,16 @@
-﻿using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OrderService.Context;
 using OrderService.Models;
+using System.Diagnostics;
 
 namespace OrderService.Repository
 {
     public interface IOrderRepository
     {
-        public Task<Order> AcceptOrder(int id);
-        public Task<Order> CancelOrder(int id);
+        public Task<bool> AcceptOrder(int orderId);
+        public Task<bool> DeleteOrder(Order order);
         public Task<bool> CreateOrder(Order order);
-        public Task<Order> DenyOrder(int id);
+        public Task<Order> GetOrderById(int orderId);
     }
 
     public class OrderRepository : IOrderRepository
@@ -22,6 +22,11 @@ namespace OrderService.Repository
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Creates a new order and saves it in the database
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
         public async Task<bool> CreateOrder(Order order)
         {
             try
@@ -37,52 +42,55 @@ namespace OrderService.Repository
             }
         }
 
-        public async Task<Order> CancelOrder(int id)
+        /// <summary>
+        /// Deletes a order by id in the database
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteOrder(Order order)
         {
             try
             {
-                var order = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == id);
                 _dbContext.Orders.Remove(order);
                 await _dbContext.SaveChangesAsync();
-                return order;
+                return true;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-                throw;
+                return false;
             }
         }
 
-        public async Task<Order> AcceptOrder(int id)
+        /// <summary>
+        /// Accepts a given order
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public async Task<bool> AcceptOrder(int orderId)
         {
             try
             {
-                var order = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == id);
+                var order = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
                 order.IsApproved = true;
                 await _dbContext.SaveChangesAsync();
-                return order;
+                return true;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-                throw;
+                return false;
             }
         }
 
-        public async Task<Order> DenyOrder(int id)
+        /// <summary>
+        /// Gets a order by id
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public async Task<Order> GetOrderById(int orderId)
         {
-            try
-            {
-                var order = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == id);
-                order.IsActive = false;
-                await _dbContext.SaveChangesAsync();
-                return order;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                throw;
-            }
+            return await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
         }
     }
 }

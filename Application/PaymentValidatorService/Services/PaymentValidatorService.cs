@@ -1,7 +1,4 @@
 ﻿using Common.Dto;
-using Common.Enums;
-using Common.KafkaEvents;
-using Newtonsoft.Json;
 
 namespace PaymentValidatorService.Services
 {

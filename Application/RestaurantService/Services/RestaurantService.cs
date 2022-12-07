@@ -23,7 +23,7 @@ namespace RestaurantService.Services
 
         //KAFKA
         Task<bool> CheckMenuItemStock(CreateOrderDto createOrderDTO);
-        Task<bool> UpdateMenuItemStock(CreateOrderDto createOrderDTO);
+        Task<bool> UpdateMenuItemStock(ApproveOrderDto approveOrderDto);
     }
 
     public class RestaurantService : IRestaurantService
@@ -45,9 +45,9 @@ namespace RestaurantService.Services
                 throw new HttpStatusException(StatusCodes.Status400BadRequest, "Could not find stock for menu item");
             }
 
-            bool isInStock = menuItemStock.Any(x => x.StockCount > 0);
+            bool isInStock = !menuItemStock.Any(x => x.StockCount < 1);
+
             return isInStock;
-            //send message to hub if isInStock = false;
         }
 
         public async Task<bool> CreateMenuItem(MenuItemDTO menuItemDTO, int restaurantId)
@@ -116,10 +116,9 @@ namespace RestaurantService.Services
             return await _restaurantRepository.UpdateMenuItem(menuItemDTO, restaurantId);
         }
 
-        public async Task<bool> UpdateMenuItemStock(CreateOrderDto createOrderDTO)
+        public async Task<bool> UpdateMenuItemStock(ApproveOrderDto approveOrderDto)
         {
-            await _restaurantRepository.UpdateMenuItemStock(createOrderDTO.MenuItems.Select(_ => _.Id).ToList());
-
+            await _restaurantRepository.UpdateMenuItemStock(approveOrderDto.MenuItemsIds);
 
             return true;
         }

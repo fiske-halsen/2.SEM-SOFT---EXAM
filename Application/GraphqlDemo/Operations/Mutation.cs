@@ -22,31 +22,55 @@ namespace GraphqlDemo.Operations
             _userServiceCommunicator = userServiceCommunicator;
         }
 
+        #region OrderService
+
+        /// <summary>
+        /// Creates a new order and posts a ValidatePayment to kafka
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         public async Task<bool> CreateOrder(CreateOrderDto dto)
         {
             try
             {
-                CreateOrderDto orderDto = new CreateOrderDto
-                {
-                    PaymentType = dto.PaymentType,
-                    CustomerEmail = dto.CustomerEmail,
-                    RestaurantId = dto.RestaurantId,
-                    OrderTotal = dto.OrderTotal,
-                    MenuItems = dto.MenuItems,
-                    CardType = dto.CardType,
-                    VoucherCode = dto.VoucherCode
-                };
-
-                var orderSerialized = JsonConvert.SerializeObject(orderDto);
+                var orderSerialized = JsonConvert.SerializeObject(dto);
                 await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.ValidatePayment, orderSerialized);
 
                 return true;
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.Message);
                 return false;
             }
         }
+
+        /// <summary>
+        /// Approves order and orchestrates events to both restaurant service and order service
+        /// </summary>
+        /// <param name="approveOrderDto"></param>
+        /// <returns></returns>
+        public async Task<bool> ApproveOrder(ApproveOrderDto approveOrderDto)
+        {
+            try
+            {
+                var approveOrderSerialized = JsonConvert.SerializeObject(approveOrderDto);
+                await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.ApproveOrderEvent,
+                    approveOrderSerialized);
+                await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.UpdateRestaurantStockEvent,
+                    approveOrderSerialized);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region UserService
 
         /// <summary>
         /// Creates a new user to the system; Sends a call to UserService
@@ -84,5 +108,7 @@ namespace GraphqlDemo.Operations
                 return null;
             }
         }
+
+        #endregion
     }
 }

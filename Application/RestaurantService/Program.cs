@@ -10,12 +10,21 @@ using RestaurantService.Services;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-using (var adminClient = new AdminClientBuilder(new AdminClientConfig { BootstrapServers = "localhost:9092" }).Build())
+using (var adminClient = new AdminClientBuilder(new AdminClientConfig {BootstrapServers = "localhost:9092"}).Build())
 {
     try
     {
-        await adminClient.CreateTopicsAsync(new TopicSpecification[] {
-            new TopicSpecification { Name = EventStreamerEvents.CheckRestaurantStockEvent, ReplicationFactor = 1, NumPartitions = 3 } });
+        await adminClient.CreateTopicsAsync(new TopicSpecification[]
+        {
+            new TopicSpecification
+                {Name = EventStreamerEvents.UpdateRestaurantStockEvent, ReplicationFactor = 1, NumPartitions = 3}
+        });
+
+        await adminClient.CreateTopicsAsync(new TopicSpecification[]
+        {
+            new TopicSpecification
+                {Name = EventStreamerEvents.CheckRestaurantStockEvent, ReplicationFactor = 1, NumPartitions = 3}
+        });
     }
     catch (CreateTopicsException e)
     {
@@ -37,7 +46,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 builder.Services.AddScoped<IRestaurantService, RestaurantService.Services.RestaurantService>();
 builder.Services.AddScoped<IRestaurantProducerService, RestaurantProducerService>();
-builder.Services.AddHostedService<RestaurantConsumerService>();
+builder.Services.AddHostedService<RestaurantConsumerStockCheck>();
+builder.Services.AddHostedService<RestaurantUpdateStockConsumer>();
 
 builder.Services.AddDbContext<DBApplicationContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));

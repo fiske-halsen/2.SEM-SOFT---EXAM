@@ -1,15 +1,14 @@
 ﻿using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
-using Newtonsoft.Json;
 
-namespace OrderService.Services
+namespace RestaurantService.Services
 {
-    public class SaveOrderConsumer : BackgroundService
+    public class RestaurantConsumerStockCheck : BackgroundService
     {
         #region private class properties
 
-        private readonly string groupId = "user_group";
+        private readonly string groupId = "restaurant_group";
         private readonly string bootstrapServers = "localhost:9092";
 
         #endregion
@@ -20,7 +19,7 @@ namespace OrderService.Services
 
         #endregion
 
-        public SaveOrderConsumer(IServiceProvider serviceProvider)
+        public RestaurantConsumerStockCheck(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -41,7 +40,7 @@ namespace OrderService.Services
             using (var consumerBuilder = new ConsumerBuilder
                        <Ignore, string>(config).Build())
             {
-                consumerBuilder.Subscribe(EventStreamerEvents.SaveOrderEvent);
+                consumerBuilder.Subscribe(EventStreamerEvents.CheckRestaurantStockEvent);
                 var cancelToken = new CancellationTokenSource();
                 try
                 {
@@ -53,24 +52,23 @@ namespace OrderService.Services
 
                         using (var scope = _serviceProvider.CreateScope())
                         {
-                            var myScopedService = scope.ServiceProvider.GetRequiredService<IOrderService>();
+                            var restaurantService = scope.ServiceProvider.GetRequiredService<IRestaurantService>();
+
                             var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
 
                             if (createOrderDto != null)
                             {
-                                if (await myScopedService.CreateOrder(createOrderDto))
+                                if (await restaurantService.CheckMenuItemStock(createOrderDto))
                                 {
-                                    var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
+                                    //if (await restaurantService.UpdateMenuItemStock(createOrderDto))
+                                    //{
+                                        var kafkaProducer = scope.ServiceProvider
+                                            .GetRequiredService<IRestaurantProducerService>();
 
-                                    var emailObj = new EmailPackageDto
-                                    {
-                                        Email = createOrderDto.CustomerEmail,
-                                        Subject = "Order received",
-                                        Message = $"Order received waiting for restaurant approval"
-                                    };
-
-                                    await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent,
-                                        JsonConvert.SerializeObject(emailObj));
+                                        // Notify our order service..
+                                        await kafkaProducer.ProduceToKafka(EventStreamerEvents.SaveOrderEvent,
+                                            jsonObj);
+                                    
                                 }
                             }
                         }
@@ -78,6 +76,7 @@ namespace OrderService.Services
                 }
                 catch (OperationCanceledException)
                 {
+                    stoppingToken.ThrowIfCancellationRequested();
                     consumerBuilder.Close();
                 }
             }

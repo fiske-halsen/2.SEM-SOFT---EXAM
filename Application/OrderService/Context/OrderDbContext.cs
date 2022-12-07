@@ -30,7 +30,7 @@ namespace OrderService.Context
 
 
             modelBuilder.Entity<OrderItem>()
-                .HasData(new OrderItem {Id = 1, OrderId = 1, ItemPrice = 367.0});
+                .HasData(new OrderItem {Id = 1, OrderId = 1, ItemPrice = 367.0, MenuItemId = 1});
         }
     }
 }
