@@ -66,7 +66,8 @@ namespace OrderService.Services
                                     var emailObj = new EmailPackageDto
                                     {
                                         Email = createOrderDto.CustomerEmail,
-                                        Message = "$Order received waiting for restaurant approval"
+                                        Subject = "Order received",
+                                        Message = $"Order received waiting for restaurant approval"
                                     };
 
                                     await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent, JsonConvert.SerializeObject(emailObj));
