@@ -25,12 +25,10 @@ namespace UserService.Services
     public class UsersService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUserProducer _kafkaProducer;
-
-        public UsersService(IUserRepository userRepository, IUserProducer kafkaProducer)
+        
+        public UsersService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _kafkaProducer = kafkaProducer;
         }
 
         /// <summary>

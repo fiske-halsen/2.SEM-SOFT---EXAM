@@ -1,25 +1,23 @@
 ﻿using Common.Dto;
-using Common.KafkaEvents;
 using GraphqlDemo.Services;
-using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace GraphqlDemo.Operations
 {
     public class Mutation
     {
-        private readonly IKafkaProducerService _kafkaProducerService;
         private readonly IConfiguration _configuration;
         private readonly IUserServiceCommunicator _userServiceCommunicator;
+        private readonly IOrderServiceCommunicator _orderServiceCommunicator;
 
         public Mutation(
-            IKafkaProducerService kafkaProducerService,
             IConfiguration configuration,
-            IUserServiceCommunicator userServiceCommunicator)
+            IUserServiceCommunicator userServiceCommunicator,
+            IOrderServiceCommunicator orderServiceCommunicator)
         {
-            _kafkaProducerService = kafkaProducerService;
             _configuration = configuration;
             _userServiceCommunicator = userServiceCommunicator;
+            _orderServiceCommunicator = orderServiceCommunicator;
         }
 
         #region OrderService
@@ -33,9 +31,7 @@ namespace GraphqlDemo.Operations
         {
             try
             {
-                var orderSerialized = JsonConvert.SerializeObject(dto);
-                await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.ValidatePayment, orderSerialized);
-
+                await _orderServiceCommunicator.CreateOrder(dto);
                 return true;
             }
             catch (Exception e)
@@ -54,11 +50,7 @@ namespace GraphqlDemo.Operations
         {
             try
             {
-                var approveOrderSerialized = JsonConvert.SerializeObject(approveOrderDto);
-                await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.ApproveOrderEvent,
-                    approveOrderSerialized);
-                await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.UpdateRestaurantStockEvent,
-                    approveOrderSerialized);
+                await _orderServiceCommunicator.ApproveOrder(approveOrderDto);
                 return true;
             }
             catch (Exception e)

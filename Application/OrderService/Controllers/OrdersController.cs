@@ -31,8 +31,8 @@ namespace OrderService.Controllers
         }
 
         [Authorize]
-        [HttpGet("/restaurants/{restaurantId}/users/{userEmail}")]
-        public async Task<List<Order>> GetOrdersForRestaurants(int restaurantId, string userEmail)
+        [HttpGet("/users/{userEmail}")]
+        public async Task<List<Order>> GetOrdersForRestaurants(string userEmail)
         {
             return await _orderService.GetAllOrdersForUser(userEmail);
         }
