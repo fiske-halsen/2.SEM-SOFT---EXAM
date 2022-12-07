@@ -6,13 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FeedbackService.Controllers
 {
-
-
     [ApiController]
     [Route("api/[controller]")]
     public class ReviewController : ControllerBase
     {
-
         private readonly IReviewService _reviewService;
 
         public ReviewController(IReviewService reviewService)
@@ -32,17 +29,17 @@ namespace FeedbackService.Controllers
         {
             return await _reviewService.GetReviewsByUserId(userId);
         }
+
         [HttpGet("/{restaurantId}/restaurantreviews")]
         public async Task<List<Review>> GetReviewsByRestaurantId(int restaurantId)
         {
             return await _reviewService.GetReviewsByRestaurantId(restaurantId);
         }
+
         [HttpGet("/{deliveryDriverId}/deliverydriverreviews")]
         public async Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryDriverId)
         {
             return await _reviewService.GetReviewsByDeliveryUserId(deliveryDriverId);
         }
-
     }
 }
-
