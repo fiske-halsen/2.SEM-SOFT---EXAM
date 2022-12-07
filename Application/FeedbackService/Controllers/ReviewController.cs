@@ -3,7 +3,6 @@ using FeedbackService.Models;
 using FeedbackService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 namespace FeedbackService.Controllers
 {
     [ApiController]
@@ -11,16 +10,19 @@ namespace FeedbackService.Controllers
     public class ReviewController : ControllerBase
     {
         private readonly IReviewService _reviewService;
+        private ILogger<ReviewController> _logger;
 
-        public ReviewController(IReviewService reviewService)
+        public ReviewController(IReviewService reviewService, ILogger<ReviewController> logger)
         {
             _reviewService = reviewService;
+            _logger = logger;
         }
 
         [AllowAnonymous]
         [HttpPost]
         public async Task<bool> CreateReview([FromBody] CreateReviewDTO createReviewDto)
         {
+            _logger.LogInformation("dsdds");
             return await _reviewService.CreateReview(createReviewDto);
         }
 
