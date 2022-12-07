@@ -1,39 +1,49 @@
 ﻿using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using OrderService.Context;
+using Common.Dto;
 using OrderService.Models;
+using OrderService.Repository;
 
-namespace OrderService.Repository
+namespace OrderService.Services
 {
-    public interface IOrderRepository
+    public interface IOrderService
     {
-        public Task<Order> AcceptOrder(int id);
-        public Task<Order> CancelOrder(int id);
-        public Task<bool> CreateOrder(Order order);
         public Task<Order> DenyOrder(int id);
+        public Task<Order> AcceptOrder(int id);
         public Task<int> TimeToDelivery(int id);
+        public Task<Order> CancelOrder(int id);
+        public Task<bool> CreateOrder(CreateOrderDto createOrderDto);
     }
 
-    public class OrderRepository : IOrderRepository
+    public class OrdersService : IOrderService
     {
-        private readonly OrderDbContext _dbContext;
+        private readonly IOrderRepository _orderRepository;
 
-        public OrderRepository(OrderDbContext dbContext)
+        public OrdersService(IOrderRepository orderRepository)
         {
-            _dbContext = dbContext;
+            _orderRepository = orderRepository;
         }
 
-        public async Task<bool> CreateOrder(Order order)
+        public async Task<bool> CreateOrder(CreateOrderDto createOrderDto)
         {
             try
             {
-                await _dbContext.Orders.AddAsync(order);
-                await _dbContext.SaveChangesAsync();
+                var order = new Order
+                {
+                    CustomerEmail = createOrderDto.CustomerEmail,
+                    IsApproved = false,
+                    IsActive = true,
+                    RestaurantId = createOrderDto.RestaurantId,
+                    TotalPrice = createOrderDto.MenuItems.Sum(_ => _.Price),
+                    MenuItems = createOrderDto.MenuItems.Select(_ => new OrderItem { ItemPrice = _.Price })
+                        .ToList()
+                };
+
+                await _orderRepository.CreateOrder(order);
                 return true;
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                Debug.WriteLine(e);
                 return false;
             }
         }
@@ -42,9 +52,7 @@ namespace OrderService.Repository
         {
             try
             {
-                var order = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == id);
-                _dbContext.Orders.Remove(order);
-                await _dbContext.SaveChangesAsync();
+                Order order = await _orderRepository.CancelOrder(id);
                 return order;
             }
             catch (Exception e)
@@ -58,8 +66,7 @@ namespace OrderService.Repository
         {
             try
             {
-                var order = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == id);
-                var time = order.TimeToDelivery;
+                var time = await _orderRepository.TimeToDelivery(id);
                 return time;
             }
             catch (Exception e)
@@ -73,9 +80,7 @@ namespace OrderService.Repository
         {
             try
             {
-                var order = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == id);
-                order.IsApproved = true;
-                await _dbContext.SaveChangesAsync();
+                Order order = await _orderRepository.AcceptOrder(id);
                 return order;
             }
             catch (Exception e)
@@ -89,9 +94,7 @@ namespace OrderService.Repository
         {
             try
             {
-                var order = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == id);
-                order.IsActive = false;
-                await _dbContext.SaveChangesAsync();
+                Order order = await _orderRepository.DenyOrder(id);
                 return order;
             }
             catch (Exception e)

@@ -9,15 +9,17 @@ namespace RestaurantService.Repository
     {
         Task<bool> CreateRestaurant(Restaurant restaurant);
         Task<bool> CreateMenuItem(MenuItem menuItem, int restaurantId);
-        Task<bool> UpdateMenuItem(int menuItemId, MenuItemDTO menuItemDTO);
-        Task<bool> DeleteMenuItem(int menuItemId);
+
         Task<List<MenuItem>> CheckMenuItemStockList(List<int> menuItemsIds);
         Task<bool> UpdateMenuItemStock(List<int> menuItemsIds);
+
+        Task<bool> UpdateMenuItem(MenuItemDTO menuItemDTO, int restaurantId);
+        Task<bool> DeleteMenuItem(int menuItemId, int restaurantId);
 
         //Customer
         Task<Menu> GetRestaurantMenu(int restaurantId);
         Task<List<Restaurant>> GetAllRestaurants();
-        Task<MenuItem> GetRestaurantMenuItem(int MenuItemId);
+        Task<MenuItem> GetRestaurantMenuItem(int restaurantId, int MenuItemId);
     }
 
     public class RestaurantRepository : IRestaurantRepository
@@ -48,11 +50,12 @@ namespace RestaurantService.Repository
             return true;
         }
 
-        
 
-        public async Task<bool> DeleteMenuItem(int menuItemId)
+        public async Task<bool> DeleteMenuItem(int menuItemId, int restaurantId)
         {
-            var menuItem = await _dbContext.MenuItems.FirstOrDefaultAsync(x => x.Id == menuItemId);
+            var menuItem =
+                await _dbContext.MenuItems.FirstOrDefaultAsync(x =>
+                    x.Id == menuItemId && x.Menu.Restaurant.Id == restaurantId);
             _dbContext.MenuItems.Remove(menuItem);
             await _dbContext.SaveChangesAsync();
             return true;
@@ -60,25 +63,35 @@ namespace RestaurantService.Repository
 
         public async Task<List<Restaurant>> GetAllRestaurants()
         {
-            return await _dbContext.Restaurants.ToListAsync();
+            return await _dbContext.Restaurants.Include(x => x.Menu).Include(c => c.Address)
+                .Include(b => b.Address.CityInfo).ToListAsync();
         }
 
         public async Task<Menu> GetRestaurantMenu(int restaurantId)
         {
-            return await _dbContext.Menus.Where(x => x.Restaurant.Id == restaurantId).FirstOrDefaultAsync();
+            var restaurant = await _dbContext.Restaurants.Where(x => x.Id == restaurantId)
+                .Include(c => c.Menu.MenuItems)
+                .FirstOrDefaultAsync();
+
+            return restaurant.Menu;
         }
 
-        public async Task<MenuItem> GetRestaurantMenuItem(int MenuItemId)
+        public async Task<MenuItem> GetRestaurantMenuItem(int restaurantId, int MenuItemId)
         {
-            return await _dbContext.MenuItems.Where(x => x.Id == MenuItemId).FirstOrDefaultAsync();
+            return await _dbContext.MenuItems.Where(x => x.Id == MenuItemId && x.Menu.Restaurant.Id == restaurantId)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<bool> UpdateMenuItem(int menuItemId, MenuItemDTO menuItemDTO)
+        public async Task<bool> UpdateMenuItem(MenuItemDTO menuItemDTO, int restaurantId)
         {
-            var menuItemToUpdate = await _dbContext.MenuItems.FindAsync(menuItemId);
+            var menuItemToUpdate = await _dbContext.MenuItems
+                .Where(x => x.Menu.Restaurant.Id == restaurantId && x.Id == menuItemDTO.Id)
+                .FirstOrDefaultAsync();
+
             menuItemToUpdate.Description = menuItemDTO.Description;
             menuItemToUpdate.Name = menuItemDTO.Name;
             menuItemToUpdate.Price = menuItemDTO.Price;
+            await _dbContext.SaveChangesAsync();
             return true;
         }
 

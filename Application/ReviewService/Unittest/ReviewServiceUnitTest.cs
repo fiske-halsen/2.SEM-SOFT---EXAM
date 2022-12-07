@@ -137,6 +137,10 @@ namespace ReviewServiceTest.UnitTest
             _reviewRepositoryMock.Verify(_ => _.GetReviewsByDeliveryUserId(It.IsAny<int>()), Times.Exactly(1));
 
         }
+        /// <summary>
+        /// Negative test for getting reviews for a deliverydriver with a id not found in database with mock and dummy data
+        /// </summary>
+        /// <returns></returns>
 
         [Test]
         public async Task GetReviewsByDeliveryUserId_Should_Not_Return_List_Negative()
@@ -157,7 +161,10 @@ namespace ReviewServiceTest.UnitTest
             // Assert
             actualMocked.Should().BeEmpty().And.HaveCount(0);
         }
-
+        /// <summary>
+        /// Postive test to get the reviews of a restaurant by restaurant id with mock and dummy data
+        /// </summary>
+        /// <returns></returns>
         [Test]
         public async Task GetReviewsByRestaurantId_Should_Return_List_Positive()
         {
@@ -194,6 +201,10 @@ namespace ReviewServiceTest.UnitTest
             _reviewRepositoryMock.Verify(_ => _.GetReviewsByRestaurantId(It.IsAny<int>()), Times.Exactly(1));
 
         }
+        /// <summary>
+        /// Negative test to get the reviews of a restaurant with a resturant id not found in database with dummy data and mock
+        /// </summary>
+        /// <returns></returns>
 
         [Test]
         public async Task GetReviewsByRestaurantId_Should_Not_Return_List_Negative()
@@ -219,6 +230,12 @@ namespace ReviewServiceTest.UnitTest
             _reviewRepositoryMock.Verify(_ => _.GetReviewsByRestaurantId(It.IsAny<int>()), Times.Exactly(0));
 
         }
+
+
+        /// <summary>
+        /// Positive test to get the reviews of a user with an userid with dummy data and mock
+        /// </summary>
+        /// <returns></returns>
         [Test]
         public async Task GetReviewsByUserId_Should_Return_List_Positive()
         {
@@ -247,6 +264,10 @@ namespace ReviewServiceTest.UnitTest
 
         }
 
+        /// <summary>
+        /// Negative test to get the reviews of a user with an userid not found in database with dummy data and mock
+        /// </summary>
+        /// <returns></returns>
         [Test]
         public async Task GetReviewsByUserId_Should_Not_Return_List_Negative()
         {
@@ -272,7 +293,10 @@ namespace ReviewServiceTest.UnitTest
 
         }
 
-
+        /// <summary>
+        /// Method to genereate dummy data for the test methods using bogus 
+        /// </summary>
+        /// <returns></returns>
         public static List<Review> GenerateDummyData()
         {
             Faker<Review> reviewFaker = new Faker<Review>()

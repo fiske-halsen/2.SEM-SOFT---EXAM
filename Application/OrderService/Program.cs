@@ -40,7 +40,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<OrderDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IOrderService, OrderService.Services.OrderService>();
+builder.Services.AddScoped<IOrderService, OrderService.Services.OrdersService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 var app = builder.Build();
