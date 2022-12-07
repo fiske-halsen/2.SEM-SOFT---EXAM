@@ -39,6 +39,7 @@ stages:
           $(tag)
           latest
     - task: DotNetCoreCLI@2
+      displayName: Tests
       inputs:
         command: test
         projects: '**/UserService.*[Tt]est*/*.csproj'
@@ -54,7 +55,7 @@ stages:
   displayName: Deploy to dev
   dependsOn: 
     - Build
-    - Tests
+    
   variables:
     acrsecret: 213j212iojewasdskd2oi1
     acrDevUrl: examregistry2sem.azurecr.io
