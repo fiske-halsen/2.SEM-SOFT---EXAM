@@ -2,7 +2,7 @@
 {
     public class UpdateUserBalanceDto
     {
-        public int UserId { get; set; }
-        public double NewBalance { get; set; }
+        public string Email { get; set; }
+        public double Balance { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
+using Newtonsoft.Json;
 
 namespace RestaurantService.Services
 {
@@ -54,7 +55,7 @@ namespace RestaurantService.Services
                         {
                             var restaurantService = scope.ServiceProvider.GetRequiredService<IRestaurantService>();
 
-                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
+                            var createOrderDto = JsonConvert.DeserializeObject<CreateOrderDto>(jsonObj);
 
                             if (createOrderDto != null)
                             {
@@ -62,13 +63,12 @@ namespace RestaurantService.Services
                                 {
                                     //if (await restaurantService.UpdateMenuItemStock(createOrderDto))
                                     //{
-                                        var kafkaProducer = scope.ServiceProvider
-                                            .GetRequiredService<IRestaurantProducerService>();
+                                    var kafkaProducer = scope.ServiceProvider
+                                        .GetRequiredService<IRestaurantProducerService>();
 
-                                        // Notify our order service..
-                                        await kafkaProducer.ProduceToKafka(EventStreamerEvents.SaveOrderEvent,
-                                            jsonObj);
-                                    
+                                    // Notify our order service..
+                                    await kafkaProducer.ProduceToKafka(EventStreamerEvents.SaveOrderEvent,
+                                        jsonObj);
                                 }
                             }
                         }

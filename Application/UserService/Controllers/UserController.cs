@@ -37,7 +37,7 @@ namespace Microservice1.Controllers
         [HttpPatch]
         public async Task<bool> UpdateUserBalance([FromBody] UpdateUserBalanceDto updateUserBalanceDto)
         {
-            return await _userService.UpdateUserBalance(updateUserBalanceDto);
+            return await _userService.AddToUserBalance(updateUserBalanceDto);
         }
     }
 }

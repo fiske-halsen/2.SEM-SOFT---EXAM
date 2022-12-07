@@ -1,11 +1,11 @@
-﻿using System.Diagnostics;
-using Common.Dto;
+﻿using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
+using Newtonsoft.Json;
 
 namespace UserService.Services
 {
-    public class UserKafkaConsumer : BackgroundService
+    public class UserUpdateCreditConsumer : BackgroundService
     {
         #region private class properties
 
@@ -20,7 +20,7 @@ namespace UserService.Services
 
         #endregion
 
-        public UserKafkaConsumer(IServiceProvider serviceProvider)
+        public UserUpdateCreditConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -51,23 +51,31 @@ namespace UserService.Services
                             (cancelToken.Token);
                         var jsonObj = consumer.Message.Value;
 
-
-                        Debug.WriteLine(jsonObj);
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var myScopedService = scope.ServiceProvider.GetRequiredService<IUserService>();
-                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
+                            var createOrderDto = JsonConvert.DeserializeObject<CreateOrderDto>(jsonObj);
 
                             if (createOrderDto != null)
                             {
-                                await myScopedService.CheckIfUserBalanceHasEnoughCreditForOrder(createOrderDto);
+                                if (await myScopedService.CheckIfUserBalanceHasEnoughCreditForOrder(createOrderDto))
+                                {
+                                    if (await myScopedService.UpdateUserBalanceForOrder(createOrderDto))
+                                    {
+                                        var kafkaProducer = scope.ServiceProvider.GetRequiredService<IUserProducer>();
+
+                                        await kafkaProducer.ProduceToKafka(
+                                            EventStreamerEvents.CheckRestaurantStockEvent,
+                                            jsonObj);
+                                    }
+                                }
                             }
                         }
                     }
-
                 }
                 catch (OperationCanceledException)
                 {
+                    stoppingToken.ThrowIfCancellationRequested();
                     consumerBuilder.Close();
                 }
             }
