@@ -29,8 +29,8 @@ namespace OrderService.Services
                     IsApproved = false,
                     IsActive = true,
                     RestaurantId = createOrderDto.RestaurantId,
-                    TotalPrice = createOrderDto.MenuItems.Sum(_ => _.price),
-                    MenuItems = createOrderDto.MenuItems.Select(_ => new OrderItem {Name = _.name, ItemPrice = _.price})
+                    TotalPrice = createOrderDto.MenuItems.Sum(_ => _.Price),
+                    MenuItems = createOrderDto.MenuItems.Select(_ => new OrderItem { ItemPrice = _.Price})
                         .ToList()
                 };
 

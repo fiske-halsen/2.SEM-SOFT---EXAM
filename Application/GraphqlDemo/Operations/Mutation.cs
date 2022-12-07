@@ -32,7 +32,9 @@ namespace GraphqlDemo.Operations
                     CustomerEmail = dto.CustomerEmail,
                     RestaurantId = dto.RestaurantId,
                     OrderTotal = dto.OrderTotal,
-                    MenuItems = dto.MenuItems
+                    MenuItems = dto.MenuItems,
+                    CardType = dto.CardType,
+                    VoucherCode = dto.VoucherCode
                 };
 
                 var orderSerialized = JsonConvert.SerializeObject(orderDto);
@@ -49,7 +51,7 @@ namespace GraphqlDemo.Operations
         /// <summary>
         /// Creates a new user to the system; Sends a call to UserService
         /// </summary>
-        /// <param name="createUserDto"></param>
+        /// <param Name="createUserDto"></param>
         /// <returns></returns>
         public async Task<bool> CreateUser(CreateUserDto createUserDto)
         {
@@ -68,7 +70,7 @@ namespace GraphqlDemo.Operations
         /// <summary>
         /// Login for a user
         /// </summary>
-        /// <param name="loginUserDto"></param>
+        /// <param Name="loginUserDto"></param>
         /// <returns></returns>
         public async Task<TokenDto> Login(LoginUserDto loginUserDto)
         {

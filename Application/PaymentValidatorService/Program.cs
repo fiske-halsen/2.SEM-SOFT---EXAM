@@ -28,8 +28,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddHostedService<PaymentValidatorConsumer>();
+builder.Services.AddScoped<IPaymentValidatorService, PaymentValidatorService.Services.PaymentValidatorService>();
 builder.Services.AddScoped<IPaymentValidatorHelpers, PaymentValidatorHelpers>();
 builder.Services.AddScoped<IPaymentValidatorProducer, PaymentValidatorProducer>();
 

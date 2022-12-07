@@ -11,8 +11,8 @@ namespace RestaurantService.Repository
         Task<bool> CreateMenuItem(MenuItem menuItem, int restaurantId);
         Task<bool> UpdateMenuItem(int menuItemId, MenuItemDTO menuItemDTO);
         Task<bool> DeleteMenuItem(int menuItemId);
-        Task<List<MenuItem>> CheckMenuItemStock(List<MenuItemDTO> menuItems);
-        Task<bool> UpdateMenuItemStock(List<MenuItemDTO> menuItems);
+        Task<List<MenuItem>> CheckMenuItemStockList(List<int> menuItemsIds);
+        Task<bool> UpdateMenuItemStock(List<int> menuItemsIds);
 
         //Customer
         Task<Menu> GetRestaurantMenu(int restaurantId);
@@ -29,10 +29,9 @@ namespace RestaurantService.Repository
             _dbContext = dBApplicationContext;
         }
 
-        public async Task<List<MenuItem>> CheckMenuItemStock(List<MenuItemDTO> menuItems)
+        public async Task<List<MenuItem>> CheckMenuItemStockList(List<int> menuItemsIds)
         {
-            var menuItemIdList = menuItems.Select(x => x.Id).ToList();
-            return await _dbContext.MenuItems.Where(x => menuItemIdList.Contains(x.Id)).ToListAsync();
+            return await _dbContext.MenuItems.Where(x => menuItemsIds.Contains(x.Id)).ToListAsync();
         }
 
         public async Task<bool> CreateMenuItem(MenuItem menuItem, int restaurantId)
@@ -77,16 +76,15 @@ namespace RestaurantService.Repository
         public async Task<bool> UpdateMenuItem(int menuItemId, MenuItemDTO menuItemDTO)
         {
             var menuItemToUpdate = await _dbContext.MenuItems.FindAsync(menuItemId);
-            menuItemToUpdate.Description = menuItemDTO.description;
-            menuItemToUpdate.Name = menuItemDTO.name;
-            menuItemToUpdate.Price = menuItemDTO.price;
+            menuItemToUpdate.Description = menuItemDTO.Description;
+            menuItemToUpdate.Name = menuItemDTO.Name;
+            menuItemToUpdate.Price = menuItemDTO.Price;
             return true;
         }
 
-        public async Task<bool> UpdateMenuItemStock(List<MenuItemDTO> menuItems)
+        public async Task<bool> UpdateMenuItemStock(List<int> menuItemsIds)
         {
-            var menuItemIdList = menuItems.Select(x => x.Id).ToList();
-            var test = await _dbContext.MenuItems.Where(x => menuItemIdList.Contains(x.Id)).ToListAsync();
+            var test = await _dbContext.MenuItems.Where(x => menuItemsIds.Contains(x.Id)).ToListAsync();
             test.ForEach(x => x.StockCount -= 1);
             await _dbContext.SaveChangesAsync();
             return true;

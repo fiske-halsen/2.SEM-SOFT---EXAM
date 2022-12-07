@@ -24,7 +24,7 @@ namespace PaymentValidatorService.Services
         /// <summary>
         /// Validates the actual payment
         /// </summary>
-        /// <param name="createOrderDto"></param>
+        /// <param Name="createOrderDto"></param>
         /// <returns></returns>
         public async Task<bool> ValidatePayment(CreateOrderDto createOrderDto)
         {

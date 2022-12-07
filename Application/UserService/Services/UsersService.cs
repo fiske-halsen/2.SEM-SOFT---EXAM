@@ -36,7 +36,7 @@ namespace UserService.Services
         /// <summary>
         /// Checks if a given user has enough user credit to perform a order
         /// </summary>
-        /// <param name="createOrderDto"></param>
+        /// <param Name="createOrderDto"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
         public async Task<bool> CheckIfUserBalanceHasEnoughCreditForOrder(CreateOrderDto createOrderDto)
@@ -63,7 +63,7 @@ namespace UserService.Services
         /// <summary>
         /// Creates a new user
         /// </summary>
-        /// <param name="createUserDto"></param>
+        /// <param Name="createUserDto"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
         public async Task<bool> CreateUser(CreateUserDto createUserDto)
@@ -104,7 +104,7 @@ namespace UserService.Services
         /// <summary>
         /// Gets a users balance by id
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param Name="userId"></param>
         /// <returns></returns>
         public async Task<double> GetUserBalanceById(int userId)
         {
@@ -121,7 +121,7 @@ namespace UserService.Services
         /// <summary>
         /// Gets a user by a email
         /// </summary>
-        /// <param name="email"></param>
+        /// <param Name="email"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
         public async Task<User> GetUserByEmail(string email)
@@ -139,7 +139,7 @@ namespace UserService.Services
         /// <summary>
         /// Gets a user by a given Id
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param Name="userId"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
         public async Task<User> GetUserById(int userId)
@@ -156,7 +156,7 @@ namespace UserService.Services
         /// <summary>
         /// Gets a user by role
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param Name="userId"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
         public async Task<Role> GetUserRoleById(int userId)
@@ -174,7 +174,7 @@ namespace UserService.Services
         /// <summary>
         /// Updates user balance
         /// </summary>
-        /// <param name="updateUserBalanceDto"></param>
+        /// <param Name="updateUserBalanceDto"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
         public async Task<bool> UpdateUserBalance(UpdateUserBalanceDto updateUserBalanceDto)
