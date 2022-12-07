@@ -7,14 +7,18 @@ namespace OrderService.Services
 {
     public interface IOrderService
     {
+        public Task<Order> DenyOrder(int id);
+        public Task<Order> AcceptOrder(int id);
+        public Task<int> TimeToDelivery(int id);
+        public Task<Order> CancelOrder(int id);
         public Task<bool> CreateOrder(CreateOrderDto createOrderDto);
     }
 
-    public class OrderService : IOrderService
+    public class OrdersService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
 
-        public OrderService(IOrderRepository orderRepository)
+        public OrdersService(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
         }
