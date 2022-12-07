@@ -33,10 +33,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-
 builder.Services.AddHttpContextAccessor();
-
-
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 builder.Services.AddScoped<IRestaurantService, RestaurantService.Services.RestaurantService>();
 builder.Services.AddScoped<IRestaurantProducerService, RestaurantProducerService>();

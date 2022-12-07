@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
+using Newtonsoft.Json;
 using RestaurantService.Model;
 
 namespace RestaurantService.Services
@@ -49,25 +50,35 @@ namespace RestaurantService.Services
                     {
                         var consumer = consumerBuilder.Consume
                             (cancelToken.Token);
-                        var msg_value = consumer.Message.Value;
-
+                        var jsonObj = consumer.Message.Value;
 
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var restaurantService = scope.ServiceProvider.GetRequiredService<IRestaurantService>();
 
-                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(msg_value);
+                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
 
                             if (createOrderDto != null)
                             {
-                                await restaurantService.CheckMenuItemStock(createOrderDto);
-                                await restaurantService.UpdateMenuItemStock(createOrderDto);
+                                if (await restaurantService.CheckMenuItemStock(createOrderDto))
+                                {
+                                    if (await restaurantService.UpdateMenuItemStock(createOrderDto))
+                                    {
+                                        var kafkaProducer = scope.ServiceProvider
+                                            .GetRequiredService<IRestaurantProducerService>();
+
+                                        // Notify our order service..
+                                        await kafkaProducer.ProduceToKafka(EventStreamerEvents.SaveOrderEvent,
+                                            jsonObj);
+                                    }
+                                }
                             }
                         }
                     }
                 }
                 catch (OperationCanceledException)
                 {
+                    stoppingToken.ThrowIfCancellationRequested();
                     consumerBuilder.Close();
                 }
             }

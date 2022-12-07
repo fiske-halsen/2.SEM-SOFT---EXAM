@@ -9,7 +9,6 @@ namespace OrderService.Services
     {
         public Task<Order> DenyOrder(int id);
         public Task<Order> AcceptOrder(int id);
-        public Task<int> TimeToDelivery(int id);
         public Task<Order> CancelOrder(int id);
         public Task<bool> CreateOrder(CreateOrderDto createOrderDto);
     }
@@ -54,20 +53,6 @@ namespace OrderService.Services
             {
                 Order order = await _orderRepository.CancelOrder(id);
                 return order;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                throw;
-            }
-        }
-
-        public async Task<int> TimeToDelivery(int id)
-        {
-            try
-            {
-                var time = await _orderRepository.TimeToDelivery(id);
-                return time;
             }
             catch (Exception e)
             {

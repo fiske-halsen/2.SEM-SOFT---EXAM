@@ -9,6 +9,5 @@
         public bool IsActive { get; set; } = true;
         public bool IsApproved { get; set; } = false;
         public List<OrderItem> MenuItems { get; set; }
-        public int TimeToDelivery { get; set; }
     }
 }

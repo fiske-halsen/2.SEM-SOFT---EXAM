@@ -37,8 +37,7 @@ namespace PaymentValidatorService.Services
                 {
                     while (!stoppingToken.IsCancellationRequested)
                     {
-                        
-                         var consumer = consumerBuilder.Consume
+                        var consumer = consumerBuilder.Consume
                             (cancelToken.Token);
                         var jsonObj = consumer.Message.Value;
 
@@ -51,7 +50,14 @@ namespace PaymentValidatorService.Services
 
                             if (obj != null)
                             {
-                                await paymentValidatorService.ValidatePayment(obj);
+                                if (await paymentValidatorService.ValidatePayment(obj))
+                                {
+                                    var kafkaProducer = scope.ServiceProvider
+                                        .GetRequiredService<IPaymentValidatorProducer>();
+                                    // Produce new event to kafka in case of valid payment types
+                                    await kafkaProducer.ProduceToKafka(EventStreamerEvents.ValidPaymentEvent,
+                                        jsonObj);
+                                }
                             }
                         }
                     }
