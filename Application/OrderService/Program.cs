@@ -55,6 +55,23 @@ builder.Services.AddHostedService<SaveOrderConsumer>();
 builder.Services.AddHostedService<ApproveOrderConsumer>();
 builder.Services.AddScoped<IOrderProducer, OrderProducer>();
 
+
+var identityServer = configuration["IdentityServer:Host"];
+
+//// Authentication
+builder.Services.AddAuthentication("token")
+    .AddJwtBearer("token", options =>
+    {
+        options.Authority = identityServer;
+        options.TokenValidationParameters.ValidateAudience = true;
+        options.Audience = "OrderService";
+        options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+        options.RequireHttpsMetadata = false;
+    });
+
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -84,7 +101,7 @@ app.UseCors(x => x
 app.ConfigureExceptionHandler();
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

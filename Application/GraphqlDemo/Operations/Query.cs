@@ -1,10 +1,11 @@
-﻿using Common.Dto;
+﻿using Bogus;
+using Common.Dto;
 
 namespace GraphqlDemo.Operations
 {
     public class Query
     {
-        public List<MenuItemDTO> GetOrder()
+        public List<MenuDTO> GetOrder()
         {
             //Faker<MenuItem> menuItemFaker = new Faker<MenuItem>()
             //    .StrictMode(true)
@@ -12,15 +13,10 @@ namespace GraphqlDemo.Operations
             //    .RuleFor(x => x.Price, x => x.Random.Int())
             //    .RuleFor(x => x.Name, x => x.Name.FirstName());
 
-            //Faker<Order> orderFaker = new Faker<Order>()
-            //    .StrictMode(true)
-            //    .RuleFor(x => x.Id, x => Guid.NewGuid())
-            //    .RuleFor(x => x.Customer, x => x.Person.FullName)
-            //    .RuleFor(x => x.Restaurant, x => x.Company.CompanyName())
-            //    .RuleFor(x => x.Total, x => x.Random.Int())
-            //    .RuleFor(x => x.Items, menuItemFaker.Generate(10));
+            Faker<MenuDTO> orderFaker = new Faker<MenuDTO>()
+                .RuleFor(x => x.RestaurantName, x => x.Name.FirstName());
 
-            //return orderFaker.Generate(10);
+            return orderFaker.Generate(10);
             return null;
         }
 
