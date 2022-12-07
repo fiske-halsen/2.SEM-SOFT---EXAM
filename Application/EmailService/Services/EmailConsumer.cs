@@ -47,22 +47,18 @@ namespace EmailService.Services
                     {
                         var consumer = consumerBuilder.Consume
                             (cancelToken.Token);
-                        var msg_value = consumer.Message.Value;
+                        var jsonObj = consumer.Message.Value;
 
 
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
 
-                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(msg_value);
+                            var emailPackageDto = System.Text.Json.JsonSerializer.Deserialize<EmailPackageDto>(jsonObj);
 
-                            if (createOrderDto != null)
+                            if (emailPackageDto != null)
                             {
-                                await emailService.SendEmail(new EmailPackageDto
-                                {
-                                    Email = createOrderDto.CustomerEmail,
-                                    Message = $"Order received waiting for restaurant approval"
-                                });
+                                await emailService.SendEmail(emailPackageDto);
                             }
                         }
                     }

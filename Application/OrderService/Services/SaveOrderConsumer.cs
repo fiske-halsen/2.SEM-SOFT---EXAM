@@ -2,6 +2,7 @@
 using Common.KafkaEvents;
 using Confluent.Kafka;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace OrderService.Services
 {
@@ -60,8 +61,15 @@ namespace OrderService.Services
                             {
                                 if (await myScopedService.CreateOrder(createOrderDto))
                                 {
-                                    // Notify hub
+                                    var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
 
+                                    var emailObj = new EmailPackageDto
+                                    {
+                                        Email = createOrderDto.CustomerEmail,
+                                        Message = "$Order received waiting for restaurant approval"
+                                    };
+
+                                    await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent, JsonConvert.SerializeObject(emailObj));
 
                                 }
                             }

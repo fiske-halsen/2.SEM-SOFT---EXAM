@@ -4,12 +4,10 @@ using Confluent.Kafka;
 using EmailService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-using (var adminClient = new AdminClientBuilder(new AdminClientConfig { BootstrapServers = "localhost:9092" }).Build())
+using (var adminClient = new AdminClientBuilder(new AdminClientConfig {BootstrapServers = "localhost:9092"}).Build())
 {
     try
     {
-        //await adminClient.DeleteTopicsAsync(new List<string>()
-        //    {EventStreamerEvents.StockValidEvent, EventStreamerEvents.CheckUserBalanceEvent});
         await adminClient.CreateTopicsAsync(new TopicSpecification[]
         {
             new TopicSpecification
