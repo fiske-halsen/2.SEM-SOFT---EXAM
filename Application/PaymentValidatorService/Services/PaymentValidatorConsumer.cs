@@ -41,7 +41,6 @@ namespace PaymentValidatorService.Services
                             (cancelToken.Token);
                         var jsonObj = consumer.Message.Value;
 
-
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var paymentValidatorService =

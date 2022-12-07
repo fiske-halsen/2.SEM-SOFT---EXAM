@@ -1,10 +1,9 @@
 using Common.KafkaEvents;
-using Confluent.Kafka.Admin;
 using Confluent.Kafka;
+using Confluent.Kafka.Admin;
 using Microsoft.EntityFrameworkCore;
 using OrderService.Context;
 using OrderService.ErrorHandling;
-using OrderService.Models;
 using OrderService.Repository;
 using OrderService.Services;
 
@@ -14,8 +13,12 @@ using (var adminClient = new AdminClientBuilder(new AdminClientConfig {Bootstrap
 {
     try
     {
-        //await adminClient.DeleteTopicsAsync(new List<string>()
-        //    {EventStreamerEvents.StockValidEvent, EventStreamerEvents.CheckUserBalanceEvent});
+        await adminClient.CreateTopicsAsync(new TopicSpecification[]
+        {
+            new TopicSpecification
+                {Name = EventStreamerEvents.ApproveOrderEvent, ReplicationFactor = 1, NumPartitions = 3},
+        });
+
         await adminClient.CreateTopicsAsync(new TopicSpecification[]
         {
             new TopicSpecification
@@ -44,6 +47,7 @@ builder.Services.AddDbContext<OrderDbContext>(options =>
 builder.Services.AddScoped<IOrderService, OrderService.Services.OrdersService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddHostedService<SaveOrderConsumer>();
+builder.Services.AddHostedService<ApproveOrderConsumer>();
 builder.Services.AddScoped<IOrderProducer, OrderProducer>();
 
 var app = builder.Build();

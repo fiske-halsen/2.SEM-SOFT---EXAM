@@ -1,15 +1,16 @@
 ﻿using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
 namespace OrderService.Services
 {
-    public class SaveOrderConsumer : BackgroundService
+    public class ApproveOrderConsumer : BackgroundService
     {
         #region private class properties
 
-        private readonly string groupId = "user_group";
+        private readonly string groupId = "restaurant_group";
         private readonly string bootstrapServers = "localhost:9092";
 
         #endregion
@@ -20,7 +21,7 @@ namespace OrderService.Services
 
         #endregion
 
-        public SaveOrderConsumer(IServiceProvider serviceProvider)
+        public ApproveOrderConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -41,7 +42,7 @@ namespace OrderService.Services
             using (var consumerBuilder = new ConsumerBuilder
                        <Ignore, string>(config).Build())
             {
-                consumerBuilder.Subscribe(EventStreamerEvents.SaveOrderEvent);
+                consumerBuilder.Subscribe(EventStreamerEvents.ApproveOrderEvent);
                 var cancelToken = new CancellationTokenSource();
                 try
                 {
@@ -54,19 +55,19 @@ namespace OrderService.Services
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var myScopedService = scope.ServiceProvider.GetRequiredService<IOrderService>();
-                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
+                            var approveOrderDto = System.Text.Json.JsonSerializer.Deserialize<ApproveOrderDto>(jsonObj);
 
-                            if (createOrderDto != null)
+                            if (approveOrderDto != null)
                             {
-                                if (await myScopedService.CreateOrder(createOrderDto))
+                                if (await myScopedService.AcceptOrder(approveOrderDto.OrderId))
                                 {
                                     var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
 
                                     var emailObj = new EmailPackageDto
                                     {
-                                        Email = createOrderDto.CustomerEmail,
-                                        Subject = "Order received",
-                                        Message = $"Order received waiting for restaurant approval"
+                                        Email = approveOrderDto.CustomerEmail,
+                                        Subject = "Order approved",
+                                        Message = $"Order approved by restaurant approval"
                                     };
 
                                     await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent,

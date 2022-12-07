@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Common.Dto;
+using Common.ErrorModels;
 using OrderService.Models;
 using OrderService.Repository;
 
@@ -7,9 +8,8 @@ namespace OrderService.Services
 {
     public interface IOrderService
     {
-        public Task<Order> DenyOrder(int id);
-        public Task<Order> AcceptOrder(int id);
-        public Task<Order> CancelOrder(int id);
+        public Task<bool> AcceptOrder(int orderId);
+        public Task<bool> DeleteOrder(int orderId);
         public Task<bool> CreateOrder(CreateOrderDto createOrderDto);
     }
 
@@ -22,6 +22,11 @@ namespace OrderService.Services
             _orderRepository = orderRepository;
         }
 
+        /// <summary>
+        /// Creates a new order
+        /// </summary>
+        /// <param name="createOrderDto"></param>
+        /// <returns></returns>
         public async Task<bool> CreateOrder(CreateOrderDto createOrderDto)
         {
             try
@@ -33,7 +38,8 @@ namespace OrderService.Services
                     IsActive = true,
                     RestaurantId = createOrderDto.RestaurantId,
                     TotalPrice = createOrderDto.MenuItems.Sum(_ => _.Price),
-                    MenuItems = createOrderDto.MenuItems.Select(_ => new OrderItem { ItemPrice = _.Price })
+                    MenuItems = createOrderDto.MenuItems
+                        .Select(_ => new OrderItem {MenuItemId = _.Id, ItemPrice = _.Price})
                         .ToList()
                 };
 
@@ -47,40 +53,52 @@ namespace OrderService.Services
             }
         }
 
-        public async Task<Order> CancelOrder(int id)
+        /// <summary>
+        /// Deletes a order by order id
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
+        public async Task<bool> DeleteOrder(int orderId)
         {
             try
             {
-                Order order = await _orderRepository.CancelOrder(id);
-                return order;
+                var order = await _orderRepository.GetOrderById(orderId);
+
+                if (order == null)
+                {
+                    throw new HttpStatusException(StatusCodes.Status400BadRequest, "Given order does not exist");
+                }
+
+                await _orderRepository.DeleteOrder(order);
+                return true;
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.Message);
+                return false;
             }
         }
 
-        public async Task<Order> AcceptOrder(int id)
+        /// <summary>
+        /// Accepts a given order
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
+        public async Task<bool> AcceptOrder(int orderId)
         {
             try
             {
-                Order order = await _orderRepository.AcceptOrder(id);
-                return order;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                throw;
-            }
-        }
+                var order = await _orderRepository.GetOrderById(orderId);
 
-        public async Task<Order> DenyOrder(int id)
-        {
-            try
-            {
-                Order order = await _orderRepository.DenyOrder(id);
-                return order;
+                if (order == null)
+                {
+                    throw new HttpStatusException(StatusCodes.Status400BadRequest, "Given order does not exist");
+                }
+
+                await _orderRepository.AcceptOrder(orderId);
+                return true;
             }
             catch (Exception e)
             {

@@ -1,12 +1,10 @@
 ﻿using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
-using Newtonsoft.Json;
-using RestaurantService.Model;
 
 namespace RestaurantService.Services
 {
-    public class RestaurantConsumerService : BackgroundService
+    public class RestaurantUpdateStockConsumer : BackgroundService
     {
         #region private class properties
 
@@ -19,9 +17,7 @@ namespace RestaurantService.Services
 
         private readonly IServiceProvider _serviceProvider;
 
-        #endregion
-
-        public RestaurantConsumerService(IServiceProvider serviceProvider)
+        public RestaurantUpdateStockConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -42,7 +38,7 @@ namespace RestaurantService.Services
             using (var consumerBuilder = new ConsumerBuilder
                        <Ignore, string>(config).Build())
             {
-                consumerBuilder.Subscribe(EventStreamerEvents.CheckRestaurantStockEvent);
+                consumerBuilder.Subscribe(EventStreamerEvents.UpdateRestaurantStockEvent);
                 var cancelToken = new CancellationTokenSource();
                 try
                 {
@@ -56,21 +52,13 @@ namespace RestaurantService.Services
                         {
                             var restaurantService = scope.ServiceProvider.GetRequiredService<IRestaurantService>();
 
-                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
+                            var approveOrderDto = System.Text.Json.JsonSerializer.Deserialize<ApproveOrderDto>(jsonObj);
 
-                            if (createOrderDto != null)
+                            if (approveOrderDto != null)
                             {
-                                if (await restaurantService.CheckMenuItemStock(createOrderDto))
+                                if (await restaurantService.UpdateMenuItemStock(approveOrderDto))
                                 {
-                                    if (await restaurantService.UpdateMenuItemStock(createOrderDto))
-                                    {
-                                        var kafkaProducer = scope.ServiceProvider
-                                            .GetRequiredService<IRestaurantProducerService>();
-
-                                        // Notify our order service..
-                                        await kafkaProducer.ProduceToKafka(EventStreamerEvents.SaveOrderEvent,
-                                            jsonObj);
-                                    }
+                                    // maybe notify restaurant owners that stock is updated....
                                 }
                             }
                         }
@@ -83,5 +71,7 @@ namespace RestaurantService.Services
                 }
             }
         }
+
+        #endregion
     }
 }
