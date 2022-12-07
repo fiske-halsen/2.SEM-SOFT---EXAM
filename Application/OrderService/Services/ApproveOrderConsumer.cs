@@ -55,7 +55,7 @@ namespace OrderService.Services
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var myScopedService = scope.ServiceProvider.GetRequiredService<IOrderService>();
-                            var approveOrderDto = System.Text.Json.JsonSerializer.Deserialize<ApproveOrderDto>(jsonObj);
+                            var approveOrderDto = JsonConvert.DeserializeObject<ApproveOrderDto>(jsonObj); 
 
                             if (approveOrderDto != null)
                             {

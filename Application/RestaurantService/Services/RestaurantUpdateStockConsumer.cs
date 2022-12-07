@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
+using Newtonsoft.Json;
 
 namespace RestaurantService.Services
 {
@@ -52,7 +53,7 @@ namespace RestaurantService.Services
                         {
                             var restaurantService = scope.ServiceProvider.GetRequiredService<IRestaurantService>();
 
-                            var approveOrderDto = System.Text.Json.JsonSerializer.Deserialize<ApproveOrderDto>(jsonObj);
+                            var approveOrderDto = JsonConvert.DeserializeObject<ApproveOrderDto>(jsonObj)
 
                             if (approveOrderDto != null)
                             {

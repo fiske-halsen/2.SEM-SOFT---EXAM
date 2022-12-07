@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
+using Newtonsoft.Json;
 
 namespace PaymentValidatorService.Services
 {
@@ -45,11 +46,11 @@ namespace PaymentValidatorService.Services
                         {
                             var paymentValidatorService =
                                 scope.ServiceProvider.GetRequiredService<IPaymentValidatorService>();
-                            var obj = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
+                            var createOrderDto = JsonConvert.DeserializeObject<CreateOrderDto>(jsonObj);
 
-                            if (obj != null)
+                            if (createOrderDto != null)
                             {
-                                if (await paymentValidatorService.ValidatePayment(obj))
+                                if (await paymentValidatorService.ValidatePayment(createOrderDto))
                                 {
                                     var kafkaProducer = scope.ServiceProvider
                                         .GetRequiredService<IPaymentValidatorProducer>();
