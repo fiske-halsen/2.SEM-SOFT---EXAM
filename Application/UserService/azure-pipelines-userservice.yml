@@ -49,15 +49,6 @@ stages:
         artifact: 'manifests'
         publishLocation: 'pipeline'
 
-# - stage: Tests
-#   displayName: Run Tests
-#   jobs: 
-#   - job: Test
-#     steps:
-#     - task: DotNetCoreCLI@2
-#       inputs:
-#         command: 'test'
-#         projects: '**/UserService.*[Tt]est*/*.csproj'    
 
 - stage: Deploy
   displayName: Deploy to dev
