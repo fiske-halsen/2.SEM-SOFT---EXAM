@@ -13,6 +13,9 @@ namespace FeedbackService.Services
         public Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryUserId);
     }
 
+    /// <summary>
+    /// Review service contains the business logic and communciates with the db layer
+    /// </summary>
     public class ReviewService : IReviewService
     {
         private readonly IReviewRepository _reviewRepository;
@@ -22,6 +25,12 @@ namespace FeedbackService.Services
             _reviewRepository = reviewRepository;
         }
 
+        /// <summary>
+        /// Create a new review
+        /// </summary>
+        /// <param name="createReviewDTO"></param>
+        /// <returns>true</returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<bool> CreateReview(CreateReviewDTO createReviewDTO)
         {
 
@@ -43,6 +52,12 @@ namespace FeedbackService.Services
             return true;
         }
 
+        /// <summary>
+        /// Gets the reviews for a delivery driver
+        /// </summary>
+        /// <param name="deliveryUserId"></param>
+        /// <returns>List<Review></returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryUserId)
         {
             var reviews = await _reviewRepository.GetReviewsByDeliveryUserId(deliveryUserId);
@@ -54,7 +69,12 @@ namespace FeedbackService.Services
             return reviews;
         }
 
-
+        /// <summary>
+        /// Gets the reviews for a restaurant
+        /// </summary>
+        /// <param name="restaurantId"></param>
+        /// <returns>reviews</returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<List<Review>> GetReviewsByRestaurantId(int restaurantId)
         {
             var reviews = await _reviewRepository.GetReviewsByRestaurantId(restaurantId);
@@ -66,6 +86,12 @@ namespace FeedbackService.Services
             return reviews;
         }
 
+        /// <summary>
+        /// Gets the reviews for a user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>reviews</returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<List<Review>> GetReviewsByUserId(int userId)
         {
             var reviews = await _reviewRepository.GetReviewsByUserId(userId);
