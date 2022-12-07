@@ -1,4 +1,6 @@
-﻿namespace RestaurantService.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RestaurantService.Model
 {
     public class MenuItem
     {
@@ -8,6 +10,7 @@
         public string Description { get; set; }
         
         public int StockCount { get; set; }
+        [ForeignKey("MenuId")]
         public int MenuId { get; set; }
         public Menu Menu { get; set; }
     }
