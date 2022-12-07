@@ -51,8 +51,6 @@ namespace OrderService.Services
                             (cancelToken.Token);
                         var jsonObj = consumer.Message.Value;
 
-
-                        Debug.WriteLine(jsonObj);
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var myScopedService = scope.ServiceProvider.GetRequiredService<IOrderService>();
@@ -60,7 +58,12 @@ namespace OrderService.Services
 
                             if (createOrderDto != null)
                             {
-                                await myScopedService.CreateOrder(createOrderDto);
+                                if (await myScopedService.CreateOrder(createOrderDto))
+                                {
+                                    // Notify hub
+
+
+                                }
                             }
                         }
                     }

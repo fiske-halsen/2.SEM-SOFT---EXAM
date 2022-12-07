@@ -4,6 +4,7 @@ using Confluent.Kafka;
 using Microsoft.EntityFrameworkCore;
 using OrderService.Context;
 using OrderService.ErrorHandling;
+using OrderService.Models;
 using OrderService.Repository;
 using OrderService.Services;
 
@@ -42,6 +43,8 @@ builder.Services.AddDbContext<OrderDbContext>(options =>
 
 builder.Services.AddScoped<IOrderService, OrderService.Services.OrdersService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddHostedService<SaveOrderConsumer>();
+builder.Services.AddScoped<IOrderProducer, OrderProducer>();
 
 var app = builder.Build();
 

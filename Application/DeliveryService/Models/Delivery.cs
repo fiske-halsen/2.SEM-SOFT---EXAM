@@ -8,6 +8,7 @@
         public int RestaurantId { get; set; }
         public string UserEmail { get; set; }
         public bool IsDelivered { get; set; } = false;
+        public DateTime TimeToDelivery { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }

@@ -11,7 +11,6 @@ namespace OrderService.Repository
         public Task<Order> CancelOrder(int id);
         public Task<bool> CreateOrder(Order order);
         public Task<Order> DenyOrder(int id);
-        public Task<int> TimeToDelivery(int id);
     }
 
     public class OrderRepository : IOrderRepository
@@ -46,21 +45,6 @@ namespace OrderService.Repository
                 _dbContext.Orders.Remove(order);
                 await _dbContext.SaveChangesAsync();
                 return order;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                throw;
-            }
-        }
-
-        public async Task<int> TimeToDelivery(int id)
-        {
-            try
-            {
-                var order = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == id);
-                var time = order.TimeToDelivery;
-                return time;
             }
             catch (Exception e)
             {

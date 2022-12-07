@@ -29,12 +29,10 @@ namespace RestaurantService.Services
     public class RestaurantService : IRestaurantService
     {
         private readonly IRestaurantRepository _restaurantRepository;
-        private readonly IRestaurantProducerService _kafkaProducer;
 
-        public RestaurantService(IRestaurantRepository restaurantRepository, IRestaurantProducerService kafkaProducer)
+        public RestaurantService(IRestaurantRepository restaurantRepository)
         {
             _restaurantRepository = restaurantRepository;
-            _kafkaProducer = kafkaProducer;
         }
 
         public async Task<bool> CheckMenuItemStock(CreateOrderDto createOrderDTO)
@@ -47,7 +45,7 @@ namespace RestaurantService.Services
                 throw new HttpStatusException(StatusCodes.Status400BadRequest, "Could not find stock for menu item");
             }
 
-            bool isInStock = menuItemStock.Any(x => x.StockCount < 1);
+            bool isInStock = menuItemStock.Any(x => x.StockCount > 0);
             return isInStock;
             //send message to hub if isInStock = false;
         }
@@ -107,7 +105,10 @@ namespace RestaurantService.Services
         {
             var menuItem = await _restaurantRepository.GetRestaurantMenuItem(restaurantId, menuItemId);
             return new MenuItemDTO
-                { Id = menuItem.Id, Name = menuItem.Name, Price = menuItem.Price, Description = menuItem.Description,StockCount = menuItem.StockCount};
+            {
+                Id = menuItem.Id, Name = menuItem.Name, Price = menuItem.Price, Description = menuItem.Description,
+                StockCount = menuItem.StockCount
+            };
         }
 
         public async Task<bool> UpdateMenuItem(MenuItemDTO menuItemDTO, int restaurantId)
@@ -119,9 +120,6 @@ namespace RestaurantService.Services
         {
             await _restaurantRepository.UpdateMenuItemStock(createOrderDTO.MenuItems.Select(_ => _.Id).ToList());
 
-            // Notify our order service..
-            await _kafkaProducer.ProduceToKafka(EventStreamerEvents.SaveOrderEvent,
-                JsonConvert.SerializeObject(createOrderDTO));
 
             return true;
         }

@@ -13,12 +13,10 @@ namespace PaymentValidatorService.Services
     public class PaymentValidatorService : IPaymentValidatorService
     {
         private readonly IPaymentValidatorHelpers _paymentHelper;
-        private readonly IPaymentValidatorProducer _kafkaProducer;
 
         public PaymentValidatorService(IPaymentValidatorHelpers paymentHelper, IPaymentValidatorProducer kafkaProducer)
         {
             _paymentHelper = paymentHelper;
-            _kafkaProducer = kafkaProducer;
         }
 
         /// <summary>
@@ -28,20 +26,9 @@ namespace PaymentValidatorService.Services
         /// <returns></returns>
         public async Task<bool> ValidatePayment(CreateOrderDto createOrderDto)
         {
-            var isValidPaymentType = _paymentHelper.CheckPaymentType(createOrderDto);
-            var isValidCreditCapeType = _paymentHelper.CheckForCardType(createOrderDto);
-            var isValidVoucher = _paymentHelper.CheckForValidVoucherCode(createOrderDto.VoucherCode);
-
-            if (isValidCreditCapeType && isValidPaymentType && isValidVoucher)
-            {
-                // Produce new event to kafka in case of valid payment types
-                await _kafkaProducer.ProduceToKafka(EventStreamerEvents.ValidPaymentEvent,
-                    JsonConvert.SerializeObject(createOrderDto));
-                return true;
-            }
-            // Notify hub using web sockets
-
-            return false;
+            return _paymentHelper.CheckPaymentType(createOrderDto) &&
+                   _paymentHelper.CheckForCardType(createOrderDto) &&
+                   _paymentHelper.CheckForValidVoucherCode(createOrderDto.VoucherCode);
         }
     }
 }

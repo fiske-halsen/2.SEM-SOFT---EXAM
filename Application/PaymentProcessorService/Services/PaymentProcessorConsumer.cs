@@ -58,13 +58,17 @@ namespace PaymentProcessorService.Services
 
                             if (createOrderDto != null)
                             {
-                                await paymentService.SimulatePayment(createOrderDto);
+                                var kafkaProducer = scope.ServiceProvider
+                                    .GetRequiredService<IKafkaPaymentProcessorProducer>();
+
+                                await paymentService.SimulatePayment(createOrderDto, kafkaProducer);
                             }
                         }
                     }
                 }
                 catch (OperationCanceledException)
                 {
+                    stoppingToken.ThrowIfCancellationRequested();
                     consumerBuilder.Close();
                 }
             }
