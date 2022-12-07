@@ -104,9 +104,28 @@ namespace GraphqlDemo.Operations
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
+                Debug.WriteLine(e.Message);
                 return null;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updateUserBalanceDto"></param>
+        /// <returns></returns>
+        public async Task<bool> AddCreditToUserBalance(UpdateUserBalanceDto updateUserBalanceDto)
+        {
+            try
+            {
+                return await _userServiceCommunicator.AddToUserBalance(updateUserBalanceDto);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+
         }
 
         #endregion

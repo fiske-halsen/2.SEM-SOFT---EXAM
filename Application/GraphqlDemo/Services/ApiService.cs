@@ -26,6 +26,13 @@ namespace GraphqlDemo.Services
             _tokenService = tokenService;
         }
 
+        /// <summary>
+        /// Generic Http delete method to call our microservices
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="applicationCredentials"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<bool> Delete(string url, ApplicationCredentials? applicationCredentials)
         {
             var httpClient = HttpClientInitializer.GetClient();
@@ -51,6 +58,14 @@ namespace GraphqlDemo.Services
             }
         }
 
+        /// <summary>
+        /// Generic Http get method to call our microservices expecting a collection in return
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="applicationCredentials"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<IEnumerable<T>> Get<T>(string url, ApplicationCredentials? applicationCredentials)
         {
             var httpClient = HttpClientInitializer.GetClient();
@@ -79,6 +94,14 @@ namespace GraphqlDemo.Services
             }
         }
 
+        /// <summary>
+        /// Generic Http Get to call our microservices expecting a single object in return
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="applicationCredentials"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<T> GetSingle<T>(string url, ApplicationCredentials? applicationCredentials)
         {
             var httpClient = HttpClientInitializer.GetClient();
@@ -106,6 +129,14 @@ namespace GraphqlDemo.Services
             }
         }
 
+        /// <summary>
+        /// Generic Patch http method to call our microservices
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="contentJson"></param>
+        /// <param name="applicationCredentials"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<bool> Patch(string url, string contentJson, ApplicationCredentials? applicationCredentials)
         {
             var httpClient = HttpClientInitializer.GetClient();
@@ -134,6 +165,14 @@ namespace GraphqlDemo.Services
             }
         }
 
+        /// <summary>
+        /// Generic Http post method to call our microservices
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="contentJson"></param>
+        /// <param name="applicationCredentials"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
         public async Task<bool> Post(string url, string contentJson, ApplicationCredentials? applicationCredentials)
         {
             var httpClient = HttpClientInitializer.GetClient();

@@ -11,6 +11,9 @@ namespace OrderService.Repository
         public Task<bool> DeleteOrder(Order order);
         public Task<bool> CreateOrder(Order order);
         public Task<Order> GetOrderById(int orderId);
+        public Task<List<Order>> GetAllOrdersForRestaurant(bool isApproved, int restaurantId);
+        public Task<List<Order>> GetAllOrdersForRestaurant(int restaurantId);
+        public Task<List<Order>> GetOrdersForUser(string userEmail);
     }
 
     public class OrderRepository : IOrderRepository
@@ -91,6 +94,45 @@ namespace OrderService.Repository
         public async Task<Order> GetOrderById(int orderId)
         {
             return await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
+        }
+
+        /// <summary>
+        /// Gets all orders depending on the isApproved bool
+        /// </summary>
+        /// <param name="isApproved"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<List<Order>> GetAllOrdersForRestaurant(bool isApproved, int restaurantId)
+        {
+            return await _dbContext.Orders
+                .Include(x => x.MenuItems)
+                .Where(_ => _.IsApproved == isApproved && _.RestaurantId == restaurantId)
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// Gets all orders for specific restaurant
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Order>> GetAllOrdersForRestaurant(int restaurantId)
+        {
+            return await _dbContext.Orders
+                .Include(x => x.MenuItems)
+                .Where(_ => _.RestaurantId == restaurantId)
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// Gets all orders for a given users
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <returns></returns>
+        public async Task<List<Order>> GetOrdersForUser(string userEmail)
+        {
+            return await _dbContext.Orders
+                .Include(x => x.MenuItems)
+                .Where(x => x.CustomerEmail == userEmail)
+                .ToListAsync();
         }
     }
 }
