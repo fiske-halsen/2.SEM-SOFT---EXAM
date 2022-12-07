@@ -1,10 +1,9 @@
 ﻿using Common.Dto;
 using Common.ErrorModels;
 using Common.HttpUtils;
+using IdentityModel.Client;
 using Newtonsoft.Json;
 using System.Text;
-using IdentityModel.Client;
-using System.Net.Http;
 
 namespace GraphqlDemo.Services
 {
