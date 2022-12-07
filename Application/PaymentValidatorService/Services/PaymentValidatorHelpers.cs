@@ -16,7 +16,7 @@ namespace PaymentValidatorService.Services
         /// <summary>
         /// Simulates valid credit card types
         /// </summary>
-        /// <param name="dto"></param>
+        /// <param Name="dto"></param>
         /// <returns></returns>
         public bool CheckPaymentType(CreateOrderDto dto)
         {
@@ -36,7 +36,7 @@ namespace PaymentValidatorService.Services
         /// <summary>
         /// Simulate valid card types
         /// </summary>
-        /// <param name="dto"></param>
+        /// <param Name="dto"></param>
         /// <returns></returns>
         public bool CheckForCardType(CreateOrderDto dto)
         {
@@ -62,7 +62,12 @@ namespace PaymentValidatorService.Services
 
         public bool CheckForValidVoucherCode(string voucherCode)
         {
-            return DiscountVouchers.VoucherCodes.Contains(voucherCode);
+            if (!String.IsNullOrEmpty(voucherCode))
+            {
+                return DiscountVouchers.VoucherCodes.Contains(voucherCode);
+            }
+
+            return true; // Meaning no voucher code was typed in
         }
     }
 }

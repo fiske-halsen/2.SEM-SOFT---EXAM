@@ -29,7 +29,7 @@ namespace UserService.Repository
         /// <summary>
         /// Creates a user
         /// </summary>
-        /// <param name="user"> The user entity</param>
+        /// <param Name="user"> The user entity</param>
         /// <returns></returns>
         public async Task<bool> CreateUser(User user)
         {
@@ -50,7 +50,7 @@ namespace UserService.Repository
         /// <summary>
         /// Gets a user by email
         /// </summary>
-        /// <param name="email"></param>
+        /// <param Name="email"></param>
         /// <returns></returns>
         public async Task<User> GetUserByEmail(string email)
         {
@@ -72,7 +72,7 @@ namespace UserService.Repository
         /// <summary>
         /// Gets a user by id
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param Name="userId"></param>
         /// <returns></returns>
         public async Task<User> GetUserById(int userId)
         {
@@ -94,7 +94,7 @@ namespace UserService.Repository
         /// <summary>
         /// Gets a user role by id
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param Name="userId"></param>
         /// <returns></returns>
         public async Task<Role> GetUserRoleById(int userId)
         {
@@ -116,8 +116,8 @@ namespace UserService.Repository
         /// <summary>
         /// Updates a user balance 
         /// </summary>
-        /// <param name="user"> The given user that needs a update</param>
-        /// <param name="newBalance">The new balance for the given user</param>
+        /// <param Name="user"> The given user that needs a update</param>
+        /// <param Name="newBalance">The new balance for the given user</param>
         /// <returns></returns>
         public async Task<bool> UpdateUserBalance(User user, double newBalance)
         {

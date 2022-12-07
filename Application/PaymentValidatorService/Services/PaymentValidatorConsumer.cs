@@ -16,7 +16,7 @@ namespace PaymentValidatorService.Services
             _serviceProvider = serviceProvider;
         }
 
-        protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await Task.Yield();
 
@@ -37,7 +37,8 @@ namespace PaymentValidatorService.Services
                 {
                     while (!stoppingToken.IsCancellationRequested)
                     {
-                        var consumer = consumerBuilder.Consume
+                        
+                         var consumer = consumerBuilder.Consume
                             (cancelToken.Token);
                         var jsonObj = consumer.Message.Value;
 
@@ -57,6 +58,7 @@ namespace PaymentValidatorService.Services
                 }
                 catch (OperationCanceledException)
                 {
+                    stoppingToken.ThrowIfCancellationRequested();
                     consumerBuilder.Close();
                 }
             }

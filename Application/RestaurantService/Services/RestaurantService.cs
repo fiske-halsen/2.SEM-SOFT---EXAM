@@ -39,11 +39,14 @@ namespace RestaurantService.Services
 
         public async Task<bool> CheckMenuItemStock(CreateOrderDto createOrderDTO)
         {
-            var menuItemStock = await _restaurantRepository.CheckMenuItemStock(createOrderDTO.MenuItems);
+            var menuItemStock =
+                await _restaurantRepository.CheckMenuItemStockList(createOrderDTO.MenuItems.Select(_ => _.Id).ToList());
+
             if (menuItemStock == null)
             {
                 throw new HttpStatusException(StatusCodes.Status400BadRequest, "Could not find stock for menu item");
             }
+
             bool isInStock = menuItemStock.Any(x => x.StockCount < 1);
             return isInStock;
             //send message to hub if isInStock = false;
@@ -53,21 +56,21 @@ namespace RestaurantService.Services
         {
             return await _restaurantRepository.CreateMenuItem(
                 new MenuItem
-                    { Name = menuItemDTO.name, Price = menuItemDTO.price, Description = menuItemDTO.description },
+                    {Name = menuItemDTO.Name, Price = menuItemDTO.Price, Description = menuItemDTO.Description},
                 restaurantId);
         }
 
         public async Task<bool> CreateRestaurant(RestaurantDTO restaurantDTO)
         {
-            var cityInfo = new CityInfo { City = restaurantDTO.City, ZipCode = restaurantDTO.ZipCode };
-            var address = new Address { StreetName = restaurantDTO.StreetName, CityInfo = cityInfo };
+            var cityInfo = new CityInfo {City = restaurantDTO.City, ZipCode = restaurantDTO.ZipCode};
+            var address = new Address {StreetName = restaurantDTO.StreetName, CityInfo = cityInfo};
             return await _restaurantRepository.CreateRestaurant(new Restaurant
             {
                 Name = restaurantDTO.RestaurantName, Address = address,
                 Menu = new Menu
                 {
                     MenuItems = restaurantDTO.Menu.MenuItems.Select(x => new MenuItem
-                            { Description = x.description, Name = x.name, Price = x.price, StockCount = x.StockCount })
+                            {Description = x.Description, Name = x.Name, Price = x.Price, StockCount = x.StockCount})
                         .ToList()
                 }
             });
@@ -96,7 +99,7 @@ namespace RestaurantService.Services
             {
                 RestaurantName = restaurantMenu.Restaurant.Name,
                 MenuItems = restaurantMenu.MenuItems.Select(x => new MenuItemDTO
-                    { description = x.Description, name = x.Name, price = x.Price, Id = x.Id }).ToList()
+                    {Description = x.Description, Name = x.Name, Price = x.Price, Id = x.Id}).ToList()
             };
         }
 
@@ -104,7 +107,7 @@ namespace RestaurantService.Services
         {
             var menuItem = await _restaurantRepository.GetRestaurantMenuItem(restaurantId, menuItemId);
             return new MenuItemDTO
-                { Id = menuItem.Id, name = menuItem.Name, price = menuItem.Price, description = menuItem.Description,StockCount = menuItem.StockCount};
+                { Id = menuItem.Id, Name = menuItem.Name, Price = menuItem.Price, Description = menuItem.Description,StockCount = menuItem.StockCount};
         }
 
         public async Task<bool> UpdateMenuItem(MenuItemDTO menuItemDTO, int restaurantId)
@@ -114,16 +117,13 @@ namespace RestaurantService.Services
 
         public async Task<bool> UpdateMenuItemStock(CreateOrderDto createOrderDTO)
         {
-            
-                await _restaurantRepository.UpdateMenuItemStock(createOrderDTO.MenuItems);
+            await _restaurantRepository.UpdateMenuItemStock(createOrderDTO.MenuItems.Select(_ => _.Id).ToList());
 
-                // Notify our order service..
-                await _kafkaProducer.ProduceToKafka(EventStreamerEvents.SaveOrderEvent,
-                    JsonConvert.SerializeObject(createOrderDTO));
+            // Notify our order service..
+            await _kafkaProducer.ProduceToKafka(EventStreamerEvents.SaveOrderEvent,
+                JsonConvert.SerializeObject(createOrderDTO));
 
-                return true;
-            
-            
+            return true;
         }
     }
 }

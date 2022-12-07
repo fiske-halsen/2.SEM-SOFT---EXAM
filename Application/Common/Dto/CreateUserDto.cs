@@ -6,7 +6,7 @@ namespace Common.Dto
     public class CreateUserDto
     {
         [JsonProperty("fName")]
-        [Required(ErrorMessage = "First name is required")]
+        [Required(ErrorMessage = "First Name is required")]
         [MaxLength(length:15)]
         [MinLength(length:2)]
         public string FirstName { get; set; }
