@@ -9,7 +9,7 @@ namespace FeedbackService.Context
         public DBFeedbackServiceContext(DbContextOptions<DBFeedbackServiceContext> options) : base(options) { }
 
         public DbSet<Review> Reviews { get; set; }
-
+        public DbSet<Log> Logs { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
