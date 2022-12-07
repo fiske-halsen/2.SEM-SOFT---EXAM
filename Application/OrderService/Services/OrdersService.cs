@@ -11,6 +11,9 @@ namespace OrderService.Services
         public Task<bool> AcceptOrder(int orderId);
         public Task<bool> DeleteOrder(int orderId);
         public Task<bool> CreateOrder(CreateOrderDto createOrderDto);
+        public Task<List<Order>> GetAllOrdersForRestaurant(bool isApproved, int restaurantId);
+        public Task<List<Order>> GetAllOrdersForRestaurant(int restaurantId);
+        public Task<List<Order>> GetAllOrdersForUser(string userEmail);
     }
 
     public class OrdersService : IOrderService
@@ -53,6 +56,27 @@ namespace OrderService.Services
                 Debug.WriteLine(e);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// gets all orders for restaurant depending on isApproved
+        /// </summary>
+        /// <param name="isApproved"></param>
+        /// <param name="restaurantId"></param>
+        /// <returns></returns>
+        public async Task<List<Order>> GetAllOrdersForRestaurant(bool isApproved, int restaurantId)
+        {
+            return await _orderRepository.GetAllOrdersForRestaurant(isApproved, restaurantId);
+        }
+
+        /// <summary>
+        /// Gets all orders for restaurant
+        /// </summary>
+        /// <param name="restaurantId"></param>
+        /// <returns></returns>
+        public async Task<List<Order>> GetAllOrdersForRestaurant(int restaurantId)
+        {
+            return await _orderRepository.GetAllOrdersForRestaurant(restaurantId);
         }
 
         /// <summary>
@@ -107,6 +131,25 @@ namespace OrderService.Services
                 Debug.WriteLine(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Gets orders for a specific user
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
+        public async Task<List<Order>> GetAllOrdersForUser(string userEmail)
+        {
+            var ordersForUser = await _orderRepository.GetOrdersForUser(userEmail);
+
+            if (!ordersForUser.Any())
+            {
+                throw new HttpStatusException(StatusCodes.Status400BadRequest,
+                    $"No orders for the given user {userEmail}");
+            }
+
+            return ordersForUser;
         }
     }
 }

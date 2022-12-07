@@ -33,30 +33,30 @@ public class HelperService
         switch (clientType)
         {
             case ClientType.DeliveryService:
-                clientId = _configuration["DeliveryService:Host"];
+                clientId = _configuration["DeliveryService:ClientId"];
                 clientSecret = _configuration["DeliveryService:Key"];
                 scope = _configuration["DeliveryService:Scope"];
                 break;
 
             case ClientType.RestaurantService:
-                clientId = _configuration["RestaurantService:Host"];
+                clientId = _configuration["RestaurantService:ClientId"];
                 clientSecret = _configuration["RestaurantService:Key"];
                 scope = _configuration["RestaurantService:Scope"];
                 break;
 
             case ClientType.OrderService:
-                clientId = _configuration["OrderService:Host"];
+                clientId = _configuration["OrderService:ClientId"];
                 clientSecret = _configuration["OrderService:Key"];
                 scope = _configuration["OrderService:Scope"];
                 break;
 
             case ClientType.ReviewService:
-                clientId = _configuration["FeedbackService:Host"];
+                clientId = _configuration["FeedbackService:ClientId"];
                 clientSecret = _configuration["FeedbackService:Key"];
                 scope = _configuration["FeedbackService:Scope"];
                 break;
             case ClientType.UserService:
-                clientId = _configuration["IdentityServer:Host"];
+                clientId = _configuration["IdentityServer:ClientId"];
                 clientSecret = _configuration["IdentityServer:Key"];
                 scope = _configuration["IdentityServer:Scope"];
                 break;
