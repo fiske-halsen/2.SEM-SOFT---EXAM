@@ -3,20 +3,15 @@ using OrderService.Context;
 using OrderService.Models;
 using OrderService.Repository;
 using OrderService.Test.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderService.Test.UnitTest
 {
     public class RepositoryUnitTest
     {
-        private OrderDbContext _context;
-        private OrderRepository _orderRepository;
+        private readonly OrderDbContext _context;
+        private readonly OrderRepository _orderRepository;
 
-        [OneTimeSetUp]
+        [SetUp]
         public void Setup()
         {
             _context = SetupInMemoryDatabase.CreateContextForInMemory();
@@ -29,7 +24,7 @@ namespace OrderService.Test.UnitTest
             //Arrange
             var order1 = new Order
             {
-                Id = 12,
+                Id = 15,
                 CustomerEmail = "test@test.dk",
                 IsActive = true,
                 IsApproved = false,
@@ -41,6 +36,7 @@ namespace OrderService.Test.UnitTest
 
             var item1 = new OrderItem
             {
+                Id = 11,
                 ItemPrice = 10,
                 Name = "Pizza",
                 Order = order1,
@@ -55,15 +51,44 @@ namespace OrderService.Test.UnitTest
             //Assert
             response.Should().BeTrue();
         }
-
         
+        [Test]
         public async Task AcceptOrderRepository()
         {
             //Arrange
+            var orderId = 1;
 
             //Act
+            var response = await _orderRepository.AcceptOrder(orderId);
 
             //Assert
+            response.Should().BeOfType<Order>();
+        }
+
+        [Test]
+        public async Task DenyOrderRepository()
+        {
+            //Arrange
+            var orderId = 2;
+
+            //Act
+            var response = await _orderRepository.DenyOrder(orderId);
+
+            //Assert
+            response.Should().BeOfType<Order>();
+        }
+
+        [Test]
+        public async Task CancelOrderRepository()
+        {
+            //Arrange
+            var orderId = 1;
+
+            //Act
+            var response = await _orderRepository.CancelOrder(orderId);
+
+            //Assert
+            response.Should().BeOfType<Order>();
         }
     }
 }
