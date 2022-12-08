@@ -6,7 +6,7 @@ using OrderService.Models;
 using OrderService.Repository;
 using OrderService.Services;
 
-namespace OrderService.Test
+namespace OrderService.Test.UnitTest
 {
     public class Tests
     {
@@ -38,9 +38,9 @@ namespace OrderService.Test
                 VoucherCode = "fifty%OffFood"
             };
 
-            var dummyOrder = new Order 
+            var dummyOrder = new Order
             {
-                
+
             };
 
             _orderRepositoryMock.Setup(_ => _.CreateOrder(dummyOrder)).ReturnsAsync(true);
@@ -60,7 +60,7 @@ namespace OrderService.Test
         {
             //Arrange
             var orderId = 1;
-            
+
             var dummyOrder = new Order { };
             _orderRepositoryMock.Setup(_ => _.CancelOrder(orderId)).ReturnsAsync(dummyOrder);
 
