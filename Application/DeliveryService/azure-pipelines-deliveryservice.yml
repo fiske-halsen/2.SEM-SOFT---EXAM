@@ -42,6 +42,11 @@ stages:
         targetPath: '$(Pipeline.Workspace)/s/kubernetes'
         artifact: 'manifests'
         publishLocation: 'pipeline'
+    - task: DotNetCoreCLI@2
+      displayName: Tests
+      inputs:
+        command: test
+        projects: '*/DeliveryService.[Tt]est/.csproj'
         
 
 - stage: Deploy

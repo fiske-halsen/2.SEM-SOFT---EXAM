@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphqlDemo", "GraphqlDemo\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantServiceBDD.Test", "RestaurantServiceBDD.Test\RestaurantServiceBDD.Test.csproj", "{04708427-DF01-4E2B-9891-40B0DACAA4AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeliveryService.Test", "DeliveryService.Test\DeliveryService.Test.csproj", "{A000E859-C326-494D-B9E4-A1460D6C47D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{04708427-DF01-4E2B-9891-40B0DACAA4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04708427-DF01-4E2B-9891-40B0DACAA4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04708427-DF01-4E2B-9891-40B0DACAA4AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A000E859-C326-494D-B9E4-A1460D6C47D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A000E859-C326-494D-B9E4-A1460D6C47D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A000E859-C326-494D-B9E4-A1460D6C47D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A000E859-C326-494D-B9E4-A1460D6C47D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
