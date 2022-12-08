@@ -12,6 +12,7 @@ namespace DeliveryService.Repository
         public Task<Delivery> GetDeliveryByOrderId(int OrderId);
         public Task<List<Delivery>> GetDeliveriesByUserEmail(string UserEmail);
         public Task<Delivery> GetDeliveryPersonWhereIsDeliveredFalse(int deliverPersonId);
+        public Task<bool> UpdateDeliveryToIsCancelled(Delivery delivery);
     }
     public class DeliveryRepository : IDeliveryRepository
     {
@@ -47,6 +48,13 @@ namespace DeliveryService.Repository
         public async Task<Delivery> GetDeliveryByOrderId(int orderId)
         {
             return await _applicationContext.Deliveries.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> UpdateDeliveryToIsCancelled(Delivery delivery)
+        {
+            _applicationContext.Deliveries.Update(delivery);
+            await _applicationContext.SaveChangesAsync();
+            return true;
         }
     }
 }
