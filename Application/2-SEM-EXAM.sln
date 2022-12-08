@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService", "UserService\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphqlDemo", "GraphqlDemo\GraphqlDemo.csproj", "{66D36308-3A5C-44BA-B9F9-CB8AA0F4B617}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantServiceBDD.Test", "RestaurantServiceBDD.Test\RestaurantServiceBDD.Test.csproj", "{04708427-DF01-4E2B-9891-40B0DACAA4AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantService.Test", "RestaurantService.Test\RestaurantService.Test.csproj", "{9553A852-A4D7-4A58-98FD-EB31B27B4735}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,10 +95,10 @@ Global
 		{66D36308-3A5C-44BA-B9F9-CB8AA0F4B617}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66D36308-3A5C-44BA-B9F9-CB8AA0F4B617}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66D36308-3A5C-44BA-B9F9-CB8AA0F4B617}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04708427-DF01-4E2B-9891-40B0DACAA4AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04708427-DF01-4E2B-9891-40B0DACAA4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04708427-DF01-4E2B-9891-40B0DACAA4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04708427-DF01-4E2B-9891-40B0DACAA4AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9553A852-A4D7-4A58-98FD-EB31B27B4735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9553A852-A4D7-4A58-98FD-EB31B27B4735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9553A852-A4D7-4A58-98FD-EB31B27B4735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9553A852-A4D7-4A58-98FD-EB31B27B4735}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
