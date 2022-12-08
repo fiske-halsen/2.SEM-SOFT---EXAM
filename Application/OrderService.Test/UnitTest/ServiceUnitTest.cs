@@ -71,21 +71,21 @@ namespace OrderService.Test.UnitTest
             _orderRepositoryMock.Verify(mock => mock.CancelOrder(1), Times.Exactly(1));
         }
 
-        [Test]
-        public async Task TimeToDeliveryTest()
-        {
-            //Arrange
-            var orderId = 1;
+        //[Test]
+        //public async Task TimeToDeliveryTest()
+        //{
+        //    //Arrange
+        //    var orderId = 1;
 
-            _orderRepositoryMock.Setup(_ => _.TimeToDelivery(orderId)).ReturnsAsync(1030);
+        //    _orderRepositoryMock.Setup(_ => _.TimeToDelivery(orderId)).ReturnsAsync(1030);
 
-            //Act
-            var actualMocked = await _orderService.TimeToDelivery(orderId);
+        //    //Act
+        //    var actualMocked = await _orderService.TimeToDelivery(orderId);
 
-            //Assert
-            actualMocked.Should().Be(1030);
-            _orderRepositoryMock.Verify(mock => mock.TimeToDelivery(1), Times.Exactly(1));
-        }
+        //    //Assert
+        //    actualMocked.Should().Be(1030);
+        //    _orderRepositoryMock.Verify(mock => mock.TimeToDelivery(1), Times.Exactly(1));
+        //}
 
         [Test]
         public async Task AcceptOrderTest()
