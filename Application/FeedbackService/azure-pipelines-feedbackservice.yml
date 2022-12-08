@@ -3,97 +3,100 @@ trigger: none
 pr:
   branches:
     include:
-    - main
-    
+      - main
+
   paths:
     include:
-    - 'Application/FeedbackService/*'
-       
+      - "Application/FeedbackService/*"
+
 resources:
-- repo: self
+  - repo: self
 
 variables:
   imageRepo: feedbackservice
-  tag: '$(Build.BuildId)'
+  tag: "$(Build.BuildId)"
 
 stages:
-- stage: Build
-  displayName: Build image
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-    - task: Docker@2
-      displayName: Build And Push
-      inputs:
-        containerRegistry: 'AzureRegistry'
-        repository: '$(imageRepo)'
-        command: 'buildAndPush'
-        Dockerfile: '$(Build.SourcesDirectory)/Application/DockerfileFeedback'
-        tags: |
-          $(tag)
-          latest
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Pipeline.Workspace)/s/kubernetes'
-        artifact: 'manifests'
-        publishLocation: 'pipeline'
-        
+  - stage: Build
+    displayName: Build image
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: Docker@2
+            displayName: Build And Push
+            inputs:
+              containerRegistry: "AzureRegistry"
+              repository: "$(imageRepo)"
+              command: "buildAndPush"
+              Dockerfile: "$(Build.SourcesDirectory)/Application/DockerfileFeedback"
+              tags: |
+                $(tag)
+                latest
+          - task: DotNetCoreCLI@2
+            displayName: Tests
+            inputs:
+              command: test
+              projects: "*/ReviewService.[Tt]est/.csproj"
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: "$(Pipeline.Workspace)/s/kubernetes"
+              artifact: "manifests"
+              publishLocation: "pipeline"
 
-- stage: Deploy
-  displayName: Deploy to dev
-  dependsOn: Build
-  variables:
-    acrsecret: 213j212iojewasdskd2oi1
-    acrDevUrl: examregistry2sem.azurecr.io
-    replicaNo: 1
-  jobs:
-    - deployment: Deploy
-      displayName: Deploy to AKS
-      environment: 'k8sdevNewest.app'
-      pool: 
-        vmImage: ubuntu-latest
-      strategy:
-        runOnce:
-          deploy:
-            steps: 
-            - task: DownloadPipelineArtifact@2
-              inputs:
-                buildType: 'current'
-                artifactName: 'manifests'
-                targetPath: '$(Pipeline.Workspace)/manifests'
-            - task: KubernetesManifest@0
-              inputs:
-                action: 'createSecret'
-                namespace: 'app'
-                secretType: 'dockerRegistry'
-                secretName: '$(acrsecret)'
-                dockerRegistryEndpoint: 'AzureRegistry'
-            - task: replacetokens@5
-              displayName: Replace tokens
-              inputs:
-                rootDirectory: '$(Pipeline.Workspace)/manifests/'
-                targetFiles: 'feedbackservice_deployment.yml'
-                encoding: 'auto'
-                tokenPattern: 'custom'
-                tokenPrefix: '#'
-                tokenSuffix: '#'
-                writeBOM: true
-                actionOnMissing: 'warn'
-                keepToken: false
-                actionOnNoFiles: 'continue'
-                enableTransforms: false
-                enableRecursion: false
-                useLegacyPattern: false
-                enableTelemetry: true
-            - task: KubernetesManifest@0
-              inputs:
-                action: 'deploy'
-                namespace: 'app'
-                manifests: |
-                  $(Pipeline.Workspace)/manifests/feedbackservice_deployment.yml
-                containers: '$(acrDevUrl)/$(imageRepo):$(tag)'
-                imagePullSecrets: '$(acrsecret)'
-       
+  - stage: Deploy
+    displayName: Deploy to dev
+    dependsOn: Build
+    variables:
+      acrsecret: 213j212iojewasdskd2oi1
+      acrDevUrl: examregistry2sem.azurecr.io
+      replicaNo: 1
+    jobs:
+      - deployment: Deploy
+        displayName: Deploy to AKS
+        environment: "k8sdevNewest.app"
+        pool:
+          vmImage: ubuntu-latest
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: DownloadPipelineArtifact@2
+                  inputs:
+                    buildType: "current"
+                    artifactName: "manifests"
+                    targetPath: "$(Pipeline.Workspace)/manifests"
+                - task: KubernetesManifest@0
+                  inputs:
+                    action: "createSecret"
+                    namespace: "app"
+                    secretType: "dockerRegistry"
+                    secretName: "$(acrsecret)"
+                    dockerRegistryEndpoint: "AzureRegistry"
+                - task: replacetokens@5
+                  displayName: Replace tokens
+                  inputs:
+                    rootDirectory: "$(Pipeline.Workspace)/manifests/"
+                    targetFiles: "feedbackservice_deployment.yml"
+                    encoding: "auto"
+                    tokenPattern: "custom"
+                    tokenPrefix: "#"
+                    tokenSuffix: "#"
+                    writeBOM: true
+                    actionOnMissing: "warn"
+                    keepToken: false
+                    actionOnNoFiles: "continue"
+                    enableTransforms: false
+                    enableRecursion: false
+                    useLegacyPattern: false
+                    enableTelemetry: true
+                - task: KubernetesManifest@0
+                  inputs:
+                    action: "deploy"
+                    namespace: "app"
+                    manifests: |
+                      $(Pipeline.Workspace)/manifests/feedbackservice_deployment.yml
+                    containers: "$(acrDevUrl)/$(imageRepo):$(tag)"
+                    imagePullSecrets: "$(acrsecret)"
