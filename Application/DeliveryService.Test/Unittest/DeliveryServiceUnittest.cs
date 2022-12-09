@@ -328,7 +328,6 @@ namespace DeliveryService.Test
                .RuleFor(x => x.RestaurantId, x => x.Random.Int())
                .RuleFor(x => x.TimeToDelivery, x => x.Date.Recent(0))
                .RuleFor(x => x.IsDelivered, false)
-               .RuleFor(x => x.isCancelled, false)
                .RuleFor(x => x.CreatedDate, x => x.Date.Recent(0));
             return reviewFaker.Generate(5);
         }

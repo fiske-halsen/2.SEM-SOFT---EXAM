@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FeedbackService.Migrations
 {
     [DbContext(typeof(DBFeedbackServiceContext))]
-    [Migration("20221205092848_firstmig")]
-    partial class firstmig
+    [Migration("20221209204056_testttttt")]
+    partial class testttttt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,30 +57,6 @@ namespace FeedbackService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Reviews");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DeliveryDriverId = 3,
-                            OrderId = 2,
-                            Rating = 5,
-                            RestaurantId = 2,
-                            ReviewDate = new DateTime(2022, 12, 5, 10, 28, 47, 891, DateTimeKind.Local).AddTicks(7911),
-                            ReviewText = "Maden var god og blev leveret hurtigt",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DeliveryDriverId = 3,
-                            OrderId = 1,
-                            Rating = 1,
-                            RestaurantId = 2,
-                            ReviewDate = new DateTime(2022, 12, 5, 10, 28, 47, 891, DateTimeKind.Local).AddTicks(7921),
-                            ReviewText = "Maden var dårlig og blev leveret efter 3 timer",
-                            UserId = 1
-                        });
                 });
 #pragma warning restore 612, 618
         }
