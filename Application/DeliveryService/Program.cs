@@ -1,3 +1,6 @@
+using Common.KafkaEvents;
+using Confluent.Kafka.Admin;
+using Confluent.Kafka;
 using DeliveryService.Context;
 using DeliveryService.ErrorHandling;
 using DeliveryService.Repository;
@@ -5,6 +8,23 @@ using DeliveryService.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+using (var adminClient = new AdminClientBuilder(new AdminClientConfig {BootstrapServers = "localhost:9092"}).Build())
+{
+    try
+    {
+        await adminClient.CreateTopicsAsync(new TopicSpecification[]
+        {
+            new TopicSpecification
+                {Name = EventStreamerEvents.CreateDeliveryEvent, ReplicationFactor = 1, NumPartitions = 3},
+        });
+    }
+    catch (CreateTopicsException e)
+    {
+        Console.WriteLine($"An error occured creating topic {e.Results[0].Topic}: {e.Results[0].Error.Reason}");
+    }
+}
+
 
 var configuration = builder.Configuration;
 
@@ -36,7 +56,7 @@ builder.Services.AddAuthentication("token")
         options.Authority = identityServer;
         options.TokenValidationParameters.ValidateAudience = true;
         options.Audience = "DeliveryService";
-        options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+        options.TokenValidationParameters.ValidTypes = new[] {"at+jwt"};
         options.RequireHttpsMetadata = false;
     });
 

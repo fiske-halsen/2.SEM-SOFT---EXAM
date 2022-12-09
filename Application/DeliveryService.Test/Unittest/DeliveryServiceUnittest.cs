@@ -1,11 +1,11 @@
 using DeliveryService.Repository;
 using DeliveryService.Services;
-using DeliveryService.DTO;
 using Moq;
 using DeliveryService.Models;
 using FluentAssertions;
 using Common.ErrorModels;
 using Bogus;
+using Common.Dto;
 
 namespace DeliveryService.Test
 {
@@ -28,7 +28,7 @@ namespace DeliveryService.Test
         [Test]
         public async Task CreateDelivery_Should_Return_True_Positive()
         {
-            var createDeliveryDto = new CreateDeliveryDTO
+            var createDeliveryDto = new CreateDeliveryDto()
             {
                 DeliveryPersonId = 1,
                 OrderId = 1,
@@ -58,7 +58,7 @@ namespace DeliveryService.Test
         [Test]
         public async Task CreateDelivery_Should_Return_False_Negative()
         {
-            var createDeliveryDto = new CreateDeliveryDTO
+            var createDeliveryDto = new CreateDeliveryDto()
             {
                 DeliveryPersonId = 1,
                 OrderId = 1,
