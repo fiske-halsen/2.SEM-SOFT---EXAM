@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using FeedbackService.DTO;
 using GraphqlDemo.Services;
 using System.Diagnostics;
 
@@ -9,15 +10,18 @@ namespace GraphqlDemo.Operations
         private readonly IConfiguration _configuration;
         private readonly IUserServiceCommunicator _userServiceCommunicator;
         private readonly IOrderServiceCommunicator _orderServiceCommunicator;
+        private readonly IReviewServiceCommunicator _reviewServiceCommunicator;
 
         public Mutation(
             IConfiguration configuration,
             IUserServiceCommunicator userServiceCommunicator,
-            IOrderServiceCommunicator orderServiceCommunicator)
+            IOrderServiceCommunicator orderServiceCommunicator,
+            IReviewServiceCommunicator reviewServiceCommunicator)
         {
             _configuration = configuration;
             _userServiceCommunicator = userServiceCommunicator;
             _orderServiceCommunicator = orderServiceCommunicator;
+            _reviewServiceCommunicator = reviewServiceCommunicator;
         }
 
         #region OrderService
@@ -118,6 +122,24 @@ namespace GraphqlDemo.Operations
                 return false;
             }
 
+        }
+
+        #endregion
+
+        #region ReviewService
+
+        public async Task<bool> CreateReview(CreateReviewDTO createReviewDTO)
+        {
+            try
+            {
+                await _reviewServiceCommunicator.CreateReview(createReviewDTO);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
         }
 
         #endregion
