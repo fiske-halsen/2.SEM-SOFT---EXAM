@@ -1,4 +1,5 @@
 using FeedbackService.Context;
+using FeedbackService.ErrorHandling;
 using FeedbackService.Repository;
 using FeedbackService.Services;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +19,23 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 
 
-var app = builder.Build();
+var identityServer = configuration["IdentityServer:Host"];
 
+//// Authentication
+builder.Services.AddAuthentication("token")
+    .AddJwtBearer("token", options =>
+    {
+        options.Authority = identityServer;
+        options.TokenValidationParameters.ValidateAudience = true;
+        options.Audience = "FeedbackService";
+        options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+        options.RequireHttpsMetadata = false;
+    });
+
+
+builder.Services.AddAuthorization();
+
+var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
@@ -47,10 +63,16 @@ if (app.Environment.IsDevelopment())
 
 }
 
+app.ConfigureExceptionHandler();
+
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
+
+// For integration testing purposes; Woops! Needed because program is behind the scenes a internal class, we need a public way to get it
+public partial class Program
+{
+}
