@@ -31,7 +31,6 @@ namespace DeliveryService.Context
                         CreatedDate = DateTime.UtcNow,
                         IsDelivered = false,
                         TimeToDelivery = DateTime.UtcNow.AddMinutes(30),
-                        isCancelled = false
                     }
                 );
         }
