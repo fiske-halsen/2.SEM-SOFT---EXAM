@@ -3,16 +3,25 @@ using Common.KafkaEvents;
 using Confluent.Kafka;
 using Newtonsoft.Json;
 
-namespace PaymentValidatorService.Services
+namespace DeliveryService.Services
 {
-    public class PaymentValidatorConsumer : BackgroundService
+    public class OrderDeliveredConsumer : BackgroundService
     {
-        private readonly string groupId = "create_order_group";
+
+        #region private class properties
+
+        private readonly string groupId = "delivery_group";
         private readonly string bootstrapServers = "localhost:9092";
+
+        #endregion
+
+        #region DI services
 
         private readonly IServiceProvider _serviceProvider;
 
-        public PaymentValidatorConsumer(IServiceProvider serviceProvider)
+        #endregion
+
+        public OrderDeliveredConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -25,14 +34,15 @@ namespace PaymentValidatorService.Services
             {
                 GroupId = groupId,
                 BootstrapServers = bootstrapServers,
-                AutoOffsetReset = AutoOffsetReset.Earliest,
+                AutoOffsetReset =
+                    AutoOffsetReset.Earliest, // Important to understand this part here; case if this client crashes
                 AllowAutoCreateTopics = true
             };
 
             using (var consumerBuilder = new ConsumerBuilder
                        <Ignore, string>(config).Build())
             {
-                consumerBuilder.Subscribe(EventStreamerEvents.ValidatePayment);
+                consumerBuilder.Subscribe(EventStreamerEvents.OrderDeliveredEvent);
                 var cancelToken = new CancellationTokenSource();
                 try
                 {
@@ -44,18 +54,16 @@ namespace PaymentValidatorService.Services
 
                         using (var scope = _serviceProvider.CreateScope())
                         {
-                            var paymentValidatorService =
-                                scope.ServiceProvider.GetRequiredService<IPaymentValidatorService>();
-                            var createOrderDto = JsonConvert.DeserializeObject<CreateOrderDto>(jsonObj);
+                            var deliveryService = scope.ServiceProvider.GetRequiredService<IDeliverySerivice>();
+                            var orderDeliveredDto = JsonConvert.DeserializeObject<OrderDeliveredDto>(jsonObj);
 
-                            if (createOrderDto != null)
+                            if (orderDeliveredDto != null)
                             {
-                                if (await paymentValidatorService.ValidatePayment(createOrderDto))
+                                if (await deliveryService.UpdateDeliveryAsDelivered(orderDeliveredDto.DeliveryId))
                                 {
-                                    var kafkaProducer = scope.ServiceProvider
-                                        .GetRequiredService<IPaymentValidatorProducer>();
-                                    // Produce new event to kafka in case of valid payment types
-                                    await kafkaProducer.ProduceToKafka(EventStreamerEvents.ValidPaymentEvent,
+                                    var kafkaProducer = scope.ServiceProvider.GetRequiredService<IDeliveryProducer>();
+
+                                    await kafkaProducer.ProduceToKafka(EventStreamerEvents.OrderInActiveEvent,
                                         jsonObj);
                                 }
                             }

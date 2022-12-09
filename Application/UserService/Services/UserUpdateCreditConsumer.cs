@@ -75,7 +75,6 @@ namespace UserService.Services
                 }
                 catch (OperationCanceledException)
                 {
-                    stoppingToken.ThrowIfCancellationRequested();
                     consumerBuilder.Close();
                 }
             }

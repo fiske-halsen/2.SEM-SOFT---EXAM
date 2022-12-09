@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace OrderService.Services
 {
-    public class OrderDeliveredEvent : BackgroundService
+    public class OrderInActiveConsumer : BackgroundService
     {
         #region private class properties
 
@@ -20,7 +20,7 @@ namespace OrderService.Services
 
         #endregion
 
-        public OrderDeliveredEvent(IServiceProvider serviceProvider)
+        public OrderInActiveConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -41,7 +41,7 @@ namespace OrderService.Services
             using (var consumerBuilder = new ConsumerBuilder
                        <Ignore, string>(config).Build())
             {
-                consumerBuilder.Subscribe(EventStreamerEvents.OrderDeliveredEvent);
+                consumerBuilder.Subscribe(EventStreamerEvents.OrderInActiveEvent);
                 var cancelToken = new CancellationTokenSource();
                 try
                 {
@@ -54,17 +54,17 @@ namespace OrderService.Services
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var orderService = scope.ServiceProvider.GetRequiredService<IOrderService>();
-                            var createOrderDto = JsonConvert.DeserializeObject<CreateOrderDto>(jsonObj);
+                            var orderDeliveredDto = JsonConvert.DeserializeObject<OrderDeliveredDto>(jsonObj);
 
-                            if (createOrderDto != null)
+                            if (orderDeliveredDto != null)
                             {
-                                if (await orderService.CreateOrder(createOrderDto))
+                                if (await orderService.UpdateOrderSetInActive(orderDeliveredDto.OrderId))
                                 {
                                     var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
 
                                     var emailObj = new EmailPackageDto
                                     {
-                                        Email = createOrderDto.CustomerEmail,
+                                        Email = orderDeliveredDto.UserEmail,
                                         Subject = "Order received",
                                         Message = $"You recently had a order delivered; please provide us feedback!"
                                     };

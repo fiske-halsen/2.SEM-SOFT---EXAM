@@ -8,6 +8,7 @@ namespace GraphqlDemo.Services
     public interface IDeliveryServiceCommunicator
     {
         public Task<bool> CreateDelivery(CreateDeliveryDto createDeliveryDto);
+        public Task<bool> UpdateDeliveryToDelivered(OrderDeliveredDto orderDeliveredDto);
     }
 
     public class DeliveryServiceCommunicator : IDeliveryServiceCommunicator
@@ -53,6 +54,27 @@ namespace GraphqlDemo.Services
                 var createDeliverySerialized = JsonConvert.SerializeObject(createDeliveryDto);
                 await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.CreateDeliveryEvent,
                     createDeliverySerialized);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Updates the delivery to delivered by sending a event to Kafka
+        /// </summary>
+        /// <param name="orderDeliveredDto"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<bool> UpdateDeliveryToDelivered(OrderDeliveredDto orderDeliveredDto)
+        {
+            try
+            {
+                var orderDeliveredDtoSerialized = JsonConvert.SerializeObject(orderDeliveredDto);
+                await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.OrderDeliveredEvent, orderDeliveredDtoSerialized);
                 return true;
             }
             catch (Exception e)

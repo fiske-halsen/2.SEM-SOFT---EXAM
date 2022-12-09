@@ -14,6 +14,7 @@ namespace OrderService.Services
         public Task<List<Order>> GetAllOrdersForRestaurant(bool isApproved, int restaurantId);
         public Task<List<Order>> GetAllOrdersForRestaurant(int restaurantId);
         public Task<List<Order>> GetAllOrdersForUser(string userEmail);
+        public Task<bool> UpdateOrderSetInActive(int orderId);
     }
 
     public class OrdersService : IOrderService
@@ -150,6 +151,23 @@ namespace OrderService.Services
             }
 
             return ordersForUser;
+        }
+
+        /// <summary>
+        /// Updates a order sets the order to inactive..
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateOrderSetInActive(int orderId)
+        {
+            var order = await _orderRepository.GetOrderById(orderId);
+
+            if (order == null)
+            {
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, "Given order does not exist");
+            }
+
+            return await _orderRepository.UpdateOrderSetInActive(order);
         }
     }
 }

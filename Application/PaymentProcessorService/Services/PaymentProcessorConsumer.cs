@@ -69,7 +69,6 @@ namespace PaymentProcessorService.Services
                 }
                 catch (OperationCanceledException)
                 {
-                    stoppingToken.ThrowIfCancellationRequested();
                     consumerBuilder.Close();
                 }
             }

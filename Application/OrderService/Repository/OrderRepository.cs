@@ -14,6 +14,7 @@ namespace OrderService.Repository
         public Task<List<Order>> GetAllOrdersForRestaurant(bool isApproved, int restaurantId);
         public Task<List<Order>> GetAllOrdersForRestaurant(int restaurantId);
         public Task<List<Order>> GetOrdersForUser(string userEmail);
+        public Task<bool> UpdateOrderSetInActive(Order order);
     }
 
     public class OrderRepository : IOrderRepository
@@ -133,6 +134,26 @@ namespace OrderService.Repository
                 .Include(x => x.MenuItems)
                 .Where(x => x.CustomerEmail == userEmail)
                 .ToListAsync();
+        }
+
+        /// <summary>
+        /// Sets a order to inactive in the data
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateOrderSetInActive(Order order)
+        {
+            try
+            {
+                order.IsActive = false;
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return false;
+            }
         }
     }
 }

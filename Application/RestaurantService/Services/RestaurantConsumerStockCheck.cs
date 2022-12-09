@@ -76,7 +76,6 @@ namespace RestaurantService.Services
                 }
                 catch (OperationCanceledException)
                 {
-                    stoppingToken.ThrowIfCancellationRequested();
                     consumerBuilder.Close();
                 }
             }
