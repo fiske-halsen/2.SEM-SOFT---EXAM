@@ -1,5 +1,5 @@
-﻿using Common.ErrorModels;
-using FeedbackService.DTO;
+﻿using Common.Dto;
+using Common.ErrorModels;
 using FeedbackService.Models;
 using FeedbackService.Repository;
 
@@ -7,7 +7,7 @@ namespace FeedbackService.Services
 {
     public interface IReviewService
     {
-        public Task<bool> CreateReview(CreateReviewDTO createReviewDTO);
+        public Task<bool> CreateReview(CreateReviewDto createReviewDTO);
         public Task<List<Review>> GetReviewsByUserId(int userId);
         public Task<List<Review>> GetReviewsByRestaurantId(int restaurantId);
         public Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryUserId);
@@ -31,7 +31,7 @@ namespace FeedbackService.Services
         /// <param name="createReviewDTO"></param>
         /// <returns>true</returns>
         /// <exception cref="HttpStatusException"></exception>
-        public async Task<bool> CreateReview(CreateReviewDTO createReviewDTO)
+        public async Task<bool> CreateReview(CreateReviewDto createReviewDTO)
         {
 
             if (createReviewDTO.Rating > 5)
@@ -44,7 +44,6 @@ namespace FeedbackService.Services
                 RestaurantId = createReviewDTO.RestaurantId,
                 DeliveryDriverId = createReviewDTO.DeliveryDriverId,
                 ReviewText = createReviewDTO.ReviewText,
-                ReviewDate = createReviewDTO.ReviewDate,
                 OrderId = createReviewDTO.OrderId,
                 Rating = createReviewDTO.Rating
             };

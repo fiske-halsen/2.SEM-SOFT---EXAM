@@ -1,6 +1,5 @@
 ﻿using Bogus;
 using Common.Dto;
-using FeedbackService.DTO;
 using GraphqlDemo.Services;
 
 namespace GraphqlDemo.Operations
@@ -71,17 +70,17 @@ namespace GraphqlDemo.Operations
 
         #region ReviewService
 
-        public async Task<IEnumerable<CreateReviewDTO>> GetReviewsByDeliveryUserId(int deliveryUserId)
+        public async Task<IEnumerable<CreateReviewDto>> GetReviewsByDeliveryUserId(int deliveryUserId)
         {
             return await _reviewServiceCommunicator.GetReviewsByDeliveryUserId(deliveryUserId);
         }
 
-        public async Task<IEnumerable<CreateReviewDTO>> GetReviewsByRestaurantId(int restaurantId)
+        public async Task<IEnumerable<CreateReviewDto>> GetReviewsByRestaurantId(int restaurantId)
         {
             return await _reviewServiceCommunicator.GetReviewsByRestaurantId(restaurantId);
         }
 
-        public async Task<IEnumerable<CreateReviewDTO>> GetReviewsByUserId(int userId)
+        public async Task<IEnumerable<CreateReviewDto>> GetReviewsByUserId(int userId)
         {
             return await _reviewServiceCommunicator.GetReviewsByUserId(userId);
         }

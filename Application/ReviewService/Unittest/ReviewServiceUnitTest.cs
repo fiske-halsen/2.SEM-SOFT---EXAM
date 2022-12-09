@@ -1,6 +1,6 @@
 ﻿using Bogus;
+using Common.Dto;
 using Common.ErrorModels;
-using FeedbackService.DTO;
 using FeedbackService.Models;
 using FeedbackService.Repository;
 using FeedbackService.Services;
@@ -31,7 +31,7 @@ namespace ReviewServiceTest.UnitTest
         public async Task CreateReview_Should_Return_True_If_Succesfull()
         {
             //Arrange
-            var createReviewDto = new CreateReviewDTO
+            var createReviewDto = new CreateReviewDto
             {
                 UserId = 1,
                 RestaurantId = 2,
@@ -65,7 +65,7 @@ namespace ReviewServiceTest.UnitTest
         public async Task CreateReview_Should_Return_False_If_Not_Created()
         {
             //Arrange
-            var createReviewDto = new CreateReviewDTO
+            var createReviewDto = new CreateReviewDto
             {
                 UserId = 1,
                 RestaurantId = 2,
