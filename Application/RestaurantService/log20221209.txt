@@ -26,3 +26,122 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2022-12-09 22:02:25.023 +01:00 [ERR] test
 2022-12-09 22:02:25.302 +01:00 [INF] please
 2022-12-09 22:02:26.762 +01:00 [ERR] HTTP GET /124124/menu responded 500 in 8198.8362 ms
+2022-12-09 22:36:45.990 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 369.4768 ms
+2022-12-09 22:36:46.066 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 17.6702 ms
+2022-12-09 22:36:46.425 +01:00 [INF] HTTP GET /swagger/favicon-16x16.png responded 200 in 5.5842 ms
+2022-12-09 22:36:46.769 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 197.2370 ms
+2022-12-09 22:37:01.542 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at RestaurantService.Services.RestaurantService.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Services\RestaurantService.cs:line 121
+   at RestaurantService.Controllers.RestaurantController.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Controllers\RestaurantController.cs:line 68
+   at lambda_method66(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2022-12-09 22:37:02.436 +01:00 [ERR] test
+2022-12-09 22:37:02.647 +01:00 [ERR] test
+2022-12-09 22:37:03.098 +01:00 [INF] please
+2022-12-09 22:37:04.431 +01:00 [ERR] HTTP GET /234234234/menu responded 500 in 7111.4328 ms
+2022-12-09 22:38:02.796 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 12.8231 ms
+2022-12-09 22:38:03.197 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 9.8101 ms
+2022-12-09 22:38:49.607 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 316.7425 ms
+2022-12-09 22:38:50.200 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 176.5878 ms
+2022-12-09 22:39:00.323 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at RestaurantService.Services.RestaurantService.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Services\RestaurantService.cs:line 121
+   at RestaurantService.Controllers.RestaurantController.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Controllers\RestaurantController.cs:line 68
+   at lambda_method66(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2022-12-09 22:39:01.156 +01:00 [ERR] test
+2022-12-09 22:39:01.493 +01:00 [ERR] test
+2022-12-09 22:39:01.868 +01:00 [INF] please
+2022-12-09 22:39:02.197 +01:00 [INF] Test
+2022-12-09 22:39:03.509 +01:00 [ERR] HTTP GET /4124/menu responded 500 in 10013.7545 ms
+2022-12-09 22:40:24.401 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 448.4145 ms
+2022-12-09 22:40:25.405 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 259.7289 ms
+2022-12-09 22:40:33.322 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at RestaurantService.Services.RestaurantService.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Services\RestaurantService.cs:line 121
+   at RestaurantService.Controllers.RestaurantController.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Controllers\RestaurantController.cs:line 68
+   at lambda_method66(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2022-12-09 22:40:34.112 +01:00 [ERR] test
+2022-12-09 22:40:34.401 +01:00 [ERR] test
+2022-12-09 22:40:34.677 +01:00 [INF] please
+2022-12-09 22:40:34.994 +01:00 [INF] Test
+2022-12-09 22:40:36.367 +01:00 [ERR] HTTP GET /124124/menu responded 500 in 6991.1613 ms
+2022-12-09 22:43:22.020 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 280.0451 ms
+2022-12-09 22:43:22.836 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 178.3732 ms
+2022-12-09 22:43:30.882 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at RestaurantService.Services.RestaurantService.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Services\RestaurantService.cs:line 121
+   at RestaurantService.Controllers.RestaurantController.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Controllers\RestaurantController.cs:line 68
+   at lambda_method66(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2022-12-09 22:43:31.645 +01:00 [INF] internal server error500
+2022-12-09 22:43:32.848 +01:00 [ERR] HTTP GET /124124/menu responded 500 in 6315.0442 ms
+2022-12-09 22:43:54.364 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 28.5946 ms
+2022-12-09 22:43:54.853 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 9.5328 ms
+2022-12-09 22:49:36.174 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 284.2203 ms
+2022-12-09 22:49:38.958 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 2254.7087 ms
+2022-12-09 22:49:53.027 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at RestaurantService.Services.RestaurantService.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Services\RestaurantService.cs:line 121
+   at RestaurantService.Controllers.RestaurantController.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Controllers\RestaurantController.cs:line 68
+   at lambda_method66(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2022-12-09 22:49:54.012 +01:00 [ERR] Internal Server Error"Information"127.0.0.1https://localhost:7193/124124/menu/124124/menu500"2022-12-09T22:49:54.0118262+01:00"
+2022-12-09 22:49:55.269 +01:00 [ERR] HTTP GET /124124/menu responded 500 in 6338.5000 ms

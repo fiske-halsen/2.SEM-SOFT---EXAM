@@ -17,9 +17,20 @@ using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
-
+var appSettings = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json")
+    .Build();
 builder.Host.UseSerilog((ctx, lc) => lc
-    .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day).WriteTo.MSSqlServer(
+        appConfiguration:appSettings,
+        connectionString:appSettings.GetConnectionString("DefaultConnection"),
+        tableName:"Logs"
+
+        
+        
+        )
+
     .ReadFrom.Configuration(ctx.Configuration));
 
 
@@ -58,6 +69,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 builder.Services.AddScoped<IRestaurantService, RestaurantService.Services.RestaurantService>();
 builder.Services.AddScoped<IRestaurantProducerService, RestaurantProducerService>();
+builder.Services.AddScoped<IDbLogger, DbLogger>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<RestaurantConsumerStockCheck>();
 builder.Services.AddHostedService<RestaurantUpdateStockConsumer>();
@@ -92,8 +104,12 @@ app.UseCors(x => x
     //.WithOrigins("https://localhost:44351")); // Allow only this origin can also have multiple origins separated with comma
     .AllowCredentials());
 
+using (var scope = app.Services.CreateScope())
+{
+    var logger = scope.ServiceProvider.GetRequiredService<IDbLogger>();
+    app.ConfigureExceptionHandler(logger);
+}
 
-app.ConfigureExceptionHandler();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
