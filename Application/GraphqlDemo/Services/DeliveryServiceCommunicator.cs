@@ -9,6 +9,9 @@ namespace GraphqlDemo.Services
     {
         public Task<bool> CreateDelivery(CreateDeliveryDto createDeliveryDto);
         public Task<bool> UpdateDeliveryToDelivered(OrderDeliveredDto orderDeliveredDto);
+        public Task<IEnumerable<DeliveryDto>> GetDeliveriesByDeliveryPersonId(int deliveryPersonId);
+        public Task<IEnumerable<DeliveryDto>> GetDeliveryByOrderId(int orderId);
+        public Task<IEnumerable<DeliveryDto>> GetDeliveryByUserEmail(string userEmail);
     }
 
     public class DeliveryServiceCommunicator : IDeliveryServiceCommunicator
@@ -52,15 +55,47 @@ namespace GraphqlDemo.Services
             try
             {
                 var createDeliverySerialized = JsonConvert.SerializeObject(createDeliveryDto);
-                await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.CreateDeliveryEvent,
+                return await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.CreateDeliveryEvent,
                     createDeliverySerialized);
-                return true;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Sends a http call to delivery service and gets all deliveries by person id
+        /// </summary>
+        /// <param name="deliveryPersonId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<DeliveryDto>> GetDeliveriesByDeliveryPersonId(int deliveryPersonId)
+        {
+            return await _apiService.Get<DeliveryDto>($"{_deliveryServiceUrl}/delivery-persons/{deliveryPersonId}",
+                _applicationCredentials);
+        }
+
+        /// <summary>
+        /// Sends a http call to delivery service and gets all deliveries by order id
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<DeliveryDto>> GetDeliveryByOrderId(int orderId)
+        {
+            return await _apiService.Get<DeliveryDto>($"{_deliveryServiceUrl}/orders/{orderId}",
+                _applicationCredentials);
+        }
+
+        /// <summary>
+        /// Sends a http call to delivery service and gets all deliveries by userEmail
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<DeliveryDto>> GetDeliveryByUserEmail(string userEmail)
+        {
+            return await _apiService.Get<DeliveryDto>($"{_deliveryServiceUrl}/customers/{userEmail}",
+                _applicationCredentials);
         }
 
         /// <summary>
@@ -74,8 +109,8 @@ namespace GraphqlDemo.Services
             try
             {
                 var orderDeliveredDtoSerialized = JsonConvert.SerializeObject(orderDeliveredDto);
-                await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.OrderDeliveredEvent, orderDeliveredDtoSerialized);
-                return true;
+                return await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.OrderDeliveredEvent,
+                    orderDeliveredDtoSerialized);
             }
             catch (Exception e)
             {
