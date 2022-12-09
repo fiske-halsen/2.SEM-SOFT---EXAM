@@ -1,15 +1,15 @@
 ﻿using DeliveryService.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
-using System.Reflection.Emit;
 
 namespace DeliveryService.Context
 {
     public class DbApplicationContext : DbContext
     {
-        public DbApplicationContext(DbContextOptions<DbApplicationContext> options) : base(options) { }
+        public DbApplicationContext(DbContextOptions<DbApplicationContext> options) : base(options)
+        {
+        }
 
-        public DbSet<Delivery> Deliveries{ get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -21,18 +21,19 @@ namespace DeliveryService.Context
         {
             modelBuilder.Entity<Delivery>()
                 .HasData(
-                    //DeliveryPerson = 3
-                    //Customer = 1
                     new Delivery
                     {
                         DeliveryId = 1,
                         DeliveryPersonId = 3,
                         RestaurantId = 1,
                         OrderId = 1,
-                        UserEmail = "phillip.andersen1999@gmail.com"
+                        UserEmail = "phillip.andersen1999@gmail.com",
+                        CreatedDate = DateTime.UtcNow,
+                        IsDelivered = false,
+                        TimeToDelivery = DateTime.UtcNow.AddMinutes(30),
+                        isCancelled = false
                     }
                 );
-
         }
     }
 }
