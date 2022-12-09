@@ -1,16 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common.ErrorModels;
+using Microsoft.EntityFrameworkCore;
 using RestaurantService.Model;
 
 namespace RestaurantService.Context
 {
     public class DBApplicationContext : DbContext
     {
-        public DBApplicationContext(DbContextOptions<DBApplicationContext> options) : base(options) { }
+        public DBApplicationContext(DbContextOptions<DBApplicationContext> options) : base(options)
+        {
+        }
         public DbSet<Menu> Menus { get; set; }
         public DbSet <MenuItem> MenuItems { get; set; }
         public DbSet <Restaurant> Restaurants { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<CityInfo> CityInfos { get; set; }
+
+       
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -20,6 +25,7 @@ namespace RestaurantService.Context
         }
         private void Seed(ModelBuilder builder)
         {
+            
             builder.Entity<CityInfo>().HasData(
                 new CityInfo { Id = 1, City = "Gentofte", ZipCode = "2920" }
 
