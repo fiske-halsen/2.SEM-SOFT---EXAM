@@ -1,13 +1,13 @@
-﻿using DeliveryService.DTO;
-using DeliveryService.Models;
+﻿using DeliveryService.Models;
 using DeliveryService.Repository;
 using Common.ErrorModels;
+using Common.Dto;
 
 namespace DeliveryService.Services
 {
     public interface IDeliverySerivce
     {
-        public Task<bool> CreateDelivery(CreateDeliveryDTO createDeliveryDTO);
+        public Task<bool> CreateDelivery(CreateDeliveryDto createDeliveryDTO);
         public Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int DeliveryPersonId);
         public Task<Delivery> GetDeliveryByOrderId(int orderId);
         public Task<List<Delivery>> GetDeliveriesByUserEmail(string userEmail);
@@ -49,7 +49,7 @@ namespace DeliveryService.Services
         /// <param name="createDeliveryDTO"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
-        public async Task<bool> CreateDelivery(CreateDeliveryDTO createDeliveryDTO)
+        public async Task<bool> CreateDelivery(CreateDeliveryDto createDeliveryDTO)
         {
             if (!createDeliveryDTO.UserEmail.Contains("@"))
             {

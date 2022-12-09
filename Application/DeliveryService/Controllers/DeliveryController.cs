@@ -1,4 +1,4 @@
-﻿using DeliveryService.DTO;
+﻿using Common.Dto;
 using DeliveryService.Models;
 using DeliveryService.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +22,7 @@ namespace DeliveryService.Controllers
         public async Task<bool>
             CreateDelivery(
                 [FromBody]
-                CreateDeliveryDTO createDeliveryDTO) // This method should not be http based, we are making this event based for real time deliveries
+                CreateDeliveryDto createDeliveryDTO) // This method should not be http based, we are making this event based for real time deliveries
         {
             return await _deliverySerivce.CreateDelivery(createDeliveryDTO);
         }

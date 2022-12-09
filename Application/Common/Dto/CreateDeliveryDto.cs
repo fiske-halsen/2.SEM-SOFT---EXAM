@@ -1,6 +1,6 @@
-﻿namespace DeliveryService.DTO
+﻿namespace Common.Dto
 {
-    public class CreateDeliveryDTO
+    public class CreateDeliveryDto
     {
         public int DeliveryPersonId { get; set; }
         public int OrderId { get; set; }

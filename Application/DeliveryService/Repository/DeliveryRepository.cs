@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using DeliveryService.Context;
-using DeliveryService.DTO;
 using DeliveryService.Models;
 using Microsoft.EntityFrameworkCore;
 
