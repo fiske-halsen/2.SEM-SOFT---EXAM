@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantService.Context;
 
@@ -10,9 +11,10 @@ using RestaurantService.Context;
 namespace RestaurantService.Migrations
 {
     [DbContext(typeof(DBApplicationContext))]
-    partial class DBApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20221209175240_newlogger")]
+    partial class newlogger
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,6 +86,26 @@ namespace RestaurantService.Migrations
                             City = "Gentofte",
                             ZipCode = "2920"
                         });
+                });
+
+            modelBuilder.Entity("RestaurantService.Model.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StatusCode")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("RestaurantService.Model.Menu", b =>

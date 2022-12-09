@@ -29,7 +29,6 @@ namespace RestaurantService.Services
     public class RestaurantService : IRestaurantService
     {
         private readonly IRestaurantRepository _restaurantRepository;
-
         public RestaurantService(IRestaurantRepository restaurantRepository)
         {
             _restaurantRepository = restaurantRepository;

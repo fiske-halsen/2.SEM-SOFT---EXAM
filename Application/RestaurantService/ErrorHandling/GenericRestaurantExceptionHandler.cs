@@ -1,12 +1,22 @@
 ﻿using Common.ErrorModels;
 using Microsoft.AspNetCore.Diagnostics;
+using RestaurantService.Repository;
+using System.ComponentModel;
+using RestaurantService.Model;
+using Serilog;
+using Serilog.Events;
 
 namespace RestaurantService.ErrorHandling
 {
     public static class GenericRestaurantExceptionHandler
     {
-        public static void ConfigureExceptionHandler(this IApplicationBuilder app)
+
+        
+
+        public static void ConfigureExceptionHandler(this IApplicationBuilder app
+        )
         {
+            
             app.UseExceptionHandler(appError =>
             {
                 appError.Run(async context =>
@@ -24,16 +34,23 @@ namespace RestaurantService.ErrorHandling
                             // TODO Maybe do error logs to db
                             //dbLogger.Error(errorType.Message, errorType.StatusCode);
                             context.Response.StatusCode = errorType.StatusCode;
+
+                            
                             await context.Response.WriteAsync(new ExceptionDto()
                             {
                                 StatusCode = errorType.StatusCode,
                                 Message = errorType.Message
                             }.ToString());
+
                         }
                         else
                         {
                             //dbLogger.Error(error.Message, StatusCodes.Status500InternalServerError);
                             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                            Log.Error("test", "test");
+                            Log.Write(LogEventLevel.Error,"test");
+                            Log.Information("please");
+
                             await context.Response.WriteAsync(new ExceptionDto()
                             {
                                 StatusCode = StatusCodes.Status500InternalServerError,

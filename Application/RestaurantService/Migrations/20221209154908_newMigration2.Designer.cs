@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantService.Context;
 
@@ -10,9 +11,10 @@ using RestaurantService.Context;
 namespace RestaurantService.Migrations
 {
     [DbContext(typeof(DBApplicationContext))]
-    partial class DBApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20221209154908_newMigration2")]
+    partial class newMigration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,14 +1,27 @@
 using Common.KafkaEvents;
 using Confluent.Kafka.Admin;
 using Confluent.Kafka;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using RestaurantService.Context;
 using RestaurantService.ErrorHandling;
 using RestaurantService.Repository;
 using RestaurantService.Services;
+using Serilog;
+using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
+using Serilog.Core;
+using System.Collections.ObjectModel;
+using System.Data;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
+    .ReadFrom.Configuration(ctx.Configuration));
+
 
 using (var adminClient = new AdminClientBuilder(new AdminClientConfig {BootstrapServers = "localhost:9092"}).Build())
 {
@@ -32,7 +45,6 @@ using (var adminClient = new AdminClientBuilder(new AdminClientConfig {Bootstrap
     }
 }
 
-// Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -42,18 +54,20 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 builder.Services.AddScoped<IRestaurantService, RestaurantService.Services.RestaurantService>();
 builder.Services.AddScoped<IRestaurantProducerService, RestaurantProducerService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<RestaurantConsumerStockCheck>();
 builder.Services.AddHostedService<RestaurantUpdateStockConsumer>();
 
 builder.Services.AddDbContext<DBApplicationContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-var app = builder.Build();
 
+var app = builder.Build();
+app.UseSerilogRequestLogging();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<DBApplicationContext>();
@@ -63,7 +77,6 @@ using (var scope = app.Services.CreateScope())
         db.Database.EnsureCreated();
     }
 }
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
