@@ -33,7 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphqlDemo", "GraphqlDemo\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantService.Test", "RestaurantService.Test\RestaurantService.Test.csproj", "{9553A852-A4D7-4A58-98FD-EB31B27B4735}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeliveryService.Test", "DeliveryService.Test\DeliveryService.Test.csproj", "{5D203B56-F57B-4053-99EC-2CEEB599E1FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeliveryService.Test", "DeliveryService.Test\DeliveryService.Test.csproj", "{5D203B56-F57B-4053-99EC-2CEEB599E1FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Test", "OrderService.Test\OrderService.Test.csproj", "{980C3D2C-C1FC-4AC0-A7C2-05516F5EB66F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +107,10 @@ Global
 		{5D203B56-F57B-4053-99EC-2CEEB599E1FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D203B56-F57B-4053-99EC-2CEEB599E1FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D203B56-F57B-4053-99EC-2CEEB599E1FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{980C3D2C-C1FC-4AC0-A7C2-05516F5EB66F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{980C3D2C-C1FC-4AC0-A7C2-05516F5EB66F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{980C3D2C-C1FC-4AC0-A7C2-05516F5EB66F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{980C3D2C-C1FC-4AC0-A7C2-05516F5EB66F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
