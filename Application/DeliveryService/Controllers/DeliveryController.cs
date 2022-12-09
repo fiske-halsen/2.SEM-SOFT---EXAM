@@ -16,34 +16,33 @@ namespace DeliveryService.Controllers
             _deliverySerivce = deliverySerivce;
         }
 
-        [HttpPost("delivery")]
+        [HttpPost]
         public async Task<bool> CreateDelivery([FromBody]CreateDeliveryDTO createDeliveryDTO)
         {
             return await _deliverySerivce.CreateDelivery(createDeliveryDTO);
         }
 
-        [HttpGet("deliverypersons/{deliveryPersonId}")]
+        [HttpGet("delivery-persons/{deliveryPersonId}")]
         public async Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int deliveryPersonId)
         {
             return await _deliverySerivce.GetDeliveriesByDeliveryPersonId(deliveryPersonId);
         }
 
-        [HttpGet("delivery/orders/{orderId}")]
+        [HttpGet("orders/{orderId}")]
         public async Task<Delivery> GetDeliveryByOrderId(int orderId)
         {
             return await _deliverySerivce.GetDeliveryByOrderId(orderId);
         }
-        [HttpGet("delivery/customers/{userEmail}")]
+        [HttpGet("customers/{userEmail}")]
         public async Task<List<Delivery>> GetDeliveriesByUserEmail(string userEmail)
         {
             return await _deliverySerivce.GetDeliveriesByUserEmail(userEmail);
         }
 
-        [HttpPatch("delivery/orders/cancel/{orderId}")]
+        [HttpPatch("orders/cancel/{orderId}")]
         public async Task<bool> UpdateDeliveryToIsCancelled(int orderId)
         {
             return await _deliverySerivce.UpdateDeliveryToIsCancelled(orderId);
         }
-
     }
 }
