@@ -11,17 +11,20 @@ namespace GraphqlDemo.Operations
         private readonly IUserServiceCommunicator _userServiceCommunicator;
         private readonly IOrderServiceCommunicator _orderServiceCommunicator;
         private readonly IReviewServiceCommunicator _reviewServiceCommunicator;
+        private readonly IDeliveryServiceCommunicator _deliveryServiceCommunicator;
 
         public Mutation(
             IConfiguration configuration,
             IUserServiceCommunicator userServiceCommunicator,
             IOrderServiceCommunicator orderServiceCommunicator,
-            IReviewServiceCommunicator reviewServiceCommunicator)
+            IReviewServiceCommunicator reviewServiceCommunicator,
+            IDeliveryServiceCommunicator deliveryServiceCommunicator)
         {
             _configuration = configuration;
             _userServiceCommunicator = userServiceCommunicator;
             _orderServiceCommunicator = orderServiceCommunicator;
             _reviewServiceCommunicator = reviewServiceCommunicator;
+            _deliveryServiceCommunicator = deliveryServiceCommunicator;
         }
 
         #region OrderService
@@ -121,7 +124,6 @@ namespace GraphqlDemo.Operations
                 Debug.WriteLine(e.Message);
                 return false;
             }
-
         }
 
         #endregion
@@ -140,6 +142,20 @@ namespace GraphqlDemo.Operations
                 Debug.WriteLine(e.Message);
                 return false;
             }
+        }
+
+        #endregion
+
+        #region DeliveryService
+
+        /// <summary>
+        /// Creates a delivery by posting a event to kafka
+        /// </summary>
+        /// <param name="createDeliveryDto"></param>
+        /// <returns></returns>
+        public async Task<bool> CreateDelivery(CreateDeliveryDto createDeliveryDto)
+        {
+            return await _deliveryServiceCommunicator.CreateDelivery(createDeliveryDto);
         }
 
         #endregion

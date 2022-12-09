@@ -12,13 +12,13 @@ namespace DeliveryService.Test
     public class DeliveryServiceUnittest
     {
         public Mock<IDeliveryRepository> _deliveryRepository;
-        public IDeliverySerivce _deliverySerivce;
+        public IDeliverySerivice DeliverySerivice;
 
         [SetUp]
         public void Setup()
         {
             _deliveryRepository = new Mock<IDeliveryRepository>();
-            _deliverySerivce = new DeliveryService.Services.DeliveryService(_deliveryRepository.Object);
+            DeliverySerivice = new DeliveryService.Services.DeliveryService(_deliveryRepository.Object);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace DeliveryService.Test
             _deliveryRepository.Setup(_ => _.CreateDelivery(dummyDelivery)).ReturnsAsync(true);
 
             // Act
-            var actualMocked = await _deliverySerivce.CreateDelivery(createDeliveryDto);
+            var actualMocked = await DeliverySerivice.CreateDelivery(createDeliveryDto);
 
 
             // Assert
@@ -77,7 +77,7 @@ namespace DeliveryService.Test
 
             Func<Task> act = async () =>
             {
-                actualMocked = await _deliverySerivce.CreateDelivery(createDeliveryDto);
+                actualMocked = await DeliverySerivice.CreateDelivery(createDeliveryDto);
 
                 await Task.CompletedTask;
             };
@@ -111,11 +111,11 @@ namespace DeliveryService.Test
             List<Delivery> actualMocked = new List<Delivery>();
 
             // Act
-            actualMocked = await _deliverySerivce.GetDeliveriesByDeliveryPersonId(deliveryPersonId);
+            actualMocked = await DeliverySerivice.GetDeliveriesByDeliveryPersonId(deliveryPersonId);
 
             Func<Task> act = async () =>
             {
-                actualMocked = await _deliverySerivce.GetDeliveriesByDeliveryPersonId(deliveryPersonId);
+                actualMocked = await DeliverySerivice.GetDeliveriesByDeliveryPersonId(deliveryPersonId);
                 await Task.CompletedTask;
             };
 
@@ -140,7 +140,7 @@ namespace DeliveryService.Test
             // Act
             Func<Task> act = async () =>
             {
-                actualMocked = await _deliverySerivce.GetDeliveriesByDeliveryPersonId(deliveryPersonId);
+                actualMocked = await DeliverySerivice.GetDeliveriesByDeliveryPersonId(deliveryPersonId);
                 await Task.CompletedTask;
             };
             // Assert
@@ -169,7 +169,7 @@ namespace DeliveryService.Test
             _deliveryRepository.Setup(_ => _.GetDeliveryByOrderId(orderId)).ReturnsAsync(delivery);
 
             // Act
-            var actualMocked = await _deliverySerivce.GetDeliveryByOrderId(orderId);
+            var actualMocked = await DeliverySerivice.GetDeliveryByOrderId(orderId);
             var expected = delivery;
 
             // Assert
@@ -207,7 +207,7 @@ namespace DeliveryService.Test
 
             Func<Task> act = async () =>
             {
-                actualMocked = await _deliverySerivce.GetDeliveryByOrderId(orderId);
+                actualMocked = await DeliverySerivice.GetDeliveryByOrderId(orderId);
 
                 await Task.CompletedTask;
             };
@@ -241,11 +241,11 @@ namespace DeliveryService.Test
             List<Delivery> actualMocked = new List<Delivery>();
 
             // Act
-            actualMocked = await _deliverySerivce.GetDeliveriesByUserEmail(userEmail);
+            actualMocked = await DeliverySerivice.GetDeliveriesByUserEmail(userEmail);
 
             Func<Task> act = async () =>
             {
-                actualMocked = await _deliverySerivce.GetDeliveriesByUserEmail(userEmail);
+                actualMocked = await DeliverySerivice.GetDeliveriesByUserEmail(userEmail);
                 await Task.CompletedTask;
             };
 
@@ -270,7 +270,7 @@ namespace DeliveryService.Test
             // Act
             Func<Task> act = async () =>
             {
-                actualMocked = await _deliverySerivce.GetDeliveriesByUserEmail(userEmail);
+                actualMocked = await DeliverySerivice.GetDeliveriesByUserEmail(userEmail);
                 await Task.CompletedTask;
             };
             // Assert
@@ -301,7 +301,7 @@ namespace DeliveryService.Test
         //    _deliveryRepository.Setup(_ => _.CreateDelivery(delivery)).ReturnsAsync(true);
 
         //    // Act
-        //    var actualMocked = await _deliverySerivce.UpdateDeliveryToIsCancelled(orderId);
+        //    var actualMocked = await DeliverySerivice.UpdateDeliveryToIsCancelled(orderId);
 
 
         //    // Assert

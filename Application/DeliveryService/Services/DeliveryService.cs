@@ -5,7 +5,7 @@ using Common.Dto;
 
 namespace DeliveryService.Services
 {
-    public interface IDeliverySerivce
+    public interface IDeliverySerivice
     {
         public Task<bool> CreateDelivery(CreateDeliveryDto createDeliveryDTO);
         public Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int DeliveryPersonId);
@@ -16,7 +16,7 @@ namespace DeliveryService.Services
         public Task<bool> UpdateDeliveryAsDelivered(int deliveryId);
     }
 
-    public class DeliveryService : IDeliverySerivce
+    public class DeliveryService : IDeliverySerivice
     {
         private readonly IDeliveryRepository _deliveryRepository;
 
@@ -58,13 +58,13 @@ namespace DeliveryService.Services
             }
 
             // Check if guy already has a delivery that is not delivered
-            var deliveries = await _deliveryRepository.GetDeliveriesByUserEmail(createDeliveryDTO.UserEmail);
+            var deliveries = await _deliveryRepository.GetDeliveriesByDeliveryPersonId(createDeliveryDTO.DeliveryPersonId);
 
             // If theres any where they ahve a delivery that isnt delivered
             if (deliveries.Any(_ => _.IsDelivered == false))
             {
                 throw new HttpStatusException(StatusCodes.Status400BadRequest,
-                    $"Delivery guy with email {createDeliveryDTO.UserEmail} already has a active delivery");
+                    $"Delivery guy with id {createDeliveryDTO.DeliveryPersonId} already has a active delivery");
             }
 
             var delivery = new Delivery
@@ -72,7 +72,8 @@ namespace DeliveryService.Services
                 DeliveryPersonId = createDeliveryDTO.DeliveryPersonId,
                 OrderId = createDeliveryDTO.OrderId,
                 UserEmail = createDeliveryDTO.UserEmail,
-                TimeToDelivery = createDeliveryDTO.TimeToDelivery
+                TimeToDelivery = createDeliveryDTO.TimeToDelivery,
+                RestaurantId = createDeliveryDTO.RestaurantId
             };
 
             await _deliveryRepository.CreateDelivery(delivery);

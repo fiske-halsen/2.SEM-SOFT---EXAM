@@ -53,6 +53,8 @@ builder.Services.AddScoped<IOrderService, OrderService.Services.OrdersService>()
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddHostedService<SaveOrderConsumer>();
 builder.Services.AddHostedService<ApproveOrderConsumer>();
+builder.Services.AddHostedService<OrderDeliveredEvent>();
+
 builder.Services.AddScoped<IOrderProducer, OrderProducer>();
 
 
@@ -65,7 +67,7 @@ builder.Services.AddAuthentication("token")
         options.Authority = identityServer;
         options.TokenValidationParameters.ValidateAudience = true;
         options.Audience = "OrderService";
-        options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+        options.TokenValidationParameters.ValidTypes = new[] {"at+jwt"};
         options.RequireHttpsMetadata = false;
     });
 
