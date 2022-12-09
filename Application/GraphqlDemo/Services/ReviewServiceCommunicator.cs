@@ -1,15 +1,14 @@
 ﻿using Common.Dto;
-using FeedbackService.DTO;
 using Newtonsoft.Json;
 
 namespace GraphqlDemo.Services
 {
     public interface IReviewServiceCommunicator
     {
-        public Task<bool> CreateReview(CreateReviewDTO createReviewDTO);
-        public Task<IEnumerable<CreateReviewDTO>> GetReviewsByUserId(int userId);
-        public Task<IEnumerable<CreateReviewDTO>> GetReviewsByRestaurantId(int restaurantId);
-        public Task<IEnumerable<CreateReviewDTO>> GetReviewsByDeliveryUserId(int deliveryUserId);
+        public Task<bool> CreateReview(CreateReviewDto createReviewDTO);
+        public Task<IEnumerable<CreateReviewDto>> GetReviewsByUserId(int userId);
+        public Task<IEnumerable<CreateReviewDto>> GetReviewsByRestaurantId(int restaurantId);
+        public Task<IEnumerable<CreateReviewDto>> GetReviewsByDeliveryUserId(int deliveryUserId);
     }
 
     public class ReviewServiceCommunicator : IReviewServiceCommunicator
@@ -34,7 +33,7 @@ namespace GraphqlDemo.Services
         /// </summary>
         /// <param name="createReviewDTO"></param>
         /// <returns></returns>
-        public async Task<bool> CreateReview(CreateReviewDTO createReviewDTO)
+        public async Task<bool> CreateReview(CreateReviewDto createReviewDTO)
         {
             var reviewSerialized = JsonConvert.SerializeObject(createReviewDTO);
             return await _apiService.Post($"{_reviewServiceUrl}/review", reviewSerialized, _applicationCredentials);
@@ -45,9 +44,9 @@ namespace GraphqlDemo.Services
         /// </summary>
         /// <param name="deliveryUserId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<CreateReviewDTO>> GetReviewsByDeliveryUserId(int deliveryUserId)
+        public async Task<IEnumerable<CreateReviewDto>> GetReviewsByDeliveryUserId(int deliveryUserId)
         {
-            return await _apiService.Get<CreateReviewDTO>($"{_reviewServiceUrl}/deliverydriverreviews/{deliveryUserId}", _applicationCredentials);
+            return await _apiService.Get<CreateReviewDto>($"{_reviewServiceUrl}/user-reviews/{deliveryUserId}", _applicationCredentials);
         }
 
         /// <summary>
@@ -55,9 +54,9 @@ namespace GraphqlDemo.Services
         /// </summary>
         /// <param name="restaurantId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<CreateReviewDTO>> GetReviewsByRestaurantId(int restaurantId)
+        public async Task<IEnumerable<CreateReviewDto>> GetReviewsByRestaurantId(int restaurantId)
         {
-            return await _apiService.Get<CreateReviewDTO>($"{_reviewServiceUrl}/deliverydriverreviews/{restaurantId}", _applicationCredentials);
+            return await _apiService.Get<CreateReviewDto>($"{_reviewServiceUrl}/restaurant-reviews/{restaurantId}", _applicationCredentials);
         }
 
         /// <summary>
@@ -65,9 +64,9 @@ namespace GraphqlDemo.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<CreateReviewDTO>> GetReviewsByUserId(int userId)
+        public async Task<IEnumerable<CreateReviewDto>> GetReviewsByUserId(int userId)
         {
-            return await _apiService.Get<CreateReviewDTO>($"{_reviewServiceUrl}/deliverydriverreviews/{userId}", _applicationCredentials);
+            return await _apiService.Get<CreateReviewDto>($"{_reviewServiceUrl}/delivery-driver-reviews/{userId}", _applicationCredentials);
         }
     }
 }

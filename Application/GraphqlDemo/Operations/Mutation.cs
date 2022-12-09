@@ -1,5 +1,4 @@
 ﻿using Common.Dto;
-using FeedbackService.DTO;
 using GraphqlDemo.Services;
 using System.Diagnostics;
 
@@ -135,7 +134,7 @@ namespace GraphqlDemo.Operations
         /// </summary>
         /// <param name="createReviewDTO"></param>
         /// <returns></returns>
-        public async Task<bool> CreateReview(CreateReviewDTO createReviewDTO)
+        public async Task<bool> CreateReview(CreateReviewDto createReviewDTO)
         {
             try
             {
