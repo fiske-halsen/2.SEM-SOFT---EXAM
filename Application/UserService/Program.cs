@@ -13,15 +13,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var configuration = builder.Configuration;
 
-
-using (var adminClient = new AdminClientBuilder(new AdminClientConfig { BootstrapServers = "localhost:9092" }).Build())
+using (var adminClient = new AdminClientBuilder(new AdminClientConfig {BootstrapServers = "localhost:9092"}).Build())
 {
     try
     {
         //await adminClient.DeleteTopicsAsync(new List<string>() {EventStreamerEvents.SaveOrderEvent});
 
-        await adminClient.CreateTopicsAsync(new TopicSpecification[] {
-            new TopicSpecification { Name = EventStreamerEvents.SaveOrderEvent, ReplicationFactor = 1, NumPartitions = 3 } });
+        await adminClient.CreateTopicsAsync(new TopicSpecification[]
+        {
+            new TopicSpecification
+                {Name = EventStreamerEvents.CheckUserBalanceEvent, ReplicationFactor = 1, NumPartitions = 3}
+        });
     }
     catch (CreateTopicsException e)
     {
@@ -51,7 +53,7 @@ builder.Services.AddDbContext<UserDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 
-builder.Services.AddHostedService<UserKafkaConsumer>();
+builder.Services.AddHostedService<UserUpdateCreditConsumer>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UsersService>();
 builder.Services.AddScoped<IUserProducer, UserProducer>();

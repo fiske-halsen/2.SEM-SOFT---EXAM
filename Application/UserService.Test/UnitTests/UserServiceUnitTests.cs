@@ -19,7 +19,7 @@ namespace UserService.Test.UnitTests
         public void Setup()
         {
             _userRepositoryMock = new Mock<IUserRepository>();
-            _userService = new UsersService(_userRepositoryMock.Object, _userProducerMock.Object);
+            _userService = new UsersService(_userRepositoryMock.Object);
         }
 
         /// <summary>

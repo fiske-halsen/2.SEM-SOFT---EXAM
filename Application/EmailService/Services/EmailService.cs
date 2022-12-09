@@ -35,7 +35,7 @@ namespace EmailService.Services
             MailMessage Message = new MailMessage()
             {
                 From = FromEmail,
-                Subject = "DeliveryStatus",
+                Subject = emailPackageDto.Subject,
                 Body = emailPackageDto.Message
             };
 

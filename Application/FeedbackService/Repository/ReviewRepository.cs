@@ -12,7 +12,9 @@ namespace FeedbackService.Repository
         public Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryUserId);
     }
 
-
+    /// <summary>
+    /// Review repository contains the logic for communicating withe review db
+    /// </summary>
     public class ReviewRepository : IReviewRepository
     {
         private readonly DBFeedbackServiceContext _dbContext;
@@ -22,7 +24,12 @@ namespace FeedbackService.Repository
             _dbContext = dBApplicationContext;
         }
 
-
+        /// <summary>
+        /// Create a new review
+        /// </summary>
+        /// <param name="review"></param>
+        /// <returns>true</returns>
+        /// <exception cref="Exception"></exception>
         public async Task<bool> CreateReview(Review review)
         {
             try
@@ -37,6 +44,12 @@ namespace FeedbackService.Repository
             }
         }
 
+        /// <summary>
+        /// Get reviews for a delivery driver
+        /// </summary>
+        /// <param name="deliveryUserId"></param>
+        /// <returns>reviews</returns>
+        /// <exception cref="Exception"></exception>
         public async Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryUserId)
         {
             try
@@ -52,6 +65,13 @@ namespace FeedbackService.Repository
             }
         }
 
+        /// <summary>
+        /// Get reviews for a restaurant
+        /// </summary>
+        /// <param name="restaurantId"></param>
+        /// <returns>reviews</returns>
+        /// <exception cref="Exception"></exception>
+        /// 
         public async Task<List<Review>> GetReviewsByRestaurantId(int restaurantId)
         {
             try
@@ -67,6 +87,12 @@ namespace FeedbackService.Repository
             }
         }
 
+        /// <summary>
+        /// Get reviews for a user 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>reviews</returns>
+        /// <exception cref="Exception"></exception>
         public async Task<List<Review>> GetReviewsByUserId(int userId)
         {
             try

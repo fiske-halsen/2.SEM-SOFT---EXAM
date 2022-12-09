@@ -1,7 +1,7 @@
 ﻿using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
-using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace OrderService.Services
 {
@@ -51,16 +51,27 @@ namespace OrderService.Services
                             (cancelToken.Token);
                         var jsonObj = consumer.Message.Value;
 
-
-                        Debug.WriteLine(jsonObj);
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var myScopedService = scope.ServiceProvider.GetRequiredService<IOrderService>();
-                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
+                            var createOrderDto = JsonConvert.DeserializeObject<CreateOrderDto>(jsonObj);
 
                             if (createOrderDto != null)
                             {
-                                await myScopedService.CreateOrder(createOrderDto);
+                                if (await myScopedService.CreateOrder(createOrderDto))
+                                {
+                                    var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
+
+                                    var emailObj = new EmailPackageDto
+                                    {
+                                        Email = createOrderDto.CustomerEmail,
+                                        Subject = "Order received",
+                                        Message = $"Order received waiting for restaurant approval"
+                                    };
+
+                                    await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent,
+                                        JsonConvert.SerializeObject(emailObj));
+                                }
                             }
                         }
                     }
@@ -71,7 +82,5 @@ namespace OrderService.Services
                 }
             }
         }
-
-
     }
 }

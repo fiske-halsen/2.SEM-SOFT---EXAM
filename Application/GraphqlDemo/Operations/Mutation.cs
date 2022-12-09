@@ -1,55 +1,73 @@
 ﻿using Common.Dto;
-using Common.KafkaEvents;
 using GraphqlDemo.Services;
-using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace GraphqlDemo.Operations
 {
     public class Mutation
     {
-        private readonly IKafkaProducerService _kafkaProducerService;
         private readonly IConfiguration _configuration;
         private readonly IUserServiceCommunicator _userServiceCommunicator;
+        private readonly IOrderServiceCommunicator _orderServiceCommunicator;
 
         public Mutation(
-            IKafkaProducerService kafkaProducerService,
             IConfiguration configuration,
-            IUserServiceCommunicator userServiceCommunicator)
+            IUserServiceCommunicator userServiceCommunicator,
+            IOrderServiceCommunicator orderServiceCommunicator)
         {
-            _kafkaProducerService = kafkaProducerService;
             _configuration = configuration;
             _userServiceCommunicator = userServiceCommunicator;
+            _orderServiceCommunicator = orderServiceCommunicator;
         }
 
+        #region OrderService
+
+        /// <summary>
+        /// Creates a new order and posts a ValidatePayment to kafka
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         public async Task<bool> CreateOrder(CreateOrderDto dto)
         {
             try
             {
-                CreateOrderDto orderDto = new CreateOrderDto
-                {
-                    PaymentType = dto.PaymentType,
-                    CustomerEmail = dto.CustomerEmail,
-                    RestaurantId = dto.RestaurantId,
-                    OrderTotal = dto.OrderTotal,
-                    MenuItems = dto.MenuItems
-                };
-
-                var orderSerialized = JsonConvert.SerializeObject(orderDto);
-                await _kafkaProducerService.ProduceToKafka(EventStreamerEvents.ValidatePayment, orderSerialized);
-
+                await _orderServiceCommunicator.CreateOrder(dto);
                 return true;
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.Message);
                 return false;
             }
         }
 
         /// <summary>
+        /// Approves order and orchestrates events to both restaurant service and order service
+        /// </summary>
+        /// <param name="approveOrderDto"></param>
+        /// <returns></returns>
+        public async Task<bool> ApproveOrder(ApproveOrderDto approveOrderDto)
+        {
+            try
+            {
+                await _orderServiceCommunicator.ApproveOrder(approveOrderDto);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region UserService
+
+        /// <summary>
         /// Creates a new user to the system; Sends a call to UserService
         /// </summary>
-        /// <param name="createUserDto"></param>
+        /// <param Name="createUserDto"></param>
         /// <returns></returns>
         public async Task<bool> CreateUser(CreateUserDto createUserDto)
         {
@@ -68,7 +86,7 @@ namespace GraphqlDemo.Operations
         /// <summary>
         /// Login for a user
         /// </summary>
-        /// <param name="loginUserDto"></param>
+        /// <param Name="loginUserDto"></param>
         /// <returns></returns>
         public async Task<TokenDto> Login(LoginUserDto loginUserDto)
         {
@@ -78,9 +96,30 @@ namespace GraphqlDemo.Operations
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
+                Debug.WriteLine(e.Message);
                 return null;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updateUserBalanceDto"></param>
+        /// <returns></returns>
+        public async Task<bool> AddCreditToUserBalance(UpdateUserBalanceDto updateUserBalanceDto)
+        {
+            try
+            {
+                return await _userServiceCommunicator.AddToUserBalance(updateUserBalanceDto);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+
+        }
+
+        #endregion
     }
 }

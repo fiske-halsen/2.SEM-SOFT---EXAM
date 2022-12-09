@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
+using Newtonsoft.Json;
 
 namespace PaymentProcessorService.Services
 {
@@ -54,17 +55,21 @@ namespace PaymentProcessorService.Services
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var paymentService = scope.ServiceProvider.GetRequiredService<IPaymentService>();
-                            var createOrderDto = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
+                            var createOrderDto = JsonConvert.DeserializeObject<CreateOrderDto>(jsonObj);
 
                             if (createOrderDto != null)
                             {
-                                await paymentService.SimulatePayment(createOrderDto);
+                                var kafkaProducer = scope.ServiceProvider
+                                    .GetRequiredService<IKafkaPaymentProcessorProducer>();
+
+                                await paymentService.SimulatePayment(createOrderDto, kafkaProducer);
                             }
                         }
                     }
                 }
                 catch (OperationCanceledException)
                 {
+                    stoppingToken.ThrowIfCancellationRequested();
                     consumerBuilder.Close();
                 }
             }
