@@ -17,37 +17,6 @@ variables:
   tag: "$(Build.BuildId)"
 
 stages:
-<<<<<<< HEAD
-- stage: Build
-  displayName: Build image
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-    - task: Docker@2
-      displayName: Build And Push
-      inputs:
-        containerRegistry: 'AzureRegistry'
-        repository: '$(imageRepo)'
-        command: 'buildAndPush'
-        Dockerfile: '$(Build.SourcesDirectory)/Application/DockerfileFeedback'
-        tags: |
-          $(tag)
-          latest
-    - task: DotNetCoreCLI@2
-      displayName: Tests
-      inputs:
-        command: test
-        projects: '**/ReviewService.[Tt]est/*.csproj'
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Pipeline.Workspace)/s/kubernetes'
-        artifact: 'manifests'
-        publishLocation: 'pipeline'
-        
-=======
   - stage: Build
     displayName: Build image
     jobs:
@@ -70,13 +39,12 @@ stages:
             displayName: Tests
             inputs:
               command: test
-              projects: "*/ReviewService.[Tt]est/.csproj"
+              projects: "**/ReviewService.[Tt]est/*.csproj"
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: "$(Pipeline.Workspace)/s/kubernetes"
               artifact: "manifests"
               publishLocation: "pipeline"
->>>>>>> d1c2dd4c04ac748f76048b8b17e65d1e636158b4
 
   - stage: Deploy
     displayName: Deploy to dev
