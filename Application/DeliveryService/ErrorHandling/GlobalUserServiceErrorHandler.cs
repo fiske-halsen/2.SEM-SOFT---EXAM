@@ -1,7 +1,7 @@
 ﻿using Common.ErrorModels;
 using Microsoft.AspNetCore.Diagnostics;
 
-namespace UserService.ErrorHandling
+namespace DeliveryService.ErrorHandling
 {
     public static class GlobalUserServiceErrorHandler
     {

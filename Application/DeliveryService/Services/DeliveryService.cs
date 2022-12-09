@@ -35,12 +35,18 @@ namespace DeliveryService.Services
 
         public async Task<bool> CreateDelivery(CreateDeliveryDTO createDeliveryDTO)
         {
+            if (!createDeliveryDTO.UserEmail.Contains("@"))
+            {
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, "Email must containt character '@' to be valid");
+            }
             var delivery = new Delivery
             {
                 DeliveryPersonId = createDeliveryDTO.DeliveryPersonId,
                 OrderId = createDeliveryDTO.OrderId,
-                UserEmail = createDeliveryDTO.UserEmail
-            };
+                UserEmail = createDeliveryDTO.UserEmail,
+                TimeToDelivery = createDeliveryDTO.TimeToDelivery
+            }; 
+
             await _deliveryRepository.CreateDelivery(delivery);
             return true;
         }
