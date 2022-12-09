@@ -125,7 +125,196 @@ namespace DeliveryService.Test
 
         }
 
-        
+        /// <summary>
+        /// Positive test to show that nothing is returned if a deliveryPerson does not have any deliveries in total(delivered or not)
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task GetDeliveriesByDeliveryPersonId_Should_Not_Return_list_Negative()
+        {
+            var deliveryPersonId = 2;
+
+            _deliveryRepository.Setup(_ => _.GetDeliveriesByDeliveryPersonId(deliveryPersonId)).ReturnsAsync(GenerateDummyData());
+            List<Delivery> actualMocked = new List<Delivery>();
+
+            // Act
+            Func<Task> act = async () =>
+            {
+                actualMocked = await _deliverySerivce.GetDeliveriesByDeliveryPersonId(deliveryPersonId);
+                await Task.CompletedTask;
+            };
+            // Assert
+            actualMocked.Should().BeEmpty().And.HaveCount(0);
+        }
+
+        /// <summary>
+        /// Positive test to show that a Delivery should be returned if a delivery with a matching orderId exists
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task GetDeliveryByOrderId_Should_Return_Delivery_Positive()
+        {
+            var orderId = 1;
+
+            var delivery = new Delivery()
+            {
+                DeliveryId = 1,
+                DeliveryPersonId = 1,
+                OrderId = orderId,
+                RestaurantId = 1,
+                UserEmail = "test@test.dk",
+                TimeToDelivery = DateTime.MinValue
+            };
+
+            _deliveryRepository.Setup(_ => _.GetDeliveryByOrderId(orderId)).ReturnsAsync(delivery);
+
+            // Act
+            var actualMocked = await _deliverySerivce.GetDeliveryByOrderId(orderId);
+            var expected = delivery;
+
+            // Assert
+            actualMocked.Should().BeOfType<Delivery>();
+            actualMocked.Should().BeEquivalentTo(delivery, options => options.ExcludingMissingMembers());
+
+            // Verify using mock
+            _deliveryRepository.Verify(mock => mock.GetDeliveryByOrderId(It.IsAny<int>()), Times.Exactly(1));
+        }
+
+        /// <summary>
+        /// Negative test to show that a Delivery should not be returned if an orderId of a non existsing delivery is given
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task GetDeliveryByOrderId_Should_Not_Return_Delivery_Negative()
+        {
+            var orderId = 1;
+
+            var delivery = new Delivery()
+            {
+                DeliveryId = 1,
+                DeliveryPersonId = 1,
+                OrderId = orderId,
+                RestaurantId = 1,
+                UserEmail = "test@test.dk",
+                TimeToDelivery = DateTime.MinValue
+            };
+
+            _deliveryRepository.Setup(_ => _.GetDeliveryByOrderId(orderId)); // setup assuming email already exists
+
+
+            // Act
+            Delivery actualMocked = null;
+
+            Func<Task> act = async () =>
+            {
+                actualMocked = await _deliverySerivce.GetDeliveryByOrderId(orderId);
+
+                await Task.CompletedTask;
+            };
+
+            // Assert
+            actualMocked.Should().BeNull();
+            await act.Should().ThrowAsync<HttpStatusException>()
+                .WithMessage($"Order with given id = {orderId} does not exist");
+        }
+
+        /// <summary>
+        /// Positive test to show that a list og Delivery should be returned if a email with deliveries exists
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task GetDeliveriesByUserEmail_Should_Return_Delivery_Positive()
+        {
+            var userEmail = "test@test.dk";
+
+            var createDelivery = new Delivery
+            {
+                DeliveryId = 1,
+                DeliveryPersonId = 1,
+                OrderId = 1,
+                RestaurantId = 1,
+                UserEmail = userEmail,
+                TimeToDelivery = DateTime.MinValue
+            };
+
+            _deliveryRepository.Setup(_ => _.GetDeliveriesByUserEmail(userEmail)).ReturnsAsync(GenerateDummyData());
+            List<Delivery> actualMocked = new List<Delivery>();
+
+            // Act
+            actualMocked = await _deliverySerivce.GetDeliveriesByUserEmail(userEmail);
+
+            Func<Task> act = async () =>
+            {
+                actualMocked = await _deliverySerivce.GetDeliveriesByUserEmail(userEmail);
+                await Task.CompletedTask;
+            };
+
+            actualMocked.Should().NotBeEmpty().And.HaveCount(5);
+
+            _deliveryRepository.Verify(_ => _.GetDeliveriesByUserEmail(It.IsAny<string>()), Times.Exactly(1));
+
+        }
+
+        /// <summary>
+        /// Negative test to show that a list og Delivery should not be returned if a email with no deliveries exists
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task GetDeliveriesByUserEmail_Should_Not_Return_Delivery_Negative()
+        {
+            var userEmail = "asd@asd.dk";
+
+            _deliveryRepository.Setup(_ => _.GetDeliveriesByUserEmail(userEmail)).ReturnsAsync(GenerateDummyData());
+            List<Delivery> actualMocked = new List<Delivery>();
+
+            // Act
+            Func<Task> act = async () =>
+            {
+                actualMocked = await _deliverySerivce.GetDeliveriesByUserEmail(userEmail);
+                await Task.CompletedTask;
+            };
+            // Assert
+            actualMocked.Should().BeEmpty().And.HaveCount(0);
+        }
+
+        // MISSING
+        //[Test]
+        //public async Task UpdateDeliveryToIsCancelled_Should_Return_True_Positive()
+        //{
+        //    var orderId = 1;
+
+        //    var delivery = new Delivery()
+        //    {
+        //        DeliveryId = 1,
+        //        DeliveryPersonId = 1,
+        //        OrderId = orderId,
+        //        RestaurantId = 1,
+        //        UserEmail = "test@test.dk",
+        //        TimeToDelivery = DateTime.MinValue,
+        //        CreatedDate = DateTime.Now,
+        //        isCancelled = false,
+        //        IsDelivered = false
+        //    };
+
+        //    var dummyDelivery = new Delivery { };
+
+        //    _deliveryRepository.Setup(_ => _.CreateDelivery(delivery)).ReturnsAsync(true);
+
+        //    // Act
+        //    var actualMocked = await _deliverySerivce.UpdateDeliveryToIsCancelled(orderId);
+
+
+        //    // Assert
+        //    actualMocked.Should().BeTrue();
+        //    // Verify that a mock was called
+        //    _deliveryRepository.Verify(mock => mock.UpdateDeliveryToIsCancelled(It.IsAny<Delivery>()), Times.Exactly(1));
+        //}
+
+        // MISSING
+        //[Test]
+        //public async Task UpdateDeliveryToIsCancelled_Should_Not_Return_True_Negative()
+        //{
+        //}
 
 
         public static List<Delivery> GenerateDummyData()
@@ -133,7 +322,7 @@ namespace DeliveryService.Test
             Faker<Delivery> reviewFaker = new Faker<Delivery>()
                .StrictMode(true)
                .RuleFor(x => x.DeliveryId, x => x.Random.Int(10))
-               .RuleFor(x => x.DeliveryPersonId, x => x.Random.Int(10))
+               .RuleFor(x => x.DeliveryPersonId,1)
                .RuleFor(x => x.OrderId, x => x.Random.Int())
                .RuleFor(x => x.UserEmail, x => x.Random.String())
                .RuleFor(x => x.RestaurantId, x => x.Random.Int())

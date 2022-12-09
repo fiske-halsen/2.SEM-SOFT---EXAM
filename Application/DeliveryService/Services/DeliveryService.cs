@@ -11,7 +11,6 @@ namespace DeliveryService.Services
         public Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int DeliveryPersonId);
         public Task<Delivery> GetDeliveryByOrderId(int OrderId);
         public Task<List<Delivery>> GetDeliveriesByUserEmail(string UserEmail);
-
         public Task<bool> UpdateDeliveryToIsCancelled(int OrderId);
     }
     public class DeliveryService : IDeliverySerivce
@@ -75,7 +74,9 @@ namespace DeliveryService.Services
         public async Task<bool> UpdateDeliveryToIsCancelled(int OrderId)
         {
             var delivery = await _deliveryRepository.GetDeliveryByOrderId(OrderId);
-            if (delivery == null) { return false; }
+            if (delivery == null) { 
+                throw new HttpStatusException(StatusCodes.Status400BadRequest, "Delivery with given id does not exists "); 
+            }
             delivery.isCancelled = true;
             delivery.TimeToDelivery = DateTime.MinValue;
             await _deliveryRepository.UpdateDeliveryToIsCancelled(delivery);
