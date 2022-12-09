@@ -12,5 +12,6 @@
         public const string ApproveOrderEvent = "approve_order";
         public const string CancelOrderEvent = "cancel_order";
         public const string CreateDeliveryEvent = "create_delivery";
+        public const string OrderDeliveredEvent = "order_delivered_event";
     }
 }

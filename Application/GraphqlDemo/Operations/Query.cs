@@ -10,11 +10,15 @@ namespace GraphqlDemo.Operations
         private readonly IOrderServiceCommunicator _orderServiceCommunicator;
         private readonly IReviewServiceCommunicator _reviewServiceCommunicator;
 
-        public Query(IOrderServiceCommunicator orderServiceCommunicator, IReviewServiceCommunicator reviewServiceCommunicator)
+        public Query(IOrderServiceCommunicator orderServiceCommunicator,
+            IReviewServiceCommunicator reviewServiceCommunicator)
         {
             _orderServiceCommunicator = orderServiceCommunicator;
             _reviewServiceCommunicator = reviewServiceCommunicator;
         }
+
+
+        #region OrderService
 
         /// <summary>
         /// Gets all orders by a specific restaurant and user
@@ -62,10 +66,16 @@ namespace GraphqlDemo.Operations
             return orderFaker.Generate(10);
             return null;
         }
+
+        #endregion
+
+        #region ReviewService
+
         public async Task<IEnumerable<CreateReviewDTO>> GetReviewsByDeliveryUserId(int deliveryUserId)
         {
             return await _reviewServiceCommunicator.GetReviewsByDeliveryUserId(deliveryUserId);
         }
+
         public async Task<IEnumerable<CreateReviewDTO>> GetReviewsByRestaurantId(int restaurantId)
         {
             return await _reviewServiceCommunicator.GetReviewsByRestaurantId(restaurantId);
@@ -76,6 +86,6 @@ namespace GraphqlDemo.Operations
             return await _reviewServiceCommunicator.GetReviewsByUserId(userId);
         }
 
-
+        #endregion
     }
 }

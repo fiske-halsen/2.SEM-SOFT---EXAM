@@ -45,7 +45,10 @@ builder.Services.AddDbContext<DbApplicationContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IDeliveryRepository, DeliveryRepository>();
-builder.Services.AddScoped<IDeliverySerivce, DeliveryService.Services.DeliveryService>();
+builder.Services.AddScoped<IDeliverySerivice, DeliveryService.Services.DeliveryService>();
+builder.Services.AddScoped<IDeliveryProducer, DeliveryProducer>();
+builder.Services.AddHostedService<CreateDeliveryConsumer>();
+
 
 var identityServer = configuration["IdentityServer:Host"];
 

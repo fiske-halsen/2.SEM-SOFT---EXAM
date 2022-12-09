@@ -3,13 +3,13 @@ using Common.KafkaEvents;
 using Confluent.Kafka;
 using Newtonsoft.Json;
 
-namespace DeliveryService.Services
+namespace OrderService.Services
 {
-    public class CreateDeliveryConsumer : BackgroundService
+    public class OrderDeliveredEvent : BackgroundService
     {
         #region private class properties
 
-        private readonly string groupId = "delivery_group";
+        private readonly string groupId = "user_group";
         private readonly string bootstrapServers = "localhost:9092";
 
         #endregion
@@ -20,11 +20,10 @@ namespace DeliveryService.Services
 
         #endregion
 
-        public CreateDeliveryConsumer(IServiceProvider serviceProvider)
+        public OrderDeliveredEvent(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
-
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -42,7 +41,7 @@ namespace DeliveryService.Services
             using (var consumerBuilder = new ConsumerBuilder
                        <Ignore, string>(config).Build())
             {
-                consumerBuilder.Subscribe(EventStreamerEvents.CreateDeliveryEvent);
+                consumerBuilder.Subscribe(EventStreamerEvents.OrderDeliveredEvent);
                 var cancelToken = new CancellationTokenSource();
                 try
                 {
@@ -54,20 +53,20 @@ namespace DeliveryService.Services
 
                         using (var scope = _serviceProvider.CreateScope())
                         {
-                            var deliveryService = scope.ServiceProvider.GetRequiredService<IDeliverySerivice>();
-                            var createDeliveryDto = JsonConvert.DeserializeObject<CreateDeliveryDto>(jsonObj);
+                            var orderService = scope.ServiceProvider.GetRequiredService<IOrderService>();
+                            var createOrderDto = JsonConvert.DeserializeObject<CreateOrderDto>(jsonObj);
 
-                            if (createDeliveryDto != null)
+                            if (createOrderDto != null)
                             {
-                                if (await deliveryService.CreateDelivery(createDeliveryDto))
+                                if (await orderService.CreateOrder(createOrderDto))
                                 {
-                                    var kafkaProducer = scope.ServiceProvider.GetRequiredService<IDeliveryProducer>();
+                                    var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
 
                                     var emailObj = new EmailPackageDto
                                     {
-                                        Email = createDeliveryDto.UserEmail,
+                                        Email = createOrderDto.CustomerEmail,
                                         Subject = "Order received",
-                                        Message = $"Order accepted by delivery guy"
+                                        Message = $"You recently had a order delivered; please provide us feedback!"
                                     };
 
                                     await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent,
@@ -83,5 +82,6 @@ namespace DeliveryService.Services
                 }
             }
         }
+
     }
 }

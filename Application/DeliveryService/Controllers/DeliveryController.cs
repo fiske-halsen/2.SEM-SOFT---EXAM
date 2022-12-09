@@ -10,11 +10,11 @@ namespace DeliveryService.Controllers
     [Route("api/[controller]")]
     public class DeliveryController : ControllerBase
     {
-        private readonly IDeliverySerivce _deliverySerivce;
+        private readonly IDeliverySerivice _deliverySerivice;
 
-        public DeliveryController(IDeliverySerivce deliverySerivce)
+        public DeliveryController(IDeliverySerivice deliverySerivice)
         {
-            _deliverySerivce = deliverySerivce;
+            _deliverySerivice = deliverySerivice;
         }
 
         [Authorize]
@@ -24,35 +24,35 @@ namespace DeliveryService.Controllers
                 [FromBody]
                 CreateDeliveryDto createDeliveryDTO) // This method should not be http based, we are making this event based for real time deliveries
         {
-            return await _deliverySerivce.CreateDelivery(createDeliveryDTO);
+            return await _deliverySerivice.CreateDelivery(createDeliveryDTO);
         }
 
         [Authorize]
         [HttpGet("delivery-persons/{deliveryPersonId}")]
         public async Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int deliveryPersonId)
         {
-            return await _deliverySerivce.GetDeliveriesByDeliveryPersonId(deliveryPersonId);
+            return await _deliverySerivice.GetDeliveriesByDeliveryPersonId(deliveryPersonId);
         }
 
         [Authorize]
         [HttpGet("orders/{orderId}")]
         public async Task<Delivery> GetDeliveryByOrderId(int orderId)
         {
-            return await _deliverySerivce.GetDeliveryByOrderId(orderId);
+            return await _deliverySerivice.GetDeliveryByOrderId(orderId);
         }
 
         [Authorize]
         [HttpGet("customers/{userEmail}")]
         public async Task<List<Delivery>> GetDeliveriesByUserEmail(string userEmail)
         {
-            return await _deliverySerivce.GetDeliveriesByUserEmail(userEmail);
+            return await _deliverySerivice.GetDeliveriesByUserEmail(userEmail);
         }
 
         [Authorize]
         [HttpPatch("orders/cancel/{orderId}")]
         public async Task<bool> UpdateDeliveryToIsCancelled(int orderId)
         {
-            return await _deliverySerivce.UpdateDeliveryToIsCancelled(orderId);
+            return await _deliverySerivice.UpdateDeliveryToIsCancelled(orderId);
         }
     }
 }
