@@ -13,7 +13,7 @@ namespace RestaurantService.ErrorHandling
 
         
 
-        public static void ConfigureExceptionHandler(this IApplicationBuilder app
+        public static void ConfigureExceptionHandler(this IApplicationBuilder app, IDbLogger logger
         )
         {
             
@@ -47,9 +47,7 @@ namespace RestaurantService.ErrorHandling
                         {
                             //dbLogger.Error(error.Message, StatusCodes.Status500InternalServerError);
                             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                            Log.Error("test", "test");
-                            Log.Write(LogEventLevel.Error,"test");
-                            Log.Information("please");
+                            logger.Error("Internal Server Error", StatusCodes.Status500InternalServerError);
 
                             await context.Response.WriteAsync(new ExceptionDto()
                             {
