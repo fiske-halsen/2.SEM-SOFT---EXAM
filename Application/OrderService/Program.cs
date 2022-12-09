@@ -16,13 +16,11 @@ using (var adminClient = new AdminClientBuilder(new AdminClientConfig {Bootstrap
         await adminClient.CreateTopicsAsync(new TopicSpecification[]
         {
             new TopicSpecification
-                {Name = EventStreamerEvents.ApproveOrderEvent, ReplicationFactor = 1, NumPartitions = 3},
-        });
-
-        await adminClient.CreateTopicsAsync(new TopicSpecification[]
-        {
-            new TopicSpecification
                 {Name = EventStreamerEvents.SaveOrderEvent, ReplicationFactor = 1, NumPartitions = 3},
+            new TopicSpecification
+                {Name = EventStreamerEvents.ApproveOrderEvent, ReplicationFactor = 1, NumPartitions = 3},
+            new TopicSpecification
+                {Name = EventStreamerEvents.OrderInActiveEvent, ReplicationFactor = 1, NumPartitions = 3},
         });
     }
     catch (CreateTopicsException e)
@@ -53,7 +51,7 @@ builder.Services.AddScoped<IOrderService, OrderService.Services.OrdersService>()
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddHostedService<SaveOrderConsumer>();
 builder.Services.AddHostedService<ApproveOrderConsumer>();
-builder.Services.AddHostedService<OrderDeliveredEvent>();
+builder.Services.AddHostedService<OrderInActiveConsumer>();
 
 builder.Services.AddScoped<IOrderProducer, OrderProducer>();
 

@@ -130,6 +130,11 @@ namespace GraphqlDemo.Operations
 
         #region ReviewService
 
+        /// <summary>
+        /// Creates a review 
+        /// </summary>
+        /// <param name="createReviewDTO"></param>
+        /// <returns></returns>
         public async Task<bool> CreateReview(CreateReviewDTO createReviewDTO)
         {
             try
@@ -156,6 +161,16 @@ namespace GraphqlDemo.Operations
         public async Task<bool> CreateDelivery(CreateDeliveryDto createDeliveryDto)
         {
             return await _deliveryServiceCommunicator.CreateDelivery(createDeliveryDto);
+        }
+
+        /// <summary>
+        /// Sets a order to delivered by posting event to kafka
+        /// </summary>
+        /// <param name="orderDeliveredDto"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateDeliverySetInActive(OrderDeliveredDto orderDeliveredDto)
+        {
+            return await _deliveryServiceCommunicator.UpdateDeliveryToDelivered(orderDeliveredDto);
         }
 
         #endregion

@@ -90,7 +90,7 @@ namespace DeliveryService.Repository
         {
             try
             {
-                _applicationContext.Deliveries.Update(delivery);
+                delivery.isCancelled = true;
                 await _applicationContext.SaveChangesAsync();
                 return true;
             }
@@ -122,7 +122,7 @@ namespace DeliveryService.Repository
         {
             try
             {
-                _applicationContext.Deliveries.Update(delivery);
+                delivery.IsDelivered = true;
                 await _applicationContext.SaveChangesAsync();
                 return true;
             }

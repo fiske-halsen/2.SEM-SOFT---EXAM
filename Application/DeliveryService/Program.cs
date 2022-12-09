@@ -14,9 +14,12 @@ using (var adminClient = new AdminClientBuilder(new AdminClientConfig {Bootstrap
     try
     {
         await adminClient.CreateTopicsAsync(new TopicSpecification[]
+
         {
             new TopicSpecification
                 {Name = EventStreamerEvents.CreateDeliveryEvent, ReplicationFactor = 1, NumPartitions = 3},
+            new TopicSpecification
+                {Name = EventStreamerEvents.OrderDeliveredEvent, ReplicationFactor = 1, NumPartitions = 3},
         });
     }
     catch (CreateTopicsException e)
@@ -48,6 +51,7 @@ builder.Services.AddScoped<IDeliveryRepository, DeliveryRepository>();
 builder.Services.AddScoped<IDeliverySerivice, DeliveryService.Services.DeliveryService>();
 builder.Services.AddScoped<IDeliveryProducer, DeliveryProducer>();
 builder.Services.AddHostedService<CreateDeliveryConsumer>();
+builder.Services.AddHostedService<OrderDeliveredConsumer>();
 
 
 var identityServer = configuration["IdentityServer:Host"];
