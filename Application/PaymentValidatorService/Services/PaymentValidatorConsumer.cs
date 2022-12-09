@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Common.KafkaEvents;
 using Confluent.Kafka;
+using Newtonsoft.Json;
 
 namespace PaymentValidatorService.Services
 {
@@ -16,7 +17,7 @@ namespace PaymentValidatorService.Services
             _serviceProvider = serviceProvider;
         }
 
-        protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await Task.Yield();
 
@@ -41,22 +42,29 @@ namespace PaymentValidatorService.Services
                             (cancelToken.Token);
                         var jsonObj = consumer.Message.Value;
 
-
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var paymentValidatorService =
                                 scope.ServiceProvider.GetRequiredService<IPaymentValidatorService>();
-                            var obj = System.Text.Json.JsonSerializer.Deserialize<CreateOrderDto>(jsonObj);
+                            var createOrderDto = JsonConvert.DeserializeObject<CreateOrderDto>(jsonObj);
 
-                            if (obj != null)
+                            if (createOrderDto != null)
                             {
-                                await paymentValidatorService.ValidatePayment(obj);
+                                if (await paymentValidatorService.ValidatePayment(createOrderDto))
+                                {
+                                    var kafkaProducer = scope.ServiceProvider
+                                        .GetRequiredService<IPaymentValidatorProducer>();
+                                    // Produce new event to kafka in case of valid payment types
+                                    await kafkaProducer.ProduceToKafka(EventStreamerEvents.ValidPaymentEvent,
+                                        jsonObj);
+                                }
                             }
                         }
                     }
                 }
                 catch (OperationCanceledException)
                 {
+                    stoppingToken.ThrowIfCancellationRequested();
                     consumerBuilder.Close();
                 }
             }

@@ -38,5 +38,12 @@ namespace DeliveryService.Controllers
         {
             return await _deliverySerivce.GetDeliveriesByUserEmail(userEmail);
         }
+
+        [HttpPatch("delivery/orders/cancel/{orderId}")]
+        public async Task<bool> UpdateDeliveryToIsCancelled(int orderId)
+        {
+            return await _deliverySerivce.UpdateDeliveryToIsCancelled(orderId);
+        }
+
     }
 }

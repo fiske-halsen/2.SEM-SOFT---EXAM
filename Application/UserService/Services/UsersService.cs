@@ -1,8 +1,7 @@
 ﻿using Common.Dto;
 using Common.Enums;
 using Common.ErrorModels;
-using Common.KafkaEvents;
-using Newtonsoft.Json;
+using System.Diagnostics;
 using UserService.Models;
 using UserService.Repository;
 using Address = UserService.Models.Address;
@@ -16,7 +15,8 @@ namespace UserService.Services
         public Task<Role> GetUserRoleById(int userId);
         public Task<bool> CreateUser(CreateUserDto createUserDto);
         public Task<bool> CheckIfUserBalanceHasEnoughCreditForOrder(CreateOrderDto createOrderDto);
-        public Task<bool> UpdateUserBalance(UpdateUserBalanceDto updateUserBalanceDto);
+        public Task<bool> UpdateUserBalanceForOrder(CreateOrderDto createOrderDto);
+        public Task<bool> AddToUserBalance(UpdateUserBalanceDto updateUserBalanceDto);
     }
 
     /// <summary>
@@ -25,18 +25,44 @@ namespace UserService.Services
     public class UsersService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUserProducer _kafkaProducer;
-
-        public UsersService(IUserRepository userRepository, IUserProducer kafkaProducer)
+        
+        public UsersService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _kafkaProducer = kafkaProducer;
+        }
+
+        /// <summary>
+        /// Adds to a existing user balance
+        /// </summary>
+        /// <param name="updateUserBalanceDto"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpStatusException"></exception>
+        public async Task<bool> AddToUserBalance(UpdateUserBalanceDto updateUserBalanceDto)
+        {
+            try
+            {
+                var user = await _userRepository.GetUserByEmail(updateUserBalanceDto.Email);
+
+                if (user == null)
+                {
+                    throw new HttpStatusException(StatusCodes.Status400BadRequest, $"User does not exist");
+                }
+
+                await _userRepository.UpdateUserBalance(user, user.Balance + updateUserBalanceDto.Balance);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
         }
 
         /// <summary>
         /// Checks if a given user has enough user credit to perform a order
         /// </summary>
-        /// <param name="createOrderDto"></param>
+        /// <param Name="createOrderDto"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
         public async Task<bool> CheckIfUserBalanceHasEnoughCreditForOrder(CreateOrderDto createOrderDto)
@@ -48,22 +74,13 @@ namespace UserService.Services
                 throw new HttpStatusException(StatusCodes.Status400BadRequest, "User does not exist");
             }
 
-            // Now the checking
-            if (user.Balance >= createOrderDto.OrderTotal)
-            {
-                await _kafkaProducer.ProduceToKafka(EventStreamerEvents.CheckRestaurantStockEvent,
-                    JsonConvert.SerializeObject(createOrderDto));
-                return true;
-            }
-
-            // Else notify hub for error on client side
-
-            return false;
+            return user.Balance >= createOrderDto.OrderTotal;
         }
+
         /// <summary>
         /// Creates a new user
         /// </summary>
-        /// <param name="createUserDto"></param>
+        /// <param Name="createUserDto"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
         public async Task<bool> CreateUser(CreateUserDto createUserDto)
@@ -104,7 +121,7 @@ namespace UserService.Services
         /// <summary>
         /// Gets a users balance by id
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param Name="userId"></param>
         /// <returns></returns>
         public async Task<double> GetUserBalanceById(int userId)
         {
@@ -121,7 +138,7 @@ namespace UserService.Services
         /// <summary>
         /// Gets a user by a email
         /// </summary>
-        /// <param name="email"></param>
+        /// <param Name="email"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
         public async Task<User> GetUserByEmail(string email)
@@ -139,7 +156,7 @@ namespace UserService.Services
         /// <summary>
         /// Gets a user by a given Id
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param Name="userId"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
         public async Task<User> GetUserById(int userId)
@@ -153,10 +170,11 @@ namespace UserService.Services
 
             return user;
         }
+
         /// <summary>
         /// Gets a user by role
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param Name="userId"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
         public async Task<Role> GetUserRoleById(int userId)
@@ -174,12 +192,12 @@ namespace UserService.Services
         /// <summary>
         /// Updates user balance
         /// </summary>
-        /// <param name="updateUserBalanceDto"></param>
+        /// <param Name="updateUserBalanceDto"></param>
         /// <returns></returns>
         /// <exception cref="HttpStatusException"></exception>
-        public async Task<bool> UpdateUserBalance(UpdateUserBalanceDto updateUserBalanceDto)
+        public async Task<bool> UpdateUserBalanceForOrder(CreateOrderDto createOrderDto)
         {
-            var user = await _userRepository.GetUserById(updateUserBalanceDto.UserId);
+            var user = await _userRepository.GetUserByEmail(createOrderDto.CustomerEmail);
 
             if (user == null)
             {
@@ -187,7 +205,7 @@ namespace UserService.Services
                     $"User with the given id does not exist");
             }
 
-            return await _userRepository.UpdateUserBalance(user, updateUserBalanceDto.NewBalance);
+            return await _userRepository.UpdateUserBalance(user, user.Balance - createOrderDto.OrderTotal);
         }
     }
 }

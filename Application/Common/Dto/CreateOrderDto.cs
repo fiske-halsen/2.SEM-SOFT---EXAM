@@ -10,6 +10,6 @@ namespace Common.Dto
         public float OrderTotal { get; set; }
         public int RestaurantId { get; set; }
         public string CustomerEmail { get; set; }
-        public List<MenuItemDTO> MenuItems { get; set; } = new List<MenuItemDTO>();
+        public List<CreateOrderMenuItemDto> MenuItems { get; set; } = new List<CreateOrderMenuItemDto>();
     }
 }

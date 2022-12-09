@@ -2,6 +2,9 @@
 
 namespace UserService.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class Helpers
     {
         public static IdentityKeyConfig GetIdentityConfigKeys(IConfiguration configuration)

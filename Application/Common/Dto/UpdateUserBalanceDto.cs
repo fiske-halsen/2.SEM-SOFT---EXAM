@@ -1,8 +1,12 @@
-﻿namespace Common.Dto
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Common.Dto
 {
     public class UpdateUserBalanceDto
     {
-        public int UserId { get; set; }
-        public double NewBalance { get; set; }
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public double Balance { get; set; }
     }
 }

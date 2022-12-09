@@ -3,27 +3,26 @@ using FeedbackService.Models;
 using FeedbackService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 namespace FeedbackService.Controllers
 {
-
-
     [ApiController]
     [Route("api/[controller]")]
     public class ReviewController : ControllerBase
     {
-
         private readonly IReviewService _reviewService;
+        private ILogger<ReviewController> _logger;
 
-        public ReviewController(IReviewService reviewService)
+        public ReviewController(IReviewService reviewService, ILogger<ReviewController> logger)
         {
             _reviewService = reviewService;
+            _logger = logger;
         }
 
         [AllowAnonymous]
         [HttpPost]
         public async Task<bool> CreateReview([FromBody] CreateReviewDTO createReviewDto)
         {
+            _logger.LogInformation("dsdds");
             return await _reviewService.CreateReview(createReviewDto);
         }
 
@@ -32,17 +31,17 @@ namespace FeedbackService.Controllers
         {
             return await _reviewService.GetReviewsByUserId(userId);
         }
+
         [HttpGet("/{restaurantId}/restaurantreviews")]
         public async Task<List<Review>> GetReviewsByRestaurantId(int restaurantId)
         {
             return await _reviewService.GetReviewsByRestaurantId(restaurantId);
         }
+
         [HttpGet("/{deliveryDriverId}/deliverydriverreviews")]
         public async Task<List<Review>> GetReviewsByDeliveryUserId(int deliveryDriverId)
         {
             return await _reviewService.GetReviewsByDeliveryUserId(deliveryDriverId);
         }
-
     }
 }
-

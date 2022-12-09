@@ -4,7 +4,6 @@ namespace Common.Enums
 {
     #region Enums
 
-
     public enum PaymentTypes
     {
         CreditCard = 1,
@@ -19,10 +18,6 @@ namespace Common.Enums
         DeliveryPerson = 3
     }
 
-    public enum Rating
-    {
-    }
-
     public enum CardTypes
     {
         Visa = 1,
@@ -33,10 +28,11 @@ namespace Common.Enums
 
     public enum Vouchers
     {
-        [EnumMember(Value = "fifty%OffFood")]
-        FiftyOff = 1,
+        [EnumMember(Value = "fifty%OffFood")] FiftyOff = 1,
+
         [EnumMember(Value = "FreeDeliveryFood")]
         FreeDelivery = 2,
+
         [EnumMember(Value = "FreeFoodForPoorPeople")]
         FreeFood = 3
     }
