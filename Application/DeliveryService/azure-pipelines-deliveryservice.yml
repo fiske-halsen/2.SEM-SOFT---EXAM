@@ -41,7 +41,7 @@ stages:
       displayName: Tests
       inputs:
         command: test
-        projects: '**/DeliverySerivce.*[Tt]est*/*.csproj'
+        projects: '**/DeliverySerivce.[Tt]est/.csproj'
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Pipeline.Workspace)/s/kubernetes'
