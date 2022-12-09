@@ -22,46 +22,6 @@ namespace FeedbackService.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("FeedbackService.Models.Log", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Exception")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Level")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LogEvent")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MessageTemplate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Properties")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Logs");
-                });
-
             modelBuilder.Entity("FeedbackService.Models.Review", b =>
                 {
                     b.Property<int>("Id")
@@ -95,6 +55,30 @@ namespace FeedbackService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DeliveryDriverId = 2,
+                            OrderId = 2,
+                            Rating = 5,
+                            RestaurantId = 1,
+                            ReviewDate = new DateTime(2022, 12, 9, 21, 41, 44, 261, DateTimeKind.Local).AddTicks(3421),
+                            ReviewText = "Maden var god og blev leveret hurtigt",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DeliveryDriverId = 2,
+                            OrderId = 1,
+                            Rating = 1,
+                            RestaurantId = 1,
+                            ReviewDate = new DateTime(2022, 12, 9, 21, 41, 44, 261, DateTimeKind.Local).AddTicks(3463),
+                            ReviewText = "Maden var dårlig og blev leveret efter 3 timer",
+                            UserId = 1
+                        });
                 });
 #pragma warning restore 612, 618
         }

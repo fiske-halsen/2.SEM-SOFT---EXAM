@@ -48,11 +48,11 @@ namespace DeliveryService.Controllers
             return await _deliverySerivice.GetDeliveriesByUserEmail(userEmail);
         }
 
-        [Authorize]
-        [HttpPatch("orders/cancel/{orderId}")]
-        public async Task<bool> UpdateDeliveryToIsCancelled(int orderId)
-        {
-            return await _deliverySerivice.UpdateDeliveryToIsCancelled(orderId);
-        }
+        //[Authorize]
+        //[HttpPatch("orders/cancel/{orderId}")]
+        //public async Task<bool> UpdateDeliveryToIsCancelled(int orderId)
+        //{
+        //    return await _deliverySerivice.UpdateDeliveryToIsCancelled(orderId);
+        //}
     }
 }

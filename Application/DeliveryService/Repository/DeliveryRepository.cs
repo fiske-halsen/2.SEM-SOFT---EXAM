@@ -11,11 +11,12 @@ namespace DeliveryService.Repository
         public Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int DeliveryPersonId);
         public Task<Delivery> GetDeliveryByOrderId(int OrderId);
         public Task<List<Delivery>> GetDeliveriesByUserEmail(string UserEmail);
+
         public Task<Delivery> GetDeliveryPersonWhereIsDeliveredFalse(int deliverPersonId);
-        public Task<bool> UpdateDeliveryToIsCancelled(Delivery delivery);
+
+        // public Task<bool> UpdateDeliveryToIsCancelled(Delivery delivery);
         public Task<Delivery> GetDeliveryByDeliveryId(int deliveryId);
         public Task<bool> UpdateDeliveryAsDelivered(Delivery delivery);
-
     }
 
     public class DeliveryRepository : IDeliveryRepository
@@ -81,25 +82,25 @@ namespace DeliveryService.Repository
             return await _applicationContext.Deliveries.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
         }
 
-        /// <summary>
-        /// Updates delivery to is cancelled in the database
-        /// </summary>
-        /// <param name="delivery"></param>
-        /// <returns></returns>
-        public async Task<bool> UpdateDeliveryToIsCancelled(Delivery delivery)
-        {
-            try
-            {
-                delivery.isCancelled = true;
-                await _applicationContext.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                return false;
-            }
-        }
+        ///// <summary>
+        ///// Updates delivery to is cancelled in the database
+        ///// </summary>
+        ///// <param name="delivery"></param>
+        ///// <returns></returns>
+        //public async Task<bool> UpdateDeliveryToIsCancelled(Delivery delivery)
+        //{
+        //    try
+        //    {
+        //        delivery.isCancelled = true;
+        //        await _applicationContext.SaveChangesAsync();
+        //        return true;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Debug.WriteLine(e.Message);
+        //        return false;
+        //    }
+        //}
 
         /// <summary>
         /// Gets a delivery by delivery id from the database

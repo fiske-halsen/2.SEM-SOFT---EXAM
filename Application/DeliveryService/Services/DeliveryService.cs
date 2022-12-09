@@ -11,7 +11,7 @@ namespace DeliveryService.Services
         public Task<List<Delivery>> GetDeliveriesByDeliveryPersonId(int DeliveryPersonId);
         public Task<Delivery> GetDeliveryByOrderId(int orderId);
         public Task<List<Delivery>> GetDeliveriesByUserEmail(string userEmail);
-        public Task<bool> UpdateDeliveryToIsCancelled(int orderId);
+       // public Task<bool> UpdateDeliveryToIsCancelled(int orderId);
         public Task<Delivery> GetDeliveryByDeliveryId(int deliveryId);
         public Task<bool> UpdateDeliveryAsDelivered(int deliveryId);
     }
@@ -167,25 +167,25 @@ namespace DeliveryService.Services
             return await _deliveryRepository.UpdateDeliveryAsDelivered(delivery);
         }
 
-        /// <summary>
-        /// Updates a delivery to is cancelled
-        /// </summary>
-        /// <param name="orderId"></param>
-        /// <returns></returns>
-        /// <exception cref="HttpStatusException"></exception>
-        public async Task<bool> UpdateDeliveryToIsCancelled(int orderId)
-        {
-            var delivery = await _deliveryRepository.GetDeliveryByOrderId(orderId);
-            if (delivery == null)
-            {
-                throw new HttpStatusException(StatusCodes.Status400BadRequest,
-                    "Delivery with given id does not exists ");
-            }
+        ///// <summary>
+        ///// Updates a delivery to is cancelled
+        ///// </summary>
+        ///// <param name="orderId"></param>
+        ///// <returns></returns>
+        ///// <exception cref="HttpStatusException"></exception>
+        //public async Task<bool> UpdateDeliveryToIsCancelled(int orderId)
+        //{
+        //    var delivery = await _deliveryRepository.GetDeliveryByOrderId(orderId);
+        //    if (delivery == null)
+        //    {
+        //        throw new HttpStatusException(StatusCodes.Status400BadRequest,
+        //            "Delivery with given id does not exists ");
+        //    }
 
-            delivery.isCancelled = true;
-            delivery.TimeToDelivery = DateTime.MinValue;
-            await _deliveryRepository.UpdateDeliveryToIsCancelled(delivery);
-            return true;
-        }
+        //    delivery.isCancelled = true;
+        //    delivery.TimeToDelivery = DateTime.MinValue;
+        //    await _deliveryRepository.UpdateDeliveryToIsCancelled(delivery);
+        //    return true;
+        //}
     }
 }

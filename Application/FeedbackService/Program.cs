@@ -2,11 +2,8 @@ using FeedbackService.Context;
 using FeedbackService.Repository;
 using FeedbackService.Services;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
 
 
 // Add services to the container.
@@ -20,13 +17,6 @@ options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 
-var config = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .Build();
-//Initialize Logger
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(config)
-    .CreateLogger();
 
 var app = builder.Build();
 
