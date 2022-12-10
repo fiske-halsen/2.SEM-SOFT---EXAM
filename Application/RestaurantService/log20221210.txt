@@ -1,0 +1,7 @@
+2022-12-10 01:03:01.184 +01:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Logs] (
+    [Id] int NOT NULL IDENTITY,
+    [Message] nvarchar(max) NOT NULL,
+    [StatusCode] int NOT NULL,
+    CONSTRAINT [PK_Logs] PRIMARY KEY ([Id])
+);

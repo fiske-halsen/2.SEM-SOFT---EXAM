@@ -8,12 +8,15 @@ namespace GraphqlDemo.Operations
     {
         private readonly IOrderServiceCommunicator _orderServiceCommunicator;
         private readonly IReviewServiceCommunicator _reviewServiceCommunicator;
+        private readonly IDeliveryServiceCommunicator _deliveryServiceCommunicator;
 
         public Query(IOrderServiceCommunicator orderServiceCommunicator,
-            IReviewServiceCommunicator reviewServiceCommunicator)
+            IReviewServiceCommunicator reviewServiceCommunicator,
+            IDeliveryServiceCommunicator deliveryServiceCommunicator)
         {
             _orderServiceCommunicator = orderServiceCommunicator;
             _reviewServiceCommunicator = reviewServiceCommunicator;
+            _deliveryServiceCommunicator = deliveryServiceCommunicator;
         }
 
 
@@ -83,6 +86,41 @@ namespace GraphqlDemo.Operations
         public async Task<IEnumerable<CreateReviewDto>> GetReviewsByUserId(int userId)
         {
             return await _reviewServiceCommunicator.GetReviewsByUserId(userId);
+        }
+
+        #endregion
+
+
+        #region DeliveryService
+
+        /// <summary>
+        /// Gets deliveries by order id
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public async Task<DeliveryDto> GetDeliveriesByOrderId(int orderId)
+        {
+            return await _deliveryServiceCommunicator.GetDeliveryByOrderId(orderId);
+        }
+
+        /// <summary>
+        /// Gets deliveries by Delivery person Id
+        /// </summary>
+        /// <param name="deliveryPersonId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<DeliveryDto>> GetDeliveriesByDeliveryPersonId(int deliveryPersonId)
+        {
+            return await _deliveryServiceCommunicator.GetDeliveriesByDeliveryPersonId(deliveryPersonId);
+        }
+
+        /// <summary>
+        /// gets deliveries by user email
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<DeliveryDto>> GetDeliveriesByUserEmail(string userEmail)
+        {
+            return await _deliveryServiceCommunicator.GetDeliveryByUserEmail(userEmail);
         }
 
         #endregion
