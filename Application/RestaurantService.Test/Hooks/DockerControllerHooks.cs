@@ -17,6 +17,11 @@ namespace RestaurantService.Test.Hooks
         private static ICompositeService _compositeService;
         private IObjectContainer _objectContainer;
 
+        public DockerControllerHooks(IObjectContainer objectContainer)
+        {
+            _objectContainer = objectContainer;
+        }
+
         [BeforeTestRun]
         public static void DockerComposeUp()
         {
@@ -35,14 +40,8 @@ namespace RestaurantService.Test.Hooks
 
         private static string GetDockerComposeLocation(string dockerComposeFileName)
         {
-            var directory = Directory.GetCurrentDirectory();
-            while (!Directory.EnumerateFiles(directory, "*se.yml").Any(s => s.EndsWith(dockerComposeFileName)))
-            {
-                directory = directory.Substring(0, directory.LastIndexOf(Path.DirectorySeparatorChar));
-
-            }
-
-            return Path.Combine(directory, dockerComposeFileName);
+            DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
+            return di.Parent.Parent.Parent.Parent.ToString() + "\\docker-compose.yml";
         }
 
         private static IConfiguration LoadConfiguration()
@@ -63,8 +62,9 @@ namespace RestaurantService.Test.Hooks
         [AfterTestRun]
         public static void DockerComposeDown()
         {
-            
-            
+            _compositeService.Stop();
+            _compositeService.Dispose();
+
         }
     }
 }

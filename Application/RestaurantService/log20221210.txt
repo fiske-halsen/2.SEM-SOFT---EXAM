@@ -5,3 +5,67 @@ CREATE TABLE [Logs] (
     [StatusCode] int NOT NULL,
     CONSTRAINT [PK_Logs] PRIMARY KEY ([Id])
 );
+2022-12-10 19:22:25.332 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 582.7140 ms
+2022-12-10 19:22:25.396 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 14.1063 ms
+2022-12-10 19:22:25.836 +01:00 [INF] HTTP GET /swagger/favicon-16x16.png responded 200 in 6.6192 ms
+2022-12-10 19:22:26.450 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 402.2213 ms
+2022-12-10 21:22:43.730 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 837.0605 ms
+2022-12-10 21:22:43.936 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 62.1223 ms
+2022-12-10 21:22:44.266 +01:00 [INF] HTTP GET /swagger/favicon-16x16.png responded 200 in 5.5104 ms
+2022-12-10 21:22:44.612 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 218.9150 ms
+2022-12-10 21:23:10.590 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at RestaurantService.Services.RestaurantService.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Services\RestaurantService.cs:line 121
+   at RestaurantService.Controllers.RestaurantController.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Controllers\RestaurantController.cs:line 68
+   at lambda_method66(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2022-12-10 21:23:12.063 +01:00 [ERR] Internal Server Error"Information"127.0.0.1https://localhost:7193/124124124/menu/124124124/menu500"2022-12-10T21:23:12.0628261+01:00"
+2022-12-10 21:23:12.079 +01:00 [ERR] HTTP GET /124124124/menu responded 500 in 15691.5508 ms
+2022-12-10 21:24:09.406 +01:00 [INF] HTTP GET /12412412412312312/menu responded 400 in 251.1279 ms
+2022-12-10 21:24:18.477 +01:00 [INF] HTTP GET /12412412412312312/menu responded 400 in 3.7632 ms
+2022-12-10 21:24:19.119 +01:00 [INF] HTTP GET /12412412412312312/menu responded 400 in 0.7153 ms
+2022-12-10 21:24:46.518 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at RestaurantService.Services.RestaurantService.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Services\RestaurantService.cs:line 121
+   at RestaurantService.Controllers.RestaurantController.GetRestaurantMenu(Int32 restaurantId) in C:\Users\lukas\Skrivebord\SOFT 2 SEM\Eksamen\Projekt\2.SEM-SOFT---EXAM\Application\RestaurantService\Controllers\RestaurantController.cs:line 68
+   at lambda_method66(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2022-12-10 21:24:46.519 +01:00 [ERR] Internal Server Error"Information"127.0.0.1https://localhost:7193/2323/menu/2323/menu500"2022-12-10T21:24:46.5197326+01:00"
+2022-12-10 21:24:46.519 +01:00 [ERR] HTTP GET /2323/menu responded 500 in 3072.1987 ms
+2022-12-10 21:27:15.337 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 1.1453 ms
+2022-12-10 21:27:17.814 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 0.7789 ms
+2022-12-10 21:27:18.296 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 1.2105 ms
+2022-12-10 21:27:18.648 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 0.6948 ms
+2022-12-10 21:27:57.937 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 1.5361 ms
+2022-12-10 21:27:58.788 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 0.7320 ms
+2022-12-10 21:27:59.153 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 1.2958 ms
+2022-12-10 21:27:59.312 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 0.5800 ms
+2022-12-10 21:27:59.480 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 0.7314 ms
+2022-12-10 21:27:59.659 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 0.5711 ms
+2022-12-10 21:27:59.840 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 0.6790 ms
+2022-12-10 21:28:00.022 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 0.7152 ms
+2022-12-10 21:28:00.204 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 0.7695 ms
+2022-12-10 21:28:00.435 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 1.1718 ms
+2022-12-10 21:28:00.825 +01:00 [INF] HTTP GET /2323124124124124/menu responded 400 in 0.6032 ms

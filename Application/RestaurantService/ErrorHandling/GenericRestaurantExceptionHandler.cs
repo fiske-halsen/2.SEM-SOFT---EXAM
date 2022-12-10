@@ -35,7 +35,7 @@ namespace RestaurantService.ErrorHandling
                             //dbLogger.Error(errorType.Message, errorType.StatusCode);
                             context.Response.StatusCode = errorType.StatusCode;
 
-                            
+                            logger.Error(errorType.Message, errorType.StatusCode);
                             await context.Response.WriteAsync(new ExceptionDto()
                             {
                                 StatusCode = errorType.StatusCode,
