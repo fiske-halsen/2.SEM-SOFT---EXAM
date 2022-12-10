@@ -75,9 +75,11 @@ namespace RestaurantService.Test.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("menu item gets created successfully")]
+        [NUnit.Framework.CategoryAttribute("test")]
         public void MenuItemGetsCreatedSuccessfully()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "test"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("menu item gets created successfully", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 4
@@ -102,9 +104,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("menu item gets deleted successfully")]
+        [NUnit.Framework.CategoryAttribute("test2")]
         public void MenuItemGetsDeletedSuccessfully()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "test2"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("menu item gets deleted successfully", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 8
@@ -129,9 +133,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("menu item gets updated successfully")]
+        [NUnit.Framework.CategoryAttribute("test3")]
         public void MenuItemGetsUpdatedSuccessfully()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "test3"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("menu item gets updated successfully", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 12
