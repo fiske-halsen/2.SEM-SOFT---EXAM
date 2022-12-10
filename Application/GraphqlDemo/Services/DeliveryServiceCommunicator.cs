@@ -10,7 +10,7 @@ namespace GraphqlDemo.Services
         public Task<bool> CreateDelivery(CreateDeliveryDto createDeliveryDto);
         public Task<bool> UpdateDeliveryToDelivered(OrderDeliveredDto orderDeliveredDto);
         public Task<IEnumerable<DeliveryDto>> GetDeliveriesByDeliveryPersonId(int deliveryPersonId);
-        public Task<IEnumerable<DeliveryDto>> GetDeliveryByOrderId(int orderId);
+        public Task<DeliveryDto> GetDeliveryByOrderId(int orderId);
         public Task<IEnumerable<DeliveryDto>> GetDeliveryByUserEmail(string userEmail);
     }
 
@@ -72,7 +72,7 @@ namespace GraphqlDemo.Services
         /// <returns></returns>
         public async Task<IEnumerable<DeliveryDto>> GetDeliveriesByDeliveryPersonId(int deliveryPersonId)
         {
-            return await _apiService.Get<DeliveryDto>($"{_deliveryServiceUrl}/delivery-persons/{deliveryPersonId}",
+            return await _apiService.Get<DeliveryDto>($"{_deliveryServiceUrl}/api/delivery/delivery-persons/{deliveryPersonId}",
                 _applicationCredentials);
         }
 
@@ -81,9 +81,9 @@ namespace GraphqlDemo.Services
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<DeliveryDto>> GetDeliveryByOrderId(int orderId)
+        public async Task<DeliveryDto> GetDeliveryByOrderId(int orderId)
         {
-            return await _apiService.Get<DeliveryDto>($"{_deliveryServiceUrl}/orders/{orderId}",
+            return await _apiService.GetSingle<DeliveryDto>($"{_deliveryServiceUrl}/api/delivery/orders/{orderId}",
                 _applicationCredentials);
         }
 
@@ -94,7 +94,7 @@ namespace GraphqlDemo.Services
         /// <returns></returns>
         public async Task<IEnumerable<DeliveryDto>> GetDeliveryByUserEmail(string userEmail)
         {
-            return await _apiService.Get<DeliveryDto>($"{_deliveryServiceUrl}/customers/{userEmail}",
+            return await _apiService.Get<DeliveryDto>($"{_deliveryServiceUrl}/api/delivery/customers/{userEmail}",
                 _applicationCredentials);
         }
 
