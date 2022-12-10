@@ -25,7 +25,6 @@ namespace OrderService.Test.Context
                 IsApproved = false,
                 MenuItems = new List<OrderItem> { },
                 RestaurantId = 1,
-                TimeToDelivery = 1030,
                 TotalPrice = 45
             };
 
@@ -33,7 +32,6 @@ namespace OrderService.Test.Context
             {
                 Id = 2,
                 ItemPrice = 10,
-                Name = "Pizza",
                 Order = order1,
                 OrderId = 1,
             };
@@ -42,7 +40,6 @@ namespace OrderService.Test.Context
             {
                 Id = 3,
                 ItemPrice = 10,
-                Name = "Pizza",
                 Order = order1,
                 OrderId = 1,
             };
@@ -51,7 +48,6 @@ namespace OrderService.Test.Context
             {
                 Id = 4,
                 ItemPrice = 10,
-                Name = "Pizza",
                 Order = order1,
                 OrderId = 1,
             };
@@ -60,7 +56,6 @@ namespace OrderService.Test.Context
             {
                 Id = 5,
                 ItemPrice = 10,
-                Name = "Pizza",
                 Order = order1,
                 OrderId = 1,
             };
