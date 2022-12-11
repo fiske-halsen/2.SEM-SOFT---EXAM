@@ -66,8 +66,7 @@ app.UseCors(AllowedOrigin);
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseEndpoints(endpoints => { endpoints.MapGraphQL().RequireAuthorization(); });
+app.MapGraphQL("/graphql").RequireAuthorization();
 
 
 app.Run();

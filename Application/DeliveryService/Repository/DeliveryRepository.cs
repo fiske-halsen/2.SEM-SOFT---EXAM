@@ -17,6 +17,7 @@ namespace DeliveryService.Repository
         // public Task<bool> UpdateDeliveryToIsCancelled(Delivery delivery);
         public Task<Delivery> GetDeliveryByDeliveryId(int deliveryId);
         public Task<bool> UpdateDeliveryAsDelivered(Delivery delivery);
+        public Task<List<Delivery>> GetAllDeliveriesThatIsNotDelivered();
     }
 
     public class DeliveryRepository : IDeliveryRepository
@@ -132,6 +133,14 @@ namespace DeliveryService.Repository
                 Debug.WriteLine(e.Message);
                 return false;
             }
+        }
+        /// <summary>
+        /// Gets all orders that needs a delivery guy
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Delivery>> GetAllDeliveriesThatIsNotDelivered()
+        {
+            return await _applicationContext.Deliveries.Where(_ => _.IsDelivered == false).ToListAsync();
         }
     }
 }
