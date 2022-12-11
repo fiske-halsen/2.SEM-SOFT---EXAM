@@ -19,3 +19,72 @@ CREATE TABLE [Logs] (
 2022-12-11 12:25:22.752 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 204.6253 ms
 2022-12-11 12:25:23.134 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 89.3156 ms
 2022-12-11 12:25:27.594 +01:00 [INF] HTTP POST /Restaurant responded 200 in 5055.4229 ms
+2022-12-11 12:32:15.171 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 150.0145 ms
+2022-12-11 12:32:15.349 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 30.0300 ms
+2022-12-11 12:32:15.555 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 81.2685 ms
+2022-12-11 12:41:14.522 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 144.6989 ms
+2022-12-11 12:41:14.739 +01:00 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 5.5227 ms
+2022-12-11 12:41:14.865 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 77.4837 ms
+2022-12-11 13:08:53.465 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 193.7130 ms
+2022-12-11 13:08:53.610 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 13.2524 ms
+2022-12-11 13:08:53.726 +01:00 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 1.4845 ms
+2022-12-11 13:08:53.876 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 81.7915 ms
+2022-12-11 13:12:17.251 +01:00 [INF] HTTP GET / responded 404 in 743.9747 ms
+2022-12-11 13:12:37.013 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 138.7838 ms
+2022-12-11 13:12:37.337 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 75.3724 ms
+2022-12-11 13:13:07.291 +01:00 [INF] HTTP GET / responded 404 in 412.7556 ms
+2022-12-11 13:14:01.218 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 160.8081 ms
+2022-12-11 13:14:01.592 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 81.3045 ms
+2022-12-11 13:14:16.437 +01:00 [INF] HTTP GET /Restaurants responded 404 in 422.4508 ms
+2022-12-11 13:15:08.565 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 149.4606 ms
+2022-12-11 13:15:08.963 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 91.0003 ms
+2022-12-11 13:15:31.020 +01:00 [INF] HTTP GET /Restaurant responded 200 in 1092.5058 ms
+2022-12-11 13:16:10.182 +01:00 [INF] HTTP GET /1/menu responded 200 in 189.0848 ms
+2022-12-11 13:16:40.739 +01:00 [INF] HTTP GET /1/menu responded 200 in 10.1651 ms
+2022-12-11 13:16:51.801 +01:00 [INF] HTTP GET /1/menu responded 200 in 4.2210 ms
+2022-12-11 13:20:01.293 +01:00 [INF] HTTP GET /1/menu-item/1 responded 200 in 15.2632 ms
+2022-12-11 13:28:26.428 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 165.1212 ms
+2022-12-11 13:28:26.806 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 82.9306 ms
+2022-12-11 13:29:41.756 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 153.3113 ms
+2022-12-11 13:29:42.105 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 78.5103 ms
+2022-12-11 13:32:18.033 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 155.1997 ms
+2022-12-11 13:32:18.374 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 82.0268 ms
+2022-12-11 13:33:03.471 +01:00 [INF] HTTP POST /Restaurant responded 400 in 983.7538 ms
+2022-12-11 13:34:11.189 +01:00 [INF] HTTP POST /Restaurant responded 400 in 2.1393 ms
+2022-12-11 13:34:29.241 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 180.9584 ms
+2022-12-11 13:34:29.643 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 78.3193 ms
+2022-12-11 13:34:41.602 +01:00 [INF] HTTP POST /Restaurant responded 401 in 467.5833 ms
+2022-12-11 13:34:52.892 +01:00 [INF] HTTP POST /Restaurant responded 400 in 183.2343 ms
+2022-12-11 13:36:27.584 +01:00 [INF] HTTP POST /Restaurant responded 200 in 356.0314 ms
+2022-12-11 13:40:42.148 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 166.1055 ms
+2022-12-11 13:40:42.548 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 78.4772 ms
+2022-12-11 13:40:59.892 +01:00 [INF] HTTP POST /Restaurant responded 200 in 1252.3074 ms
+2022-12-11 13:42:30.733 +01:00 [INF] HTTP POST /1/menu-item responded 200 in 403.5928 ms
+2022-12-11 13:43:40.599 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 154.2512 ms
+2022-12-11 13:43:40.966 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 87.7167 ms
+2022-12-11 13:46:47.295 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at RestaurantService.Repository.RestaurantRepository.UpdateMenuItem(MenuItemDTO menuItemDTO, Int32 restaurantId) in C:\Users\phillip\Desktop\2.SEM-SOFT---EXAM\2.SEM-SOFT---EXAM\Application\RestaurantService\Repository\RestaurantRepository.cs:line 124
+   at RestaurantService.Services.RestaurantService.UpdateMenuItem(MenuItemDTO menuItemDTO, Int32 restaurantId) in C:\Users\phillip\Desktop\2.SEM-SOFT---EXAM\2.SEM-SOFT---EXAM\Application\RestaurantService\Services\RestaurantService.cs:line 149
+   at RestaurantService.Controllers.RestaurantController.UpdateMenuItem(MenuItemDTO menuItemDto, Int32 restaurantId) in C:\Users\phillip\Desktop\2.SEM-SOFT---EXAM\2.SEM-SOFT---EXAM\Application\RestaurantService\Controllers\RestaurantController.cs:line 52
+   at lambda_method92(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2022-12-11 13:46:47.325 +01:00 [ERR] Internal Server Error"Information"::1https://localhost:44363/6/menu-item/6/menu-item500"2022-12-11T13:46:47.3255461+01:00"
+2022-12-11 13:46:47.333 +01:00 [ERR] HTTP PUT /6/menu-item responded 500 in 98768.2415 ms
+2022-12-11 13:46:49.839 +01:00 [INF] HTTP PUT /1/menu-item responded 200 in 214.7183 ms
+2022-12-11 13:47:38.540 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 143.3964 ms
+2022-12-11 13:47:38.875 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 78.7629 ms
+2022-12-11 13:48:03.466 +01:00 [INF] HTTP DELETE /1/menu-item/15 responded 200 in 1207.3214 ms

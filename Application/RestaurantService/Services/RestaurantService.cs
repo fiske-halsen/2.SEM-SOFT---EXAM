@@ -8,10 +8,10 @@ namespace RestaurantService.Services
     public interface IRestaurantService
     {
         //Restaurant owner
-        Task<bool> CreateRestaurant(RestaurantDTO restaurantDTO);
-        Task<bool> CreateMenuItem(MenuItemDTO menuItemDTO, int restaurantId);
+        Task<bool> CreateRestaurant(CreateRestaurantDto restaurantDTO);
+        Task<bool> CreateMenuItem(CreateMenuItemDto menuItemDTO, int restaurantId);
         Task<bool> UpdateMenuItem(MenuItemDTO menuItemDTO, int restaurantId);
-        Task<bool> DeleteMenuItem(MenuItemDTO menuItemDTO, int restaurantId);
+        Task<bool> DeleteMenuItem(int menuItemId, int restaurantId);
 
         //Customer
         Task<MenuDTO> GetRestaurantMenu(int restaurantId);
@@ -57,7 +57,7 @@ namespace RestaurantService.Services
         /// <param name="menuItemDTO"></param>
         /// <param name="restaurantId"></param>
         /// <returns></returns>
-        public async Task<bool> CreateMenuItem(MenuItemDTO menuItemDTO, int restaurantId)
+        public async Task<bool> CreateMenuItem(CreateMenuItemDto menuItemDTO, int restaurantId)
         {
             return await _restaurantRepository.CreateMenuItem(
                 new MenuItem
@@ -69,7 +69,7 @@ namespace RestaurantService.Services
         /// </summary>
         /// <param name="restaurantDTO"></param>
         /// <returns></returns>
-        public async Task<bool> CreateRestaurant(RestaurantDTO restaurantDTO)
+        public async Task<bool> CreateRestaurant(CreateRestaurantDto restaurantDTO)
         {
             var cityInfo = new CityInfo {City = restaurantDTO.City, ZipCode = restaurantDTO.ZipCode};
             var address = new Address {StreetName = restaurantDTO.StreetName, CityInfo = cityInfo};
@@ -91,9 +91,9 @@ namespace RestaurantService.Services
         /// <param name="menuItemDTO"></param>
         /// <param name="restaurantId"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteMenuItem(MenuItemDTO menuItemDTO, int restaurantId)
+        public async Task<bool> DeleteMenuItem(int menuItemId, int restaurantId)
         {
-            return await _restaurantRepository.DeleteMenuItem(menuItemDTO.Id, restaurantId);
+            return await _restaurantRepository.DeleteMenuItem(menuItemId, restaurantId);
         }
         /// <summary>
         /// returns a list of restaurantDTOs to the controller

@@ -7,7 +7,7 @@ using Common.ErrorModels;
 using Bogus;
 using Common.Dto;
 
-namespace DeliveryService.Test
+namespace DeliveryService.Test.Unittest
 {
     public class DeliveryServiceUnittest
     {
@@ -18,7 +18,7 @@ namespace DeliveryService.Test
         public void Setup()
         {
             _deliveryRepository = new Mock<IDeliveryRepository>();
-            DeliverySerivice = new DeliveryService.Services.DeliveryService(_deliveryRepository.Object);
+            DeliverySerivice = new Services.DeliveryService(_deliveryRepository.Object);
         }
 
         /// <summary>
@@ -322,7 +322,7 @@ namespace DeliveryService.Test
             Faker<Delivery> reviewFaker = new Faker<Delivery>()
                .StrictMode(true)
                .RuleFor(x => x.DeliveryId, x => x.Random.Int(10))
-               .RuleFor(x => x.DeliveryPersonId,1)
+               .RuleFor(x => x.DeliveryPersonId, 1)
                .RuleFor(x => x.OrderId, x => x.Random.Int())
                .RuleFor(x => x.UserEmail, x => x.Random.String())
                .RuleFor(x => x.RestaurantId, x => x.Random.Int())

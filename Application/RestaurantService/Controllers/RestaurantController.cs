@@ -23,7 +23,7 @@ namespace RestaurantService.Controllers
         ///
         [Authorize]
         [HttpPost]
-        public async Task<bool> CreateRestaurant([FromBody] RestaurantDTO restaurantDto)
+        public async Task<bool> CreateRestaurant([FromBody] CreateRestaurantDto restaurantDto)
         {
             return await _restaurantService.CreateRestaurant(restaurantDto);
         }
@@ -35,7 +35,7 @@ namespace RestaurantService.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost("/{restaurantId}/menu-item")]
-        public async Task<bool> CreateMenuItem([FromBody] MenuItemDTO menuItemDto, int restaurantId)
+        public async Task<bool> CreateMenuItem([FromBody] CreateMenuItemDto menuItemDto, int restaurantId)
         {
             return await _restaurantService.CreateMenuItem(menuItemDto, restaurantId);
         }
@@ -58,10 +58,10 @@ namespace RestaurantService.Controllers
         /// <param name="restaurantId"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpDelete("/{restaurantId}/menu-item")]
-        public async Task<bool> DeleteMenuItem([FromBody] MenuItemDTO menuItemDto, int restaurantId)
+        [HttpDelete("/{restaurantId}/menu-item/{menuItemId}")]
+        public async Task<bool> DeleteMenuItem(int restaurantId, int menuItemId)
         {
-            return await _restaurantService.DeleteMenuItem(menuItemDto, restaurantId);
+            return await _restaurantService.DeleteMenuItem(menuItemId, restaurantId);
         }
         /// <summary>
         /// returns a menu from a specific restaurant
@@ -97,7 +97,5 @@ namespace RestaurantService.Controllers
             return await _restaurantService.GetRestaurantMenuItem(restaurantId, menuItemId);
         }
         // Task<MenuItemDTO> GetRestaurantMenuItem(int menuItemId);
-        
-
     }
 }

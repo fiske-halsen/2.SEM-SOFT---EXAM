@@ -7,7 +7,7 @@ using FeedbackService.Services;
 using FluentAssertions;
 using Moq;
 
-namespace ReviewServiceTest.UnitTest
+namespace ReviewService.Test.Unittest
 {
     public class ReviewServiceUnitTest
     {
