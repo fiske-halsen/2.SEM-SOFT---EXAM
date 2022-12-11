@@ -36,6 +36,7 @@ builder.Services.AddAuthentication("token")
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
+builder.WebHost.UseUrls("https://localhost:5004");
 
 using (var scope = app.Services.CreateScope())
 {

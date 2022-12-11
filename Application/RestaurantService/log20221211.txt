@@ -206,3 +206,9 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2022-12-11 15:55:22.461 +01:00 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 4.6276 ms
 2022-12-11 15:55:22.594 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 82.4069 ms
 2022-12-11 15:55:23.146 +01:00 [INF] HTTP GET /Restaurant responded 200 in 1147.6246 ms
+2022-12-11 17:04:02.465 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 216.8328 ms
+2022-12-11 17:04:02.725 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 14.6349 ms
+2022-12-11 17:04:02.836 +01:00 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 2.2025 ms
+2022-12-11 17:04:03.028 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 91.5501 ms
+2022-12-11 17:06:11.428 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 147.9369 ms
+2022-12-11 17:06:11.773 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 70.7586 ms
