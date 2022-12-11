@@ -57,7 +57,7 @@ builder.Services.AddCors(option =>
 });
 
 var app = builder.Build();
-builder.WebHost.UseUrls("https://localhost:5009");
+//builder.WebHost.UseUrls("https://localhost:5009");
 
 app.UseRouting();
 app.ConfigureExceptionHandler();
