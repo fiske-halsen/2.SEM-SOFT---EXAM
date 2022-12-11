@@ -14,6 +14,7 @@ namespace DeliveryService.Services
        // public Task<bool> UpdateDeliveryToIsCancelled(int orderId);
         public Task<Delivery> GetDeliveryByDeliveryId(int deliveryId);
         public Task<bool> UpdateDeliveryAsDelivered(int deliveryId);
+        public Task<List<Delivery>> GetAllDeliveriesThatIsNotDelivered();
     }
 
     public class DeliveryService : IDeliverySerivice
@@ -78,6 +79,15 @@ namespace DeliveryService.Services
 
             await _deliveryRepository.CreateDelivery(delivery);
             return true;
+        }
+
+        /// <summary>
+        /// gets all deliveres that arent delivered
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Delivery>> GetAllDeliveriesThatIsNotDelivered()
+        {
+            return await _deliveryRepository.GetAllDeliveriesThatIsNotDelivered();
         }
 
         /// <summary>

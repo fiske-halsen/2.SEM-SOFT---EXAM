@@ -8,7 +8,10 @@ namespace Common.HttpUtils
 
         public static HttpClient GetClient()
         {
-            ApiClient = new HttpClient();
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            ApiClient = new HttpClient(clientHandler);
             //ApiClient.BaseAddress = new Uri(baseAddress);
             ApiClient.DefaultRequestHeaders.Accept.Clear();
             ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
