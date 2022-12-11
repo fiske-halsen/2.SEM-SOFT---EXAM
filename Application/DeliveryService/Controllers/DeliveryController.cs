@@ -48,6 +48,13 @@ namespace DeliveryService.Controllers
             return await _deliverySerivice.GetDeliveriesByUserEmail(userEmail);
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<List<Delivery>> GetDeliveriesThatAreNotDelivered()
+        {
+            return await _deliverySerivice.GetAllDeliveriesThatIsNotDelivered();
+        }
+
         //[Authorize]
         //[HttpPatch("orders/cancel/{orderId}")]
         //public async Task<bool> UpdateDeliveryToIsCancelled(int orderId)
