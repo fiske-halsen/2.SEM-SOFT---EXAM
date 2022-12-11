@@ -1,4 +1,5 @@
 using Common.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantService.Services;
 
@@ -19,6 +20,8 @@ namespace RestaurantService.Controllers
         /// </summary>
         /// <param name="restaurantDto"></param>
         /// <returns></returns>
+        ///
+        [Authorize]
         [HttpPost]
         public async Task<bool> CreateRestaurant([FromBody] RestaurantDTO restaurantDto)
         {
@@ -30,17 +33,19 @@ namespace RestaurantService.Controllers
         /// <param name="menuItemDto"></param>
         /// <param name="restaurantId"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost("/{restaurantId}/menu-item")]
         public async Task<bool> CreateMenuItem([FromBody] MenuItemDTO menuItemDto, int restaurantId)
         {
             return await _restaurantService.CreateMenuItem(menuItemDto, restaurantId);
         }
-       /// <summary>
-       /// updated a specific menu item from a restaurant menu
-       /// </summary>
-       /// <param name="menuItemDto"></param>
-       /// <param name="restaurantId"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// updated a specific menu item from a restaurant menu
+        /// </summary>
+        /// <param name="menuItemDto"></param>
+        /// <param name="restaurantId"></param>
+        /// <returns></returns>
+        [Authorize]
         [HttpPut("/{restaurantId}/menu-item")]
         public async Task<bool> UpdateMenuItem( [FromBody] MenuItemDTO menuItemDto, int restaurantId)
         {
@@ -52,6 +57,7 @@ namespace RestaurantService.Controllers
         /// <param name="menuItemDto"></param>
         /// <param name="restaurantId"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpDelete("/{restaurantId}/menu-item")]
         public async Task<bool> DeleteMenuItem([FromBody] MenuItemDTO menuItemDto, int restaurantId)
         {
@@ -62,6 +68,7 @@ namespace RestaurantService.Controllers
         /// </summary>
         /// <param name="restaurantId"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("/{restaurantId}/menu")]
         public async Task<MenuDTO> GetRestaurantMenu(int restaurantId)
         {
@@ -71,6 +78,7 @@ namespace RestaurantService.Controllers
         /// returns all restaurants
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         [HttpGet]
         public async Task<List<RestaurantDTO>> GetAllRestaurants()
         {
@@ -82,6 +90,7 @@ namespace RestaurantService.Controllers
         /// <param name="restaurantId"></param>
         /// <param name="menuItemId"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("/{restaurantId}/menu-item/{menuItemId}")]
         public async Task<MenuItemDTO> GetRestaurantMenuItem(int restaurantId, int menuItemId)
         {

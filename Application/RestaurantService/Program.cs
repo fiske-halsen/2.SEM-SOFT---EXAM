@@ -77,6 +77,21 @@ builder.Services.AddHostedService<RestaurantUpdateStockConsumer>();
 builder.Services.AddDbContext<DBApplicationContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+var identityServer = configuration["IdentityServer:Host"];
+
+//// Authentication
+builder.Services.AddAuthentication("token")
+    .AddJwtBearer("token", options =>
+    {
+        options.Authority = identityServer;
+        options.TokenValidationParameters.ValidateAudience = true;
+        options.Audience = "RestaurantService";
+        options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+        options.RequireHttpsMetadata = false;
+    });
+
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 app.UseSerilogRequestLogging();
@@ -111,11 +126,9 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
 
 // For integration testing purposes; Woops! Needed because program is behind the scenes a internal class, we need a public way to get it

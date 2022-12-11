@@ -1,0 +1,21 @@
+2022-12-11 12:11:09.698 +01:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Logs] (
+    [Id] int NOT NULL IDENTITY,
+    [Message] nvarchar(max) NOT NULL,
+    [StatusCode] int NOT NULL,
+    CONSTRAINT [PK_Logs] PRIMARY KEY ([Id])
+);
+2022-12-11 12:17:27.365 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 142.3463 ms
+2022-12-11 12:17:27.470 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 5.7576 ms
+2022-12-11 12:17:27.571 +01:00 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 1.1622 ms
+2022-12-11 12:17:27.701 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 76.3925 ms
+2022-12-11 12:19:23.848 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 151.1653 ms
+2022-12-11 12:19:24.220 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 87.0218 ms
+2022-12-11 12:19:58.277 +01:00 [INF] HTTP POST /Restaurant responded 200 in 507.8408 ms
+2022-12-11 12:23:09.714 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 180.7491 ms
+2022-12-11 12:23:10.115 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 75.4484 ms
+2022-12-11 12:24:32.665 +01:00 [INF] HTTP POST /Restaurant responded 401 in 519.0577 ms
+2022-12-11 12:24:51.994 +01:00 [INF] HTTP POST /Restaurant responded 401 in 2.0009 ms
+2022-12-11 12:25:22.752 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 204.6253 ms
+2022-12-11 12:25:23.134 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 89.3156 ms
+2022-12-11 12:25:27.594 +01:00 [INF] HTTP POST /Restaurant responded 200 in 5055.4229 ms

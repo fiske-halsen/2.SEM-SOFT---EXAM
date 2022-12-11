@@ -1,7 +1,5 @@
 ﻿using Common.Dto;
 using Common.ErrorModels;
-using Common.KafkaEvents;
-using Newtonsoft.Json;
 using RestaurantService.Model;
 using RestaurantService.Repository;
 
