@@ -83,6 +83,7 @@ var identityServer = configuration["IdentityServer:Host"];
 builder.Services.AddAuthentication("token")
     .AddJwtBearer("token", options =>
     {
+        
         options.Authority = identityServer;
         options.TokenValidationParameters.ValidateAudience = true;
         options.Audience = "RestaurantService";

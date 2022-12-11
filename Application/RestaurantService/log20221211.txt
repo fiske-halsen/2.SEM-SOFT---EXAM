@@ -217,6 +217,32 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2022-12-11 17:58:44.526 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 80.8933 ms
 2022-12-11 17:59:24.846 +01:00 [INF] HTTP GET /Restaurant responded 401 in 366.5827 ms
 2022-12-11 18:01:40.577 +01:00 [INF] HTTP POST /1/menu-item responded 401 in 5.6729 ms
+
+2022-12-11 19:25:02.122 +01:00 [INF] HTTP GET /swagger responded 301 in 22.0558 ms
+2022-12-11 19:25:02.502 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 265.5415 ms
+2022-12-11 19:25:02.580 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 31.1525 ms
+2022-12-11 19:25:02.607 +01:00 [INF] HTTP GET /swagger/swagger-ui-standalone-preset.js responded 200 in 57.8314 ms
+2022-12-11 19:25:02.625 +01:00 [INF] HTTP GET /swagger/swagger-ui-bundle.js responded 200 in 75.4890 ms
+2022-12-11 19:25:02.770 +01:00 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 0.3740 ms
+2022-12-11 19:25:03.004 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 135.5557 ms
+2022-12-11 19:25:08.353 +01:00 [INF] HTTP POST /Restaurant responded 401 in 517.7477 ms
+2022-12-11 19:25:34.144 +01:00 [INF] HTTP GET /Restaurant responded 401 in 1.9247 ms
+2022-12-11 19:25:35.455 +01:00 [INF] HTTP GET /Restaurant responded 401 in 0.9117 ms
+2022-12-11 19:25:52.612 +01:00 [INF] HTTP GET /swagger responded 301 in 0.0519 ms
+2022-12-11 19:25:52.642 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 13.1754 ms
+2022-12-11 19:25:52.999 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 16.1205 ms
+2022-12-11 19:50:57.900 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 258.4037 ms
+2022-12-11 19:50:58.079 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 33.1798 ms
+2022-12-11 19:50:58.259 +01:00 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 3.1941 ms
+2022-12-11 19:50:58.553 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 156.2934 ms
+2022-12-11 19:51:08.027 +01:00 [INF] HTTP GET /1/menu-item/1 responded 401 in 103.4235 ms
+2022-12-11 19:53:59.495 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 305.2247 ms
+2022-12-11 19:54:00.322 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 185.8643 ms
+2022-12-11 19:54:05.016 +01:00 [INF] HTTP GET /1/menu-item/1 responded 200 in 1125.2304 ms
+2022-12-11 19:56:21.384 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 243.7371 ms
+2022-12-11 19:56:22.035 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 156.1961 ms
+2022-12-11 19:56:29.106 +01:00 [INF] HTTP GET /1/menu-item/1 responded 200 in 1050.8535 ms
+
 2022-12-11 18:44:42.842 +01:00 [INF] HTTP GET /swagger responded 301 in 15.7918 ms
 2022-12-11 18:44:43.040 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 139.6268 ms
 2022-12-11 18:44:43.084 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 8.4241 ms
@@ -296,3 +322,4 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2022-12-11 20:08:27.247 +01:00 [INF] HTTP GET /1/menu responded 200 in 4.7921 ms
 2022-12-11 20:09:13.824 +01:00 [INF] HTTP GET /1/menu-item/1 responded 200 in 14.5751 ms
 2022-12-11 20:09:59.712 +01:00 [INF] HTTP GET /1/menu-item/1 responded 200 in 4.4155 ms
+
