@@ -31,6 +31,8 @@ builder.Services.AddHostedService<EmailConsumer>();
 builder.Services.AddScoped<IEmailService, EmailService.Services.EmailService>();
 
 var app = builder.Build();
+builder.WebHost.UseUrls("https://localhost:5006");
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

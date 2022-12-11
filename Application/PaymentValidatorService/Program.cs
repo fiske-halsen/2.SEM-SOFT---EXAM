@@ -34,7 +34,7 @@ builder.Services.AddScoped<IPaymentValidatorHelpers, PaymentValidatorHelpers>();
 builder.Services.AddScoped<IPaymentValidatorProducer, PaymentValidatorProducer>();
 
 var app = builder.Build();
-
+builder.WebHost.UseUrls("https://localhost:5008");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

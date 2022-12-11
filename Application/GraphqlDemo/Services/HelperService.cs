@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using Common.Enums;
 
 namespace GraphqlDemo.Services;
 
@@ -71,4 +72,11 @@ public class HelperService
             Scope = scope
         };
     }
+
+    public bool CheckIfHasRequiredRole(RoleTypes requiredRoleType, RoleTypes currentRoleType)
+    {
+        return requiredRoleType == currentRoleType;
+    }
+
+
 }
