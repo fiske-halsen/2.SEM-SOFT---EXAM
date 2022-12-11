@@ -124,6 +124,7 @@ namespace RestaurantService.Repository
             menuItemToUpdate.Description = menuItemDTO.Description;
             menuItemToUpdate.Name = menuItemDTO.Name;
             menuItemToUpdate.Price = menuItemDTO.Price;
+            menuItemToUpdate.StockCount = menuItemDTO.StockCount;
             await _dbContext.SaveChangesAsync();
             return true;
         }

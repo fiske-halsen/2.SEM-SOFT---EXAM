@@ -14,6 +14,7 @@ namespace GraphqlDemo.Services
         public Task<bool> Post(string url, string contentJson, ApplicationCredentials applicationCredentials);
         public Task<bool> Patch(string url, string contentJson, ApplicationCredentials applicationCredentials);
         public Task<bool> Delete(string url, ApplicationCredentials applicationCredentials);
+        public Task<bool> Put(string url, string contentJson, ApplicationCredentials applicationCredentials);
     }
 
     public class ApiService : IApiService
@@ -185,6 +186,42 @@ namespace GraphqlDemo.Services
             HttpContent httpContent = new StringContent(contentJson, Encoding.UTF8, "application/json");
 
             using (var response = await httpClient.PostAsync(url, httpContent))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    var exception =
+                        JsonConvert.DeserializeObject<ExceptionDto>(await response.Content.ReadAsStringAsync());
+                    throw new HttpStatusException(exception.StatusCode, exception.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generic Http Put method that sends a call to one of our microservices
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="contentJson"></param>
+        /// <param name="applicationCredentials"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<bool> Put(string url, string contentJson, ApplicationCredentials applicationCredentials)
+        {
+            var httpClient = HttpClientInitializer.GetClient();
+
+            if (applicationCredentials != null)
+            {
+                var token = await _tokenService.RequestTokenClientFromInternalMicroService(applicationCredentials);
+                httpClient.SetBearerToken(token.TokenResponse.AccessToken);
+            }
+
+            var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
+            request.Content = new StringContent(contentJson, Encoding.UTF8, "application/json");
+
+            using (var response = await httpClient.SendAsync(request))
             {
                 if (response.IsSuccessStatusCode)
                 {

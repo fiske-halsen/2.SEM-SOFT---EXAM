@@ -9,14 +9,17 @@ namespace GraphqlDemo.Operations
         private readonly IOrderServiceCommunicator _orderServiceCommunicator;
         private readonly IReviewServiceCommunicator _reviewServiceCommunicator;
         private readonly IDeliveryServiceCommunicator _deliveryServiceCommunicator;
+        private readonly IRestaurantServiceCommunicator _restaurantServiceCommunicator;
 
         public Query(IOrderServiceCommunicator orderServiceCommunicator,
             IReviewServiceCommunicator reviewServiceCommunicator,
-            IDeliveryServiceCommunicator deliveryServiceCommunicator)
+            IDeliveryServiceCommunicator deliveryServiceCommunicator,
+            IRestaurantServiceCommunicator restaurantServiceCommunicator)
         {
             _orderServiceCommunicator = orderServiceCommunicator;
             _reviewServiceCommunicator = reviewServiceCommunicator;
             _deliveryServiceCommunicator = deliveryServiceCommunicator;
+            _restaurantServiceCommunicator = restaurantServiceCommunicator;
         }
 
 
@@ -54,21 +57,6 @@ namespace GraphqlDemo.Operations
             return await _orderServiceCommunicator.GetOrdersForRestaurants(restaurantId, isApproved);
         }
 
-        public List<MenuDTO> GetOrder()
-        {
-            //Faker<MenuItem> menuItemFaker = new Faker<MenuItem>()
-            //    .StrictMode(true)
-            //    .RuleFor(x => x.Id, x => x.Random.Int())
-            //    .RuleFor(x => x.Price, x => x.Random.Int())
-            //    .RuleFor(x => x.Name, x => x.Name.FirstName());
-
-            Faker<MenuDTO> orderFaker = new Faker<MenuDTO>()
-                .RuleFor(x => x.RestaurantName, x => x.Name.FirstName());
-
-            return orderFaker.Generate(10);
-            return null;
-        }
-
         #endregion
 
         #region ReviewService
@@ -89,7 +77,6 @@ namespace GraphqlDemo.Operations
         }
 
         #endregion
-
 
         #region DeliveryService
 
@@ -121,6 +108,25 @@ namespace GraphqlDemo.Operations
         public async Task<IEnumerable<DeliveryDto>> GetDeliveriesByUserEmail(string userEmail)
         {
             return await _deliveryServiceCommunicator.GetDeliveryByUserEmail(userEmail);
+        }
+
+        #endregion
+
+        #region RestaurantService
+
+        public async Task<MenuDTO> GetRestaurantMenu(int restaurantId)
+        {
+            return await _restaurantServiceCommunicator.GetRestaurantMenu(restaurantId);
+        }
+
+        public async Task<IEnumerable<RestaurantDTO>> GetAllRestaurants()
+        {
+            return await _restaurantServiceCommunicator.GetAllRestaurants();
+        }
+
+        public async Task<MenuItemDTO> GetMenuItem(int restaurantId, int menuItemId)
+        {
+            return await _restaurantServiceCommunicator.GetMenuItem(restaurantId, menuItemId);
         }
 
         #endregion

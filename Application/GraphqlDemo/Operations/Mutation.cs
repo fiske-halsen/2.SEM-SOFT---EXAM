@@ -11,19 +11,22 @@ namespace GraphqlDemo.Operations
         private readonly IOrderServiceCommunicator _orderServiceCommunicator;
         private readonly IReviewServiceCommunicator _reviewServiceCommunicator;
         private readonly IDeliveryServiceCommunicator _deliveryServiceCommunicator;
+        private readonly IRestaurantServiceCommunicator _restaurantServiceCommunicator;
 
         public Mutation(
             IConfiguration configuration,
             IUserServiceCommunicator userServiceCommunicator,
             IOrderServiceCommunicator orderServiceCommunicator,
             IReviewServiceCommunicator reviewServiceCommunicator,
-            IDeliveryServiceCommunicator deliveryServiceCommunicator)
+            IDeliveryServiceCommunicator deliveryServiceCommunicator,
+            IRestaurantServiceCommunicator restaurantServiceCommunicator)
         {
             _configuration = configuration;
             _userServiceCommunicator = userServiceCommunicator;
             _orderServiceCommunicator = orderServiceCommunicator;
             _reviewServiceCommunicator = reviewServiceCommunicator;
             _deliveryServiceCommunicator = deliveryServiceCommunicator;
+            _restaurantServiceCommunicator = restaurantServiceCommunicator;
         }
 
         #region OrderService
@@ -170,6 +173,30 @@ namespace GraphqlDemo.Operations
         public async Task<bool> UpdateDeliverySetInActive(OrderDeliveredDto orderDeliveredDto)
         {
             return await _deliveryServiceCommunicator.UpdateDeliveryToDelivered(orderDeliveredDto);
+        }
+
+        #endregion
+
+        #region RestaurantService
+
+        public async Task<bool> CreateRestaurant(CreateRestaurantDto restaurantDto)
+        {
+            return await _restaurantServiceCommunicator.CreateRestaurant(restaurantDto);
+        }
+
+        public async Task<bool> CreateMenuItem(int restaurantId, CreateMenuItemDto menuItemDto)
+        {
+            return await _restaurantServiceCommunicator.CreateMenuItem(menuItemDto, restaurantId);
+        }
+
+        public async Task<bool> UpdateMenuItem(int restaurantId, MenuItemDTO updatedMenuItemDto)
+        {
+            return await _restaurantServiceCommunicator.UpdateMenuItem(updatedMenuItemDto, restaurantId);
+        }
+
+        public async Task<bool> DeleteMenuItem(int menuItemId, int restaurantId)
+        {
+            return await _restaurantServiceCommunicator.DeleteMenuItem(menuItemId, restaurantId);
         }
 
         #endregion

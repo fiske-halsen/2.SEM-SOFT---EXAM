@@ -1,4 +1,4 @@
-namespace ReviewSeriviceBDD.testBDD.StepDefinitions
+namespace ReviewServiceBDD.testBDD.StepDefinitions
 {
     [Binding]
     public sealed class CalculatorStepDefinitions

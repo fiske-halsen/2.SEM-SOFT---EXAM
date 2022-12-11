@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Services;
 
-namespace Microservice1.Controllers
+namespace UserService.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

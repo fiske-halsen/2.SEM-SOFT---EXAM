@@ -1,4 +1,4 @@
-namespace ReviewService
+namespace ReviewService.Test
 {
     public class Tests
     {
