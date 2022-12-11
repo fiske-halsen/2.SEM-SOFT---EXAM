@@ -9,7 +9,7 @@ namespace GraphqlDemo.Services
     {
         public Task<IEnumerable<OrderDto>> GetOrdersForRestaurants(int restaurantId);
         public Task<IEnumerable<OrderDto>> GetOrdersForRestaurants(int restaurantId, bool isApproved);
-        public Task<IEnumerable<OrderDto>> GetAllOrdersForRestaurantsByUser(int restaurantId, string userEmail);
+        public Task<IEnumerable<OrderDto>> GetAllOrdersForRestaurantsByUser(string userEmail);
         public Task<bool> CreateOrder(CreateOrderDto createOrderDto);
         public Task<bool> ApproveOrder(ApproveOrderDto approveOrderDto);
     }
@@ -96,7 +96,7 @@ namespace GraphqlDemo.Services
         /// <param name="userEmail"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<IEnumerable<OrderDto>> GetAllOrdersForRestaurantsByUser(int restaurantId, string userEmail)
+        public async Task<IEnumerable<OrderDto>> GetAllOrdersForRestaurantsByUser( string userEmail)
         {
             return await _apiService.Get<OrderDto>($"{_orderServiceUrl}/users/{userEmail}",
                 _applicationCredentials);

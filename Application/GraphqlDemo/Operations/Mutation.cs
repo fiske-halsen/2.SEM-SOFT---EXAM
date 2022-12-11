@@ -1,9 +1,11 @@
 ﻿using Common.Dto;
 using GraphqlDemo.Services;
 using System.Diagnostics;
+using GraphQL;
 
 namespace GraphqlDemo.Operations
 {
+    [Authorize]
     public class Mutation
     {
         private readonly IConfiguration _configuration;
@@ -36,6 +38,7 @@ namespace GraphqlDemo.Operations
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
+        [Authorize(Policy = "Customer")]
         public async Task<bool> CreateOrder(CreateOrderDto dto)
         {
             try
@@ -55,6 +58,7 @@ namespace GraphqlDemo.Operations
         /// </summary>
         /// <param name="approveOrderDto"></param>
         /// <returns></returns>
+        [Authorize("RestaurantOwner")]
         public async Task<bool> ApproveOrder(ApproveOrderDto approveOrderDto)
         {
             try
@@ -78,6 +82,7 @@ namespace GraphqlDemo.Operations
         /// </summary>
         /// <param Name="createUserDto"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         public async Task<bool> CreateUser(CreateUserDto createUserDto)
         {
             try
@@ -97,6 +102,7 @@ namespace GraphqlDemo.Operations
         /// </summary>
         /// <param Name="loginUserDto"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         public async Task<TokenDto> Login(LoginUserDto loginUserDto)
         {
             try
@@ -115,6 +121,7 @@ namespace GraphqlDemo.Operations
         /// </summary>
         /// <param name="updateUserBalanceDto"></param>
         /// <returns></returns>
+        [Authorize(Policy = "Customer")]
         public async Task<bool> AddCreditToUserBalance(UpdateUserBalanceDto updateUserBalanceDto)
         {
             try
@@ -137,6 +144,7 @@ namespace GraphqlDemo.Operations
         /// </summary>
         /// <param name="createReviewDTO"></param>
         /// <returns></returns>
+        [Authorize(Policy = "Customer")]
         public async Task<bool> CreateReview(CreateReviewDto createReviewDTO)
         {
             try
@@ -160,6 +168,7 @@ namespace GraphqlDemo.Operations
         /// </summary>
         /// <param name="createDeliveryDto"></param>
         /// <returns></returns>
+        [Authorize(Policy = "Delivery")]
         public async Task<bool> CreateDelivery(CreateDeliveryDto createDeliveryDto)
         {
             return await _deliveryServiceCommunicator.CreateDelivery(createDeliveryDto);
@@ -170,6 +179,7 @@ namespace GraphqlDemo.Operations
         /// </summary>
         /// <param name="orderDeliveredDto"></param>
         /// <returns></returns>
+        [Authorize(Policy = "Delivery")]
         public async Task<bool> UpdateDeliverySetInActive(OrderDeliveredDto orderDeliveredDto)
         {
             return await _deliveryServiceCommunicator.UpdateDeliveryToDelivered(orderDeliveredDto);
@@ -179,21 +189,48 @@ namespace GraphqlDemo.Operations
 
         #region RestaurantService
 
+        /// <summary>
+        /// Creates a new restaurant
+        /// </summary>
+        /// <param name="restaurantDto"></param>
+        /// <returns></returns>
+        [Authorize("RestaurantOwner")]
         public async Task<bool> CreateRestaurant(CreateRestaurantDto restaurantDto)
         {
             return await _restaurantServiceCommunicator.CreateRestaurant(restaurantDto);
         }
 
+        /// <summary>
+        /// Creates a new menu item for a specific restaurant
+        /// </summary>
+        /// <param name="restaurantId"></param>
+        /// <param name="menuItemDto"></param>
+        /// <returns></returns>
+        [Authorize("RestaurantOwner")]
         public async Task<bool> CreateMenuItem(int restaurantId, CreateMenuItemDto menuItemDto)
         {
             return await _restaurantServiceCommunicator.CreateMenuItem(menuItemDto, restaurantId);
         }
 
+        /// <summary>
+        /// Updates a specific menu item for a specific restaurant
+        /// </summary>
+        /// <param name="restaurantId"></param>
+        /// <param name="updatedMenuItemDto"></param>
+        /// <returns></returns>
+        [Authorize("RestaurantOwner")]
         public async Task<bool> UpdateMenuItem(int restaurantId, MenuItemDTO updatedMenuItemDto)
         {
             return await _restaurantServiceCommunicator.UpdateMenuItem(updatedMenuItemDto, restaurantId);
         }
 
+        /// <summary>
+        /// Deletes a specific menu item for a specific restaurant
+        /// </summary>
+        /// <param name="menuItemId"></param>
+        /// <param name="restaurantId"></param>
+        /// <returns></returns>
+        [Authorize("RestaurantOwner")]
         public async Task<bool> DeleteMenuItem(int menuItemId, int restaurantId)
         {
             return await _restaurantServiceCommunicator.DeleteMenuItem(menuItemId, restaurantId);
