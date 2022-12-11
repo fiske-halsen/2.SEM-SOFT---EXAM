@@ -32,6 +32,7 @@ namespace UserService.IdentityConfig
                 {
                     new Claim("RoleId", user.RoleId.ToString()),
                     new Claim("Email", user.Email),
+                    Helpers.GetRoleTypeClaim(user.Role.RoleType) // Used for claim based authorization
                 };
 
                 context.IssuedClaims = claims;
