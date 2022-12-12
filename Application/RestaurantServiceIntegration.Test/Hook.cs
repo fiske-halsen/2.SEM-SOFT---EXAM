@@ -40,7 +40,7 @@ namespace RestaurantServiceIntegration.Test
         private  string GetDockerComposeLocation(string dockerComposeFileName)
         {
             DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
-            return di.Parent.Parent.Parent.Parent.ToString() + "\\docker-compose.yml";
+            return di.Parent.Parent.Parent.Parent.ToString() + "/docker-compose.yml";
         }
 
         private  IConfiguration LoadConfiguration()
