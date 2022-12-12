@@ -55,6 +55,11 @@ stages:
               targetType: "inline"
               pwsh: true
               script: $(Agent.BuildDirectory)/tools/dotnet-stryker
+          - task: PublishMutationReport@1
+            displayName: 'Publish Mutation Test Report'
+            inputs:
+              reportPattern: '**/mutation-report.html'
+              reportDisplayName: 'My_Report'          
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: "$(Pipeline.Workspace)/s/kubernetes"
