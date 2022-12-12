@@ -1,0 +1,6 @@
+{
+  "stryker-config": {
+    "solution": "../2-SEM-EXAM.sln",
+    "project": "OrderService.Test.csproj"
+  }
+}
