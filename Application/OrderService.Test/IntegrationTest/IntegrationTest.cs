@@ -27,7 +27,7 @@ namespace OrderService.Test.IntegrationTest
             await _factory.DisposeAsync();
         }
 
-        [Test]
+        //[Test]
         public async Task CreateOrderIntegrationTest()
         {
             //Arrange
