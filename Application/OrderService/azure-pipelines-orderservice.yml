@@ -51,7 +51,7 @@ stages:
           - task: Powershell@2
             displayName: "Run dotnet-stryker"
             inputs:
-              workingDirectory: "/Application/OrderService.Test"
+              workingDirectory: "$(Build.SourcesDirectory)/Application/OrderService.Test"
               targetType: "inline"
               pwsh: true
               script: $(Agent.BuildDirectory)/tools/dotnet-stryker
