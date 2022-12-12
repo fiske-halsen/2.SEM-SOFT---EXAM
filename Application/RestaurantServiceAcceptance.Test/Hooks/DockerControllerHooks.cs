@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,21 +7,23 @@ using System.Threading.Tasks;
 using BoDi;
 using Ductus.FluentDocker.Builders;
 using Ductus.FluentDocker.Services;
-using TechTalk.SpecFlow;
+using Microsoft.Extensions.Configuration;
 
-namespace RestaurantServiceIntegration.Test
+namespace RestaurantService.Test.Hooks
 {
-    public class Hook
+    [Binding]
+    public class DockerControllerHooks
     {
         private static ICompositeService _compositeService;
         private IObjectContainer _objectContainer;
 
-        public Hook(IObjectContainer objectContainer)
+        public DockerControllerHooks(IObjectContainer objectContainer)
         {
             _objectContainer = objectContainer;
         }
+
         [BeforeTestRun]
-        public  void DockerComposeUp()
+        public static void DockerComposeUp()
         {
             var config = LoadConfiguration();
 
@@ -37,13 +38,13 @@ namespace RestaurantServiceIntegration.Test
                     continuation: (response, _) => response.Code != HttpStatusCode.OK ? 2000 : 0).Build().Start();
         }
 
-        private  string GetDockerComposeLocation(string dockerComposeFileName)
+        private static string GetDockerComposeLocation(string dockerComposeFileName)
         {
             DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
             return di.Parent.Parent.Parent.Parent.ToString() + "\\docker-compose.yml";
         }
 
-        private  IConfiguration LoadConfiguration()
+        private static IConfiguration LoadConfiguration()
         {
             return new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
         }
@@ -57,11 +58,12 @@ namespace RestaurantServiceIntegration.Test
             };
             _objectContainer.RegisterInstanceAs(httpClient);
         }
+
         [AfterTestRun]
-        public  void DockerComposeDown()
+        public static void DockerComposeDown()
         {
             _compositeService.Stop();
-            //_compositeService.Dispose();
+           // _compositeService.Dispose();
 
         }
     }
