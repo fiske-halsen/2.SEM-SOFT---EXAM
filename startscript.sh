@@ -7,7 +7,6 @@ cd ..
 
 cd Application
 docker-compose up -d
-sleep 15
 
 cd DeliveryService/bin/debug/net6.0
 start DeliveryService.exe

@@ -36,7 +36,7 @@ builder.Services.AddScoped<IGenericKafkaProducer, GenericKafkaProducer>();
 builder.Services.AddHostedService<PaymentProcessorConsumer>();
 
 var app = builder.Build();
-//builder.WebHost.UseUrls("https://localhost:5007");
+builder.WebHost.UseUrls("https://localhost:5007");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

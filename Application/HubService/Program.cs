@@ -11,6 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 
 var app = builder.Build();
+builder.WebHost.UseUrls("https://localhost:5011");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
