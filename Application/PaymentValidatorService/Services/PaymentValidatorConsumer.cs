@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Common.HttpUtils;
 using Common.KafkaEvents;
+using Common.KafkaProducer;
 using Confluent.Kafka;
 using Newtonsoft.Json;
 
@@ -20,7 +21,7 @@ namespace PaymentValidatorService.Services
 
             using (var scope = _serviceProvider.CreateScope())
             {
-                var signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
+                _signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
             }
         }
 
@@ -60,7 +61,7 @@ namespace PaymentValidatorService.Services
                                 if (await paymentValidatorService.ValidatePayment(createOrderDto))
                                 {
                                     var kafkaProducer = scope.ServiceProvider
-                                        .GetRequiredService<IPaymentValidatorProducer>();
+                                        .GetRequiredService<IGenericKafkaProducer>();
                                     // Produce new event to kafka in case of valid payment types
                                     await kafkaProducer.ProduceToKafka(EventStreamerEvents.ValidPaymentEvent,
                                         jsonObj);

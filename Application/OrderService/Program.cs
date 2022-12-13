@@ -1,5 +1,6 @@
 using Common.HttpUtils;
 using Common.KafkaEvents;
+using Common.KafkaProducer;
 using Confluent.Kafka;
 using Confluent.Kafka.Admin;
 using Microsoft.EntityFrameworkCore;
@@ -53,7 +54,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddHostedService<SaveOrderConsumer>();
 builder.Services.AddHostedService<ApproveOrderConsumer>();
 builder.Services.AddHostedService<OrderInActiveConsumer>();
-builder.Services.AddScoped<IOrderProducer, OrderProducer>();
+builder.Services.AddScoped<IGenericKafkaProducer, GenericKafkaProducer>();
 builder.Services.AddScoped<ISignalRWebSocketClient, SignalRWebSocketClient>();
 
 var identityServer = configuration["IdentityServer:Host"];

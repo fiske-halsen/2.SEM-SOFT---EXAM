@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Common.HttpUtils;
 using Common.KafkaEvents;
+using Common.KafkaProducer;
 using Confluent.Kafka;
 using Newtonsoft.Json;
 
@@ -28,7 +29,7 @@ namespace OrderService.Services
 
             using (var scope = _serviceProvider.CreateScope())
             {
-                var signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
+                _signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
             }
         }
 
@@ -77,7 +78,8 @@ namespace OrderService.Services
 
                                 if (isOrderCreated)
                                 {
-                                    var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
+                                    var kafkaProducer =
+                                        scope.ServiceProvider.GetRequiredService<IGenericKafkaProducer>();
 
                                     var emailObj = new EmailPackageDto
                                     {
@@ -102,7 +104,7 @@ namespace OrderService.Services
 
                                     if (isOrderCreated && createOrderDto != null)
                                     {
-                                       await _signalRWebSocketClient.SendNewOrderToRestaurantOwner(createOrderDto);
+                                        await _signalRWebSocketClient.SendNewOrderToRestaurantOwner(createOrderDto);
                                     }
                                 }
                             }

@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Common.Enums;
 using Common.ErrorModels;
+using Common.KafkaProducer;
 using FluentAssertions;
 using Moq;
 using UserService.Models;
@@ -12,7 +13,7 @@ namespace UserService.Test.UnitTests
     public class UserServiceUnitTests
     {
         private Mock<IUserRepository> _userRepositoryMock;
-        private Mock<IUserProducer> _userProducerMock;
+        private Mock<IGenericKafkaProducer> _userProducerMock;
         private IUserService _userService;
 
         [SetUp]

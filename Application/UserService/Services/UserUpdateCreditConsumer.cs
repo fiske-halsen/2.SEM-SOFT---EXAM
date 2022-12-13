@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Common.HttpUtils;
 using Common.KafkaEvents;
+using Common.KafkaProducer;
 using Confluent.Kafka;
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
@@ -26,7 +27,11 @@ namespace UserService.Services
         public UserUpdateCreditConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _signalRWebSocketClient = new SignalRWebSocketClient();
+
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                _signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
+            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -69,7 +74,7 @@ namespace UserService.Services
                                         if (await myScopedService.UpdateUserBalanceForOrder(createOrderDto))
                                         {
                                             var kafkaProducer =
-                                                scope.ServiceProvider.GetRequiredService<IUserProducer>();
+                                                scope.ServiceProvider.GetRequiredService<IGenericKafkaProducer>();
 
                                             await kafkaProducer.ProduceToKafka(
                                                 EventStreamerEvents.CheckRestaurantStockEvent,

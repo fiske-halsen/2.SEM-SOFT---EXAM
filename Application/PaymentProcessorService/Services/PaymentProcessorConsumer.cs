@@ -1,5 +1,6 @@
 ﻿using Common.Dto;
 using Common.KafkaEvents;
+using Common.KafkaProducer;
 using Confluent.Kafka;
 using Newtonsoft.Json;
 
@@ -60,7 +61,7 @@ namespace PaymentProcessorService.Services
                             if (createOrderDto != null)
                             {
                                 var kafkaProducer = scope.ServiceProvider
-                                    .GetRequiredService<IKafkaPaymentProcessorProducer>();
+                                    .GetRequiredService<IGenericKafkaProducer>();
 
                                 await paymentService.SimulatePayment(createOrderDto, kafkaProducer);
                             }
