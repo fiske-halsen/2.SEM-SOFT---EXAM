@@ -2,6 +2,7 @@
 using Common.Enums;
 using Common.ErrorModels;
 using System.Diagnostics;
+using Common.HttpUtils;
 using UserService.Models;
 using UserService.Repository;
 using Address = UserService.Models.Address;

@@ -33,6 +33,7 @@ builder.Services.AddScoped<IPaymentValidatorService, PaymentValidatorService.Ser
 builder.Services.AddScoped<IPaymentValidatorHelpers, PaymentValidatorHelpers>();
 builder.Services.AddScoped<IPaymentValidatorProducer, PaymentValidatorProducer>();
 
+
 var app = builder.Build();
 //builder.WebHost.UseUrls("https://localhost:5008");
 

@@ -1,5 +1,4 @@
-﻿using Common.Dto;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 
 namespace HubService.Hubs
 {
@@ -20,12 +19,12 @@ namespace HubService.Hubs
             RemoveCidFromGroup(cId, groupName);
         }
 
-        public async Task SendErrorResponseToClient(string jsonGenericErrorResponse)
+        public async Task SendGenericResponse(string jsonGenericErrorResponse)
         {
             await Clients.All.SendAsync("ReceiveError", jsonGenericErrorResponse);
         }
 
-        public async Task SendNewOrderToRestaurant(string jsonNewOrder)
+        public async Task SendNewOrder(string jsonNewOrder)
         {
             await Clients.Groups("Restaurant").SendAsync("ReceiveNewOrder", jsonNewOrder);
         }

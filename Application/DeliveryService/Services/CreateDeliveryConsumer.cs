@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using Common.HttpUtils;
 using Common.KafkaEvents;
 using Confluent.Kafka;
 using Newtonsoft.Json;
@@ -17,12 +18,14 @@ namespace DeliveryService.Services
         #region DI services
 
         private readonly IServiceProvider _serviceProvider;
+        private readonly ISignalRWebSocketClient _signalRWebSocketClient;
 
         #endregion
 
         public CreateDeliveryConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            _signalRWebSocketClient = new SignalRWebSocketClient();
         }
 
 
@@ -57,21 +60,52 @@ namespace DeliveryService.Services
                             var deliveryService = scope.ServiceProvider.GetRequiredService<IDeliverySerivice>();
                             var createDeliveryDto = JsonConvert.DeserializeObject<CreateDeliveryDto>(jsonObj);
 
-                            if (createDeliveryDto != null)
+                            try
                             {
-                                if (await deliveryService.CreateDelivery(createDeliveryDto))
+                                if (!_signalRWebSocketClient.IsConnected)
                                 {
-                                    var kafkaProducer = scope.ServiceProvider.GetRequiredService<IDeliveryProducer>();
+                                    await _signalRWebSocketClient.Connect();
+                                }
 
-                                    var emailObj = new EmailPackageDto
+                                if (createDeliveryDto != null)
+                                {
+                                    if (await deliveryService.CreateDelivery(createDeliveryDto))
                                     {
-                                        Email = createDeliveryDto.UserEmail,
-                                        Subject = "Order received",
-                                        Message = $"Order accepted by delivery guy"
-                                    };
+                                        var kafkaProducer =
+                                            scope.ServiceProvider.GetRequiredService<IDeliveryProducer>();
 
-                                    await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent,
-                                        JsonConvert.SerializeObject(emailObj));
+                                        var emailObj = new EmailPackageDto
+                                        {
+                                            Email = createDeliveryDto.UserEmail,
+                                            Subject = "Order received",
+                                            Message = $"Order accepted by delivery guy"
+                                        };
+
+                                        await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent,
+                                            JsonConvert.SerializeObject(emailObj));
+
+                                        if (_signalRWebSocketClient.IsConnected)
+                                        {
+                                            // Notify the hub that it is not a valid payment
+                                            await _signalRWebSocketClient.SendGenericResponse(new GenericResponse
+                                            {
+                                                Message = "Order accepted by delivery guy",
+                                                Status = "200"
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                if (_signalRWebSocketClient.IsConnected)
+                                {
+                                    // Notify the hub that it is not a valid payment
+                                    await _signalRWebSocketClient.SendGenericResponse(new GenericResponse
+                                    {
+                                        Message = e.Message,
+                                        Status = "404"
+                                    });
                                 }
                             }
                         }

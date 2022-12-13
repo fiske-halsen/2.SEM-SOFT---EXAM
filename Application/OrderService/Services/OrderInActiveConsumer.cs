@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using Common.HttpUtils;
 using Common.KafkaEvents;
 using Confluent.Kafka;
 using Newtonsoft.Json;
@@ -17,12 +18,14 @@ namespace OrderService.Services
         #region DI services
 
         private readonly IServiceProvider _serviceProvider;
+        private readonly ISignalRWebSocketClient _signalRWebSocketClient;
 
         #endregion
 
         public OrderInActiveConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            _signalRWebSocketClient = new SignalRWebSocketClient();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -58,19 +61,50 @@ namespace OrderService.Services
 
                             if (orderDeliveredDto != null)
                             {
-                                if (await orderService.UpdateOrderSetInActive(orderDeliveredDto.OrderId))
+                                if (!_signalRWebSocketClient.IsConnected)
                                 {
-                                    var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
+                                    await _signalRWebSocketClient.Connect();
+                                }
 
-                                    var emailObj = new EmailPackageDto
+                                try
+                                {
+                                    if (await orderService.UpdateOrderSetInActive(orderDeliveredDto.OrderId))
                                     {
-                                        Email = orderDeliveredDto.UserEmail,
-                                        Subject = "Order received",
-                                        Message = $"You recently had a order delivered; please provide us feedback!"
-                                    };
+                                        var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
 
-                                    await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent,
-                                        JsonConvert.SerializeObject(emailObj));
+                                        var emailObj = new EmailPackageDto
+                                        {
+                                            Email = orderDeliveredDto.UserEmail,
+                                            Subject = "Order received",
+                                            Message = $"You recently had a order delivered; please provide us feedback!"
+                                        };
+
+                                        await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent,
+                                            JsonConvert.SerializeObject(emailObj));
+
+                                        if (_signalRWebSocketClient.IsConnected)
+                                        {
+                                            // Notify the hub that it the stock is updated..
+                                            await _signalRWebSocketClient.SendGenericResponse(new GenericResponse
+                                            {
+                                                Message =
+                                                    "You recently had a order delivered; please provide us feedback!",
+                                                Status = "200"
+                                            });
+                                        }
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    if (_signalRWebSocketClient.IsConnected)
+                                    {
+                                        // Notify the hub that it the stock is updated..
+                                        await _signalRWebSocketClient.SendGenericResponse(new GenericResponse
+                                        {
+                                            Message = e.Message,
+                                            Status = "500"
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -82,6 +116,5 @@ namespace OrderService.Services
                 }
             }
         }
-
     }
 }

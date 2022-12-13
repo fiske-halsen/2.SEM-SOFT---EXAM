@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using Common.HttpUtils;
 using Common.KafkaEvents;
 using Confluent.Kafka;
 using Newtonsoft.Json;
@@ -17,12 +18,14 @@ namespace OrderService.Services
         #region DI services
 
         private readonly IServiceProvider _serviceProvider;
+        private readonly ISignalRWebSocketClient _signalRWebSocketClient;
 
         #endregion
 
         public SaveOrderConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            _signalRWebSocketClient = new SignalRWebSocketClient();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -58,7 +61,17 @@ namespace OrderService.Services
 
                             if (createOrderDto != null)
                             {
-                                if (await orderService.CreateOrder(createOrderDto))
+                                GenericResponse genericResponse = new GenericResponse
+                                    {Message = "Could not create order", Status = "404"};
+
+                                if (!_signalRWebSocketClient.IsConnected)
+                                {
+                                    await _signalRWebSocketClient.Connect();
+                                }
+
+                                var isOrderCreated = await orderService.CreateOrder(createOrderDto);
+
+                                if (isOrderCreated)
                                 {
                                     var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
 
@@ -71,6 +84,22 @@ namespace OrderService.Services
 
                                     await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent,
                                         JsonConvert.SerializeObject(emailObj));
+
+
+                                    genericResponse.Message = "Order received waiting for restaurant approval";
+                                    genericResponse.Status = "200";
+                                }
+
+
+                                if (_signalRWebSocketClient.IsConnected)
+                                {
+                                    // Notify the hub that it is not a valid payment
+                                    await _signalRWebSocketClient.SendGenericResponse(genericResponse);
+
+                                    if (isOrderCreated && createOrderDto != null)
+                                    {
+                                       await _signalRWebSocketClient.SendNewOrderToRestaurantOwner(createOrderDto);
+                                    }
                                 }
                             }
                         }
