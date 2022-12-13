@@ -37,7 +37,7 @@ builder.Services.AddScoped<ISignalRWebSocketClient, SignalRWebSocketClient>();
 builder.Services.AddScoped<IGenericKafkaProducer, GenericKafkaProducer>();
 
 var app = builder.Build();
-//builder.WebHost.UseUrls("https://localhost:5008");
+builder.WebHost.UseUrls("https://localhost:5008");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

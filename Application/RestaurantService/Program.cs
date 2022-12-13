@@ -98,7 +98,7 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-//builder.WebHost.UseUrls("https://localhost:5002");
+builder.WebHost.UseUrls("https://localhost:5002");
 
 app.UseSerilogRequestLogging();
 using (var scope = app.Services.CreateScope())
