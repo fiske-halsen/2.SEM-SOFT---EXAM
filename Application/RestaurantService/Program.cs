@@ -76,7 +76,6 @@ builder.Services.AddHostedService<RestaurantConsumerStockCheck>();
 builder.Services.AddHostedService<RestaurantUpdateStockConsumer>();
 builder.Services.AddScoped<ISignalRWebSocketClient, SignalRWebSocketClient>();
 
-
 builder.Services.AddDbContext<DBApplicationContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 

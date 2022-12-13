@@ -1,26 +1,26 @@
 ﻿using Common.Dto;
 using Common.Enums;
 using Common.KafkaEvents;
+using Common.KafkaProducer;
 using Newtonsoft.Json;
 
 namespace PaymentProcessorService.Services
 {
     public interface IPaymentService
     {
-        public Task<bool> SimulatePayment(CreateOrderDto createOrderDto, IKafkaPaymentProcessorProducer kafkaProducer);
+        public Task<bool> SimulatePayment(CreateOrderDto createOrderDto, IGenericKafkaProducer kafkaProducer);
     }
 
     public class PaymentService : IPaymentService
     {
         private readonly IPaymentProcessorHelpers _paymentProcessorHelper;
 
-        public PaymentService(IKafkaPaymentProcessorProducer kafkaPaymentProcessor,
-            IPaymentProcessorHelpers paymentProcessorHelper)
+        public PaymentService(IPaymentProcessorHelpers paymentProcessorHelper)
         {
             _paymentProcessorHelper = paymentProcessorHelper;
         }
 
-        public async Task<bool> SimulatePayment(CreateOrderDto createOrderDto, IKafkaPaymentProcessorProducer kafkaProducer)
+        public async Task<bool> SimulatePayment(CreateOrderDto createOrderDto, IGenericKafkaProducer kafkaProducer)
         {
             // Take off eventuel discount
             _paymentProcessorHelper.CheckForDiscountVouchers(createOrderDto);

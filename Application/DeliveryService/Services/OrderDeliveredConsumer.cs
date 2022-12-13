@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Common.HttpUtils;
 using Common.KafkaEvents;
+using Common.KafkaProducer;
 using Confluent.Kafka;
 using Newtonsoft.Json;
 
@@ -28,7 +29,7 @@ namespace DeliveryService.Services
 
             using (var scope = _serviceProvider.CreateScope())
             {
-                var signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
+                _signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
             }
         }
 
@@ -75,7 +76,7 @@ namespace DeliveryService.Services
                                     if (await deliveryService.UpdateDeliveryAsDelivered(orderDeliveredDto.DeliveryId))
                                     {
                                         var kafkaProducer =
-                                            scope.ServiceProvider.GetRequiredService<IDeliveryProducer>();
+                                            scope.ServiceProvider.GetRequiredService<IGenericKafkaProducer>();
 
                                         await kafkaProducer.ProduceToKafka(EventStreamerEvents.OrderInActiveEvent,
                                             jsonObj);

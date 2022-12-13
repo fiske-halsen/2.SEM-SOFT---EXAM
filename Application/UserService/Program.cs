@@ -1,4 +1,6 @@
+using Common.HttpUtils;
 using Common.KafkaEvents;
+using Common.KafkaProducer;
 using Confluent.Kafka;
 using Confluent.Kafka.Admin;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +58,8 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 builder.Services.AddHostedService<UserUpdateCreditConsumer>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UsersService>();
-builder.Services.AddScoped<IUserProducer, UserProducer>();
+builder.Services.AddScoped<ISignalRWebSocketClient, SignalRWebSocketClient>();
+builder.Services.AddScoped<IGenericKafkaProducer, GenericKafkaProducer>();
 
 
 var identityServer = configuration["UserService:Host"];

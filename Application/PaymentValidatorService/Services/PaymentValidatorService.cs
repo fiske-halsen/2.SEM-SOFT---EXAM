@@ -11,7 +11,7 @@ namespace PaymentValidatorService.Services
     {
         private readonly IPaymentValidatorHelpers _paymentHelper;
 
-        public PaymentValidatorService(IPaymentValidatorHelpers paymentHelper, IPaymentValidatorProducer kafkaProducer)
+        public PaymentValidatorService(IPaymentValidatorHelpers paymentHelper)
         {
             _paymentHelper = paymentHelper;
         }

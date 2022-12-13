@@ -28,7 +28,7 @@ namespace RestaurantService.Services
 
             using (var scope = _serviceProvider.CreateScope())
             {
-                var signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
+                _signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
             }
         }
 

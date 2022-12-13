@@ -1,4 +1,5 @@
 using Common.KafkaEvents;
+using Common.KafkaProducer;
 using Confluent.Kafka.Admin;
 using Confluent.Kafka;
 using PaymentProcessorService.Services;
@@ -29,8 +30,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IPaymentService, PaymentService>();
-builder.Services.AddScoped<IKafkaPaymentProcessorProducer, KafkaPaymentProcessorProducer>();
 builder.Services.AddScoped<IPaymentProcessorHelpers, PaymentProcessorHelpers>();
+builder.Services.AddScoped<IGenericKafkaProducer, GenericKafkaProducer>();
 
 builder.Services.AddHostedService<PaymentProcessorConsumer>();
 

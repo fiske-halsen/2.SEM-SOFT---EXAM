@@ -1,5 +1,6 @@
 using Common.HttpUtils;
 using Common.KafkaEvents;
+using Common.KafkaProducer;
 using Confluent.Kafka.Admin;
 using Confluent.Kafka;
 using DeliveryService.Context;
@@ -50,11 +51,10 @@ builder.Services.AddDbContext<DbApplicationContext>(options =>
 
 builder.Services.AddScoped<IDeliveryRepository, DeliveryRepository>();
 builder.Services.AddScoped<IDeliverySerivice, DeliveryService.Services.DeliveryService>();
-builder.Services.AddScoped<IDeliveryProducer, DeliveryProducer>();
+builder.Services.AddScoped<IGenericKafkaProducer, GenericKafkaProducer>();
 builder.Services.AddHostedService<CreateDeliveryConsumer>();
 builder.Services.AddHostedService<OrderDeliveredConsumer>();
 builder.Services.AddScoped<ISignalRWebSocketClient, SignalRWebSocketClient>();
-
 
 var identityServer = configuration["IdentityServer:Host"];
 

@@ -2,14 +2,14 @@
 using System.Diagnostics;
 using System.Net;
 
-namespace OrderService.Services
+namespace Common.KafkaProducer
 {
-    public interface IOrderProducer
+    public interface IGenericKafkaProducer
     {
         public Task<bool> ProduceToKafka(string topic, string data);
     }
 
-    public class OrderProducer : IOrderProducer
+    public class GenericKafkaProducer : IGenericKafkaProducer
     {
         private readonly string server = "localhost:9092";
 
