@@ -57,6 +57,7 @@ builder.Services.AddHostedService<OrderInActiveConsumer>();
 builder.Services.AddScoped<IGenericKafkaProducer, GenericKafkaProducer>();
 builder.Services.AddScoped<ISignalRWebSocketClient, SignalRWebSocketClient>();
 
+
 var identityServer = configuration["IdentityServer:Host"];
 
 //// Authentication
