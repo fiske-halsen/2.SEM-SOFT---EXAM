@@ -62,7 +62,7 @@ namespace Common.HttpUtils
         /// <returns></returns>
         private Task SignalROnClosed(Exception? arg)
         {
-            Dispose();
+          //  Dispose();
             return Task.CompletedTask;
         }
 
