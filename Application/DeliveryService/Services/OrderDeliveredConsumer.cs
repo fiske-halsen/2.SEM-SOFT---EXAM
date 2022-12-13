@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using Common.HttpUtils;
 using Common.KafkaEvents;
 using Confluent.Kafka;
 using Newtonsoft.Json;
@@ -7,7 +8,6 @@ namespace DeliveryService.Services
 {
     public class OrderDeliveredConsumer : BackgroundService
     {
-
         #region private class properties
 
         private readonly string groupId = "delivery_group";
@@ -18,12 +18,18 @@ namespace DeliveryService.Services
         #region DI services
 
         private readonly IServiceProvider _serviceProvider;
+        private readonly ISignalRWebSocketClient _signalRWebSocketClient;
 
         #endregion
 
         public OrderDeliveredConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
+            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -59,12 +65,44 @@ namespace DeliveryService.Services
 
                             if (orderDeliveredDto != null)
                             {
-                                if (await deliveryService.UpdateDeliveryAsDelivered(orderDeliveredDto.DeliveryId))
+                                try
                                 {
-                                    var kafkaProducer = scope.ServiceProvider.GetRequiredService<IDeliveryProducer>();
+                                    if (!_signalRWebSocketClient.IsConnected)
+                                    {
+                                        await _signalRWebSocketClient.Connect();
+                                    }
 
-                                    await kafkaProducer.ProduceToKafka(EventStreamerEvents.OrderInActiveEvent,
-                                        jsonObj);
+                                    if (await deliveryService.UpdateDeliveryAsDelivered(orderDeliveredDto.DeliveryId))
+                                    {
+                                        var kafkaProducer =
+                                            scope.ServiceProvider.GetRequiredService<IDeliveryProducer>();
+
+                                        await kafkaProducer.ProduceToKafka(EventStreamerEvents.OrderInActiveEvent,
+                                            jsonObj);
+
+
+                                        if (_signalRWebSocketClient.IsConnected)
+                                        {
+                                            // Notify the hub that it is not a valid payment
+                                            await _signalRWebSocketClient.SendGenericResponse(new GenericResponse
+                                            {
+                                                Message = "Order has been delivered",
+                                                Status = "200"
+                                            });
+                                        }
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    if (_signalRWebSocketClient.IsConnected)
+                                    {
+                                        // Notify the hub that it is not a valid payment
+                                        await _signalRWebSocketClient.SendGenericResponse(new GenericResponse
+                                        {
+                                            Message = e.Message,
+                                            Status = "404"
+                                        });
+                                    }
                                 }
                             }
                         }

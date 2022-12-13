@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using Common.HttpUtils;
 using Common.KafkaEvents;
 using Confluent.Kafka;
 using Newtonsoft.Json;
@@ -17,10 +18,16 @@ namespace RestaurantService.Services
         #region DI services
 
         private readonly IServiceProvider _serviceProvider;
+        private readonly ISignalRWebSocketClient _signalRWebSocketClient;
 
         public RestaurantUpdateStockConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
+            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -59,7 +66,20 @@ namespace RestaurantService.Services
                             {
                                 if (await restaurantService.UpdateMenuItemStock(approveOrderDto))
                                 {
-                                    // maybe notify restaurant owners that stock is updated....
+                                    if (!_signalRWebSocketClient.IsConnected)
+                                    {
+                                        await _signalRWebSocketClient.Connect();
+                                    }
+
+                                    if (_signalRWebSocketClient.IsConnected)
+                                    {
+                                        // Notify the hub that it the stock is updated..
+                                        await _signalRWebSocketClient.SendGenericResponse(new GenericResponse
+                                        {
+                                            Message = "Menu item stock updated",
+                                            Status = "200"
+                                        });
+                                    }
                                 }
                             }
                         }

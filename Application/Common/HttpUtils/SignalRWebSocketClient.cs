@@ -20,7 +20,7 @@ namespace Common.HttpUtils
         Task AddToGroup(string groupName);
         Task RemoveFromGroup(string groupName);
 
-        Task<bool> SendErrorResponseToClient(GenericResponse genericResponse);
+        Task<bool> SendGenericResponse(GenericResponse genericResponse);
         Task<bool> SendNewOrderToRestaurantOwner(CreateOrderDto createdOrderDto);
     }
 
@@ -42,7 +42,7 @@ namespace Common.HttpUtils
         // Api key
         private readonly string _apiKey = "a1071862-67a0-4b49-b0b0-4c00ec34f3c2";
 
-        private string _hubUrl = "https://localhost:5011";
+        private string _hubUrl = "https://localhost:5011/mtogoHub";
 
         public SignalRWebSocketClient()
         {
@@ -140,11 +140,11 @@ namespace Common.HttpUtils
         /// </summary>
         /// <param name="genericResponse"></param>
         /// <returns></returns>
-        public async Task<bool> SendErrorResponseToClient(GenericResponse genericResponse)
+        public async Task<bool> SendGenericResponse(GenericResponse genericResponse)
         {
             try
             {
-                await Invoke("SendErrorMessage", JsonConvert.SerializeObject(genericResponse));
+                await Invoke("SendGenericResponse", JsonConvert.SerializeObject(genericResponse));
                 return true;
             }
             catch (Exception e)

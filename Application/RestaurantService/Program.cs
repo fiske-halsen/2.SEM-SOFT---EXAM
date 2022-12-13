@@ -13,6 +13,7 @@ using System.Diagnostics;
 using Serilog.Core;
 using System.Collections.ObjectModel;
 using System.Data;
+using Common.HttpUtils;
 using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -73,6 +74,8 @@ builder.Services.AddScoped<IDbLogger, DbLogger>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<RestaurantConsumerStockCheck>();
 builder.Services.AddHostedService<RestaurantUpdateStockConsumer>();
+builder.Services.AddScoped<ISignalRWebSocketClient, SignalRWebSocketClient>();
+
 
 builder.Services.AddDbContext<DBApplicationContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));

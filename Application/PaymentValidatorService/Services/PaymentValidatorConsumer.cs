@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using Common.HttpUtils;
 using Common.KafkaEvents;
 using Confluent.Kafka;
 using Newtonsoft.Json;
@@ -11,10 +12,16 @@ namespace PaymentValidatorService.Services
         private readonly string bootstrapServers = "localhost:9092";
 
         private readonly IServiceProvider _serviceProvider;
+        private readonly ISignalRWebSocketClient _signalRWebSocketClient;
 
         public PaymentValidatorConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
+            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -58,12 +65,32 @@ namespace PaymentValidatorService.Services
                                     await kafkaProducer.ProduceToKafka(EventStreamerEvents.ValidPaymentEvent,
                                         jsonObj);
                                 }
+                                else
+                                {
+                                    if (!_signalRWebSocketClient.IsConnected)
+                                    {
+                                        await _signalRWebSocketClient.Connect();
+                                    }
+
+                                    if (_signalRWebSocketClient.IsConnected)
+                                    {
+                                        // Notify the hub that it is not a valid payment
+                                        await _signalRWebSocketClient.SendGenericResponse(new GenericResponse
+                                        {
+                                            Message = "Not a valid payment",
+                                            Status = "404"
+                                        });
+                                    }
+                                }
+
+                               
                             }
                         }
                     }
                 }
                 catch (OperationCanceledException)
                 {
+                    _signalRWebSocketClient.Dispose();
                     consumerBuilder.Close();
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using Common.HttpUtils;
 using Common.KafkaEvents;
 using Confluent.Kafka;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,12 +19,18 @@ namespace OrderService.Services
         #region DI services
 
         private readonly IServiceProvider _serviceProvider;
+        private readonly ISignalRWebSocketClient _signalRWebSocketClient;
 
         #endregion
 
         public ApproveOrderConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
+            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -55,23 +62,53 @@ namespace OrderService.Services
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var myScopedService = scope.ServiceProvider.GetRequiredService<IOrderService>();
-                            var approveOrderDto = JsonConvert.DeserializeObject<ApproveOrderDto>(jsonObj); 
+                            var approveOrderDto = JsonConvert.DeserializeObject<ApproveOrderDto>(jsonObj);
 
                             if (approveOrderDto != null)
                             {
-                                if (await myScopedService.AcceptOrder(approveOrderDto.OrderId))
+                                if (!_signalRWebSocketClient.IsConnected)
                                 {
-                                    var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
+                                    await _signalRWebSocketClient.Connect();
+                                }
 
-                                    var emailObj = new EmailPackageDto
+                                try
+                                {
+                                    if (await myScopedService.AcceptOrder(approveOrderDto.OrderId))
                                     {
-                                        Email = approveOrderDto.CustomerEmail,
-                                        Subject = "Order approved",
-                                        Message = $"Order approved by restaurant approval"
-                                    };
+                                        var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
 
-                                    await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent,
-                                        JsonConvert.SerializeObject(emailObj));
+                                        var emailObj = new EmailPackageDto
+                                        {
+                                            Email = approveOrderDto.CustomerEmail,
+                                            Subject = "Order approved",
+                                            Message = $"Order approved by restaurant"
+                                        };
+
+                                        await kafkaProducer.ProduceToKafka(EventStreamerEvents.NotifyUserEvent,
+                                            JsonConvert.SerializeObject(emailObj));
+
+                                        if (_signalRWebSocketClient.IsConnected)
+                                        {
+                                            // Notify the hub that it the stock is updated..
+                                            await _signalRWebSocketClient.SendGenericResponse(new GenericResponse
+                                            {
+                                                Message = "Order approved by restaurant",
+                                                Status = "200"
+                                            });
+                                        }
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    if (_signalRWebSocketClient.IsConnected)
+                                    {
+                                        // Notify the hub that it the stock is updated..
+                                        await _signalRWebSocketClient.SendGenericResponse(new GenericResponse
+                                        {
+                                            Message = e.Message,
+                                            Status = "500"
+                                        });
+                                    }
                                 }
                             }
                         }

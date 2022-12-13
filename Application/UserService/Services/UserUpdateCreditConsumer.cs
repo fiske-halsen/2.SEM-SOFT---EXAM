@@ -1,6 +1,8 @@
 ﻿using Common.Dto;
+using Common.HttpUtils;
 using Common.KafkaEvents;
 using Confluent.Kafka;
+using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
 
 namespace UserService.Services
@@ -17,12 +19,14 @@ namespace UserService.Services
         #region DI services
 
         private readonly IServiceProvider _serviceProvider;
+        private readonly ISignalRWebSocketClient _signalRWebSocketClient;
 
         #endregion
 
         public UserUpdateCreditConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            _signalRWebSocketClient = new SignalRWebSocketClient();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -58,15 +62,36 @@ namespace UserService.Services
 
                             if (createOrderDto != null)
                             {
-                                if (await myScopedService.CheckIfUserBalanceHasEnoughCreditForOrder(createOrderDto))
+                                try
                                 {
-                                    if (await myScopedService.UpdateUserBalanceForOrder(createOrderDto))
+                                    if (await myScopedService.CheckIfUserBalanceHasEnoughCreditForOrder(createOrderDto))
                                     {
-                                        var kafkaProducer = scope.ServiceProvider.GetRequiredService<IUserProducer>();
+                                        if (await myScopedService.UpdateUserBalanceForOrder(createOrderDto))
+                                        {
+                                            var kafkaProducer =
+                                                scope.ServiceProvider.GetRequiredService<IUserProducer>();
 
-                                        await kafkaProducer.ProduceToKafka(
-                                            EventStreamerEvents.CheckRestaurantStockEvent,
-                                            jsonObj);
+                                            await kafkaProducer.ProduceToKafka(
+                                                EventStreamerEvents.CheckRestaurantStockEvent,
+                                                jsonObj);
+                                        }
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    if (!_signalRWebSocketClient.IsConnected)
+                                    {
+                                        await _signalRWebSocketClient.Connect();
+                                    }
+
+                                    if (_signalRWebSocketClient.IsConnected)
+                                    {
+                                        // Notify the hub that it is not a valid payment
+                                        await _signalRWebSocketClient.SendGenericResponse(new GenericResponse
+                                        {
+                                            Message = e.Message,
+                                            Status = "404"
+                                        });
                                     }
                                 }
                             }
@@ -76,6 +101,7 @@ namespace UserService.Services
                 catch (OperationCanceledException)
                 {
                     consumerBuilder.Close();
+                    _signalRWebSocketClient.Dispose();
                 }
             }
         }
