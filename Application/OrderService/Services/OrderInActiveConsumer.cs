@@ -25,7 +25,11 @@ namespace OrderService.Services
         public OrderInActiveConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _signalRWebSocketClient = new SignalRWebSocketClient();
+
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
+            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -68,7 +72,7 @@ namespace OrderService.Services
 
                                 try
                                 {
-                                    if (await orderService.UpdateOrderSetInActive(orderDeliveredDto.OrderId))
+                                    if (await orderService.UpdateOrderSetInActive(orderDeliveredDto.OrderId)) 
                                     {
                                         var kafkaProducer = scope.ServiceProvider.GetRequiredService<IOrderProducer>();
 

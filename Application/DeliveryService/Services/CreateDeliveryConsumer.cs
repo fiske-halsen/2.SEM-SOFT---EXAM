@@ -25,7 +25,11 @@ namespace DeliveryService.Services
         public CreateDeliveryConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _signalRWebSocketClient = new SignalRWebSocketClient();
+
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
+            }
         }
 
 

@@ -25,7 +25,11 @@ namespace OrderService.Services
         public SaveOrderConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _signalRWebSocketClient = new SignalRWebSocketClient();
+
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var signalRWebSocketClient = scope.ServiceProvider.GetRequiredService<ISignalRWebSocketClient>();
+            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

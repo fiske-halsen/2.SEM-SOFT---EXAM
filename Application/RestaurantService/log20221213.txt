@@ -26,3 +26,11 @@
 2022-12-13 17:12:46.379 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 6.6727 ms
 2022-12-13 17:12:46.574 +01:00 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 1.2254 ms
 2022-12-13 17:12:46.771 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 104.1828 ms
+2022-12-13 17:21:44.776 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 167.7009 ms
+2022-12-13 17:21:45.035 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 10.3303 ms
+2022-12-13 17:21:45.142 +01:00 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 0.9947 ms
+2022-12-13 17:21:45.304 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 92.4712 ms
+2022-12-13 17:30:09.016 +01:00 [INF] HTTP GET /swagger/index.html responded 200 in 167.4612 ms
+2022-12-13 17:30:09.310 +01:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 5.5460 ms
+2022-12-13 17:30:09.438 +01:00 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 1.1390 ms
+2022-12-13 17:30:09.614 +01:00 [INF] HTTP GET /swagger/v1/swagger.json responded 200 in 82.9926 ms

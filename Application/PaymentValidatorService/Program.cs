@@ -1,3 +1,4 @@
+using Common.HttpUtils;
 using Common.KafkaEvents;
 using Confluent.Kafka.Admin;
 using Confluent.Kafka;
@@ -32,6 +33,7 @@ builder.Services.AddHostedService<PaymentValidatorConsumer>();
 builder.Services.AddScoped<IPaymentValidatorService, PaymentValidatorService.Services.PaymentValidatorService>();
 builder.Services.AddScoped<IPaymentValidatorHelpers, PaymentValidatorHelpers>();
 builder.Services.AddScoped<IPaymentValidatorProducer, PaymentValidatorProducer>();
+builder.Services.AddScoped<ISignalRWebSocketClient, SignalRWebSocketClient>();
 
 
 var app = builder.Build();
