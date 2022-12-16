@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Common.HttpUtils;
 using Common.KafkaEvents;
+using Common.KafkaProducer;
 using Confluent.Kafka;
 using Newtonsoft.Json;
 
@@ -73,7 +74,7 @@ namespace RestaurantService.Services
                                     {
 
                                         var kafkaProducer = scope.ServiceProvider
-                                            .GetRequiredService<IRestaurantProducerService>();
+                                            .GetRequiredService<IGenericKafkaProducer>();
 
                                         // Notify our order service..
                                         await kafkaProducer.ProduceToKafka(EventStreamerEvents.SaveOrderEvent,
