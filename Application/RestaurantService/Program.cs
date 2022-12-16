@@ -69,7 +69,6 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 builder.Services.AddScoped<IRestaurantService, RestaurantService.Services.RestaurantService>();
-builder.Services.AddScoped<IRestaurantProducerService, RestaurantProducerService>();
 builder.Services.AddScoped<IDbLogger, DbLogger>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<RestaurantConsumerStockCheck>();
