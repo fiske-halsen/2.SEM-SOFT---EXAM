@@ -32,11 +32,13 @@ namespace DeliveryService.ErrorHandling
                         }
                         else
                         {
+                            var statusCode = StatusCodes.Status500InternalServerError;
+
                             //dbLogger.Error(error.Message, StatusCodes.Status500InternalServerError);
-                            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                            context.Response.StatusCode = statusCode;
                             await context.Response.WriteAsync(new ExceptionDto()
                             {
-                                StatusCode = StatusCodes.Status500InternalServerError,
+                                StatusCode = statusCode,
                                 Message = "Internal Server Error."
                             }.ToString());
                         }
