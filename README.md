@@ -1,5 +1,11 @@
 # Final Exam Project for SI - Software PBA
-
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
 ## Introduction 
 The system described in this report has been developed for **MTOGO A/S**.
 
